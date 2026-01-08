@@ -3,7 +3,7 @@
 */
 
 
-export interface User {
+interface User {
     _id: string;
     name: string;
     email: string;
@@ -28,7 +28,7 @@ export interface FullUser extends User {
 
 interface UserPartner {
     name: string;
-    gender:"male" | "female";
+    gender: "male" | "female";
     email: string;
     loveLanguage: string[];
     birthday: Date;
@@ -42,6 +42,7 @@ interface UserPartner {
 */
 
 export interface Notification {
+    _id: string;
     title: string;
     description: string;
     url?: string;
@@ -85,6 +86,7 @@ export type AddFAQ = {
 */
 
 export interface Partner {
+    _id: string;
     name: string;
     category: string;
     description: string;
@@ -108,8 +110,8 @@ export type AddPartner = {
 */
 
 export interface Issues {
-    user: User;
     _id: string;
+    user: User;
     category: string;
     status: string;
     description: string;
@@ -121,6 +123,7 @@ export interface Issues {
 */
 
 export interface Note {
+    _id: string;
     user: User;
     category: string;
     content: string;
@@ -134,6 +137,7 @@ export interface Note {
 */
 
 export interface Nudge {
+    _id: string;
     user: User;
     type: "call" | "text" | "gift";
     tone: string[];
@@ -151,6 +155,7 @@ export interface Nudge {
 */
 
 export interface Feedback {
+    _id: string;
     user: User;
     rating: number;
     message: string;
