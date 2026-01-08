@@ -24,7 +24,7 @@ const Text = ({ title, className, type = "p", letterSpacing }: TextProps) => {
     const style = letterSpacing ? { letterSpacing } : undefined;
     
     // Base classes that apply to all text elements
-    const baseClasses = "text-sm font-chivo-regular font-normal uppercase";
+    const baseClasses = "text-sm font-normal text-white";
     
     // Common props for all elements
     const commonProps = {
