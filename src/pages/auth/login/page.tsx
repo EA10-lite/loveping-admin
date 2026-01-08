@@ -37,7 +37,7 @@ const Login = () => {
                     <div className="text-center">
                         <h3 className="text-xl font-normal text-white">Admin Login</h3>
                         <p className="text-grey text-sm font-normal">
-                            Sign in to manage Loveping’s platform.
+                            Sign in to manage Loveping&apos;s platform.
                         </p>
                     </div>
 
