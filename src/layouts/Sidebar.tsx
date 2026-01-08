@@ -1,12 +1,139 @@
+import {
+    Activity,
+    Bell,
+    CircleQuestionMark,
+    Handshake,
+    LayoutDashboard,
+    LogOut,
+    Mail,
+    MessageCircleMore,
+    Sparkles,
+    SquarePen,
+    TriangleAlert,
+    Users
+} from "lucide-react"
+
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "../components/ui/sidebar"
+
+import { useLocation } from "react-router-dom";
+import { cn } from "../lib/utils";
 
 
+// Menu items.
+const items = [
+  {
+    title: "Dashboard",
+    url: "/",
+    icon: LayoutDashboard,
+  },
+  {
+    title: "Notifications",
+    url: "/notifications",
+    icon: Bell,
+  },
+  {
+    title: "Users",
+    url: "/users",
+    icon: Users,
+  },
+  {
+    title: "Activites",
+    url: "/activities",
+    icon: Activity,
+  },
+  {
+    title: "Nudges",
+    url: "/nudges",
+    icon: Sparkles,
+  },
+  {
+    title: "Notes",
+    url: "/notes",
+    icon: SquarePen,
+  },
+  {
+    title: "Feedbacks",
+    url: "/feedbacks",
+    icon: MessageCircleMore,
+  },
+  {
+    title: "Issues",
+    url: "/issues",
+    icon: TriangleAlert,
+  },
+  {
+    title: "Partners",
+    url: "/partners",
+    icon: Handshake,
+  },
+  {
+    title: "FAQs",
+    url: "/faqs",
+    icon: CircleQuestionMark,
+  },
+  {
+    title: "Emails",
+    url: "/emails",
+    icon: Mail,
+  },
+]
 
-const Sidebar = () => {
+const AppSidebar = () => {
+    const { pathname } = useLocation();
+
     return (
-        <div className="navbar">
+        <Sidebar className="border-primary/10 m-0 border-r-[0.5px]">
+        <SidebarContent className="bg-secondary">
+            <SidebarGroupLabel className="py-10 px-12">
+                <img
+                    src="/images/Logo.svg"
+                    loading="lazy"
+                />
+            </SidebarGroupLabel>
+            <SidebarGroupContent className="px-4 flex-1">
+                <SidebarMenu className="space-y-1">
+                    {items.map((item) => (
+                        <SidebarMenuItem
+                            key={item.title}
+                        >
+                            <SidebarMenuButton
+                                asChild
+                                className={
+                                    cn(
+                                        "text-white py-6 px-8 rounded-xs hover:bg-transparent hover:text-primary",
+                                        pathname === item.url && "text-primary bg-[#05251C] border-[0.5px] border-primary/10"
+                                    )
+                                }
+                            >
+                                <a href={item.url}>
+                                    <item.icon />
+                                    <span>{item.title}</span>
+                                </a>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                    ))}
+                </SidebarMenu>
+            </SidebarGroupContent>
 
-        </div>
+            <SidebarFooter>
+                <SidebarMenuButton className="px-8 text-white">
+                    <LogOut />
+                    <span className="text-white">Logout</span>
+                </SidebarMenuButton>
+            </SidebarFooter>
+        </SidebarContent>
+        </Sidebar>
     )
 }
 
-export default Sidebar;
+
+export default AppSidebar;
