@@ -30,7 +30,7 @@ export const useAdminStore = create<adminState>()(
       },
     }),
     {
-      name: 'wearable-admin',
+      name: 'loveping-admin',
       storage: createJSONStorage(() => sessionStorage)
     }
   )
