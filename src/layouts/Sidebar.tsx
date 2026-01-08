@@ -1,16 +1,16 @@
 import {
-    Activity,
-    Bell,
-    CircleQuestionMark,
-    Handshake,
-    LayoutDashboard,
-    LogOut,
-    Mail,
-    MessageCircleMore,
-    Sparkles,
-    SquarePen,
-    TriangleAlert,
-    Users
+  Activity,
+  Bell,
+  CircleQuestionMark,
+  Handshake,
+  LayoutDashboard,
+  LogOut,
+  Mail,
+  MessageCircleMore,
+  Sparkles,
+  SquarePen,
+  TriangleAlert,
+  Users
 } from "lucide-react"
 
 import {
@@ -24,8 +24,9 @@ import {
   SidebarMenuItem,
 } from "../components/ui/sidebar"
 
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { cn } from "../lib/utils";
+import { useAdminStore } from "../store/adminStore";
 
 
 // Menu items.
@@ -88,51 +89,55 @@ const items = [
 ]
 
 const AppSidebar = () => {
-    const { pathname } = useLocation();
+  const { pathname } = useLocation();
+  const { logout } = useAdminStore();
 
-    return (
-        <Sidebar className="border-primary/10 m-0 border-r-[0.5px]">
-        <SidebarContent className="bg-secondary">
-            <SidebarGroupLabel className="py-10 px-12">
-                <img
-                    src="/images/Logo.svg"
-                    loading="lazy"
-                />
-            </SidebarGroupLabel>
-            <SidebarGroupContent className="px-4 flex-1">
-                <SidebarMenu className="space-y-1">
-                    {items.map((item) => (
-                        <SidebarMenuItem
-                            key={item.title}
-                        >
-                            <SidebarMenuButton
-                                asChild
-                                className={
-                                    cn(
-                                        "text-white py-6 px-8 rounded-xs hover:bg-transparent hover:text-primary",
-                                        pathname === item.url && "text-primary bg-[#05251C] border-[0.5px] border-primary/10"
-                                    )
-                                }
-                            >
-                                <a href={item.url}>
-                                    <item.icon />
-                                    <span>{item.title}</span>
-                                </a>
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
-                    ))}
-                </SidebarMenu>
-            </SidebarGroupContent>
-
-            <SidebarFooter>
-                <SidebarMenuButton className="px-8 text-white">
-                    <LogOut />
-                    <span className="text-white">Logout</span>
+  return (
+    <Sidebar className="border-primary/10 m-0 border-r-[0.5px]">
+      <SidebarContent className="bg-secondary">
+        <SidebarGroupLabel className="py-10 px-12">
+          <img
+            src="/images/Logo.svg"
+            loading="lazy"
+          />
+        </SidebarGroupLabel>
+        <SidebarGroupContent className="px-4 flex-1">
+          <SidebarMenu className="space-y-1">
+            {items.map((item) => (
+              <SidebarMenuItem
+                key={item.title}
+              >
+                <SidebarMenuButton
+                  asChild
+                  className={
+                    cn(
+                      "text-white py-6 px-8 rounded-xs hover:bg-transparent hover:text-primary",
+                      pathname === item.url && "text-primary bg-[#05251C] border-[0.5px] border-primary/10"
+                    )
+                  }
+                >
+                  <Link to={item.url}>
+                    <item.icon />
+                    <span>{item.title}</span>
+                  </Link>
                 </SidebarMenuButton>
-            </SidebarFooter>
-        </SidebarContent>
-        </Sidebar>
-    )
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroupContent>
+
+        <SidebarFooter>
+          <SidebarMenuButton
+            className="px-8 text-white"
+            onClick={logout}
+        >
+            <LogOut />
+            <span className="text-white">Logout</span>
+          </SidebarMenuButton>
+        </SidebarFooter>
+      </SidebarContent>
+    </Sidebar>
+  )
 }
 
 
