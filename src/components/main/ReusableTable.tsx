@@ -77,8 +77,8 @@ export function ReusableTable<TData, TValue>({
     })
 
     return (
-        <div className="">
-            <div className="space-y-4 w-full border-[0.5px] border-primary/8 rounded-md">
+        <div className="reusable-table">
+            <div className="space-y-4 w-full border-[0.5px] border-primary/8 bg-[#05251C] rounded-md">
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-4 px-6">
                     {searchKey && (
                         <div className="relative w-full sm:max-w-sm">
@@ -123,7 +123,7 @@ export function ReusableTable<TData, TValue>({
                     <Table>
                         <TableHeader className="bg-primary/4 hover:bg-primary/4 [&_tr]:border-b-[#05251C]">
                             {table.getHeaderGroups().map((headerGroup) => (
-                                <TableRow key={headerGroup.id} className="hover:bg-primary/4 border-none px-6">
+                                <TableRow key={headerGroup.id} className="hover:bg-primary/4 border-none">
                                     {headerGroup.headers.map((header) => {
                                         return (
                                             <TableHead key={header.id} className="text-primary font-medium">
@@ -145,7 +145,7 @@ export function ReusableTable<TData, TValue>({
                                     <TableRow
                                         key={row.id}
                                         data-state={row.getIsSelected() && "selected"}
-                                        className="border-b border-primary/10 hover:bg-transparent px-6"
+                                        className="border-b border-primary/10 hover:bg-transparent"
                                     >
                                         {row.getVisibleCells().map((cell) => (
                                             <TableCell key={cell.id} className="py-4">
