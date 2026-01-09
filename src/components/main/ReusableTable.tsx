@@ -168,7 +168,7 @@ export function ReusableTable<TData, TValue>({
 
             {/* Pagination */}
             <div className="flex items-center justify-between px-2 py-4">
-                <div className="text-sm text-gray-400">
+                <div className="text-sm text-white">
                     Showing {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1}-
                     {Math.min(
                         (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
@@ -214,7 +214,7 @@ export function ReusableTable<TData, TValue>({
                 </div>
 
                 <div className="flex items-center space-x-2">
-                    <p className="text-sm font-medium text-gray-400">Showing Per Page</p>
+                    <p className="text-sm font-medium text-white">Showing Per Page</p>
                     <Select
                         value={`${table.getState().pagination.pageSize}`}
                         onValueChange={(value) => {
