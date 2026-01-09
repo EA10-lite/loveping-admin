@@ -12,21 +12,27 @@ import {
 } from "../ui/sheet"
 
 type DetailsModalProps = PropsWithChildren<{
-    title: string;
+  title: string;
+  buttonType?: "ghost" | "default" | "destructive",
+  buttonTitle?: string;
+  ActionButton?: React.ReactNode;
 }>
 
 const DetailsModal = ({
-    title,
-    children
+  title,
+  buttonType = "default",
+  buttonTitle = "Close",
+  ActionButton,
+  children,
 }: DetailsModalProps) => {
   return (
     <Sheet>
       <SheetTrigger asChild>
         <Button
-            className="bg-transparent hover:bg-[#143C2B] text-primary rounded-xs w-full justify-start"
+          className="bg-transparent hover:bg-[#143C2B] text-primary rounded-xs w-full justify-start"
         >
-            <Eye className="text-primary" />
-            <span>View</span>
+          <Eye className="text-primary" />
+          <span>View</span>
         </Button>
       </SheetTrigger>
       <SheetContent className="min-w-[404px] bg-secondary border-[0.5px] border-primary/8 right-10 rounded-xl h-fit max-h-[90vh] overflow-auto top-1/2 -translate-y-1/2 p-0 [&>button.absolute]:hidden">
@@ -41,13 +47,18 @@ const DetailsModal = ({
         {children}
 
         <SheetFooter>
-            <SheetClose>
-                <Button
-                    className="rounded-full w-full h-12"
-                >
-                    <span>Close</span>
-                </Button>
+          {ActionButton ? (
+            ActionButton
+          ) : (
+            <SheetClose asChild>
+              <Button
+                className="rounded-full w-full h-12"
+                variant={buttonType}
+              >
+                <span>{buttonTitle}</span>
+              </Button>
             </SheetClose>
+          )}
         </SheetFooter>
       </SheetContent>
     </Sheet>

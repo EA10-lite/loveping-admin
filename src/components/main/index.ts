@@ -1,5 +1,8 @@
 export { default as Text } from "./Text";
 export { default as FormModal } from "./FormModal";
-export { default as Modal } from "./Modal";
+export { default as DetailsModal } from "./DetailsModal";
 export { default as ReusableTable } from "./ReusableTable";
 export { default as TableAction } from "./TableAction";
+export { default as ModalFieldItem } from "./ModalFieldItem";
+export { default as StarRating } from "./StarRating";
+export { default as ActionModal } from "./ActionModal";

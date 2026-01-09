@@ -1,7 +1,6 @@
-import { DetailsModal, Text } from "../../../components";
+import { DetailsModal, ModalFieldItem, Text } from "../../../components";
 import type { Nudge } from "../../../utils/types";
 import { formatDateString } from "../../../utils/formatter";
-import { mergeClasses } from "../../../lib/mergeclasses";
 import NudgeType from "./NudgeType";
 
 const NudgeDetails = ({ nudge } : { nudge: Nudge }) => {
@@ -18,9 +17,9 @@ const NudgeDetails = ({ nudge } : { nudge: Nudge }) => {
                 />
 
                 <div className="space-y-2.5">
-                    <Field label="Fullname" value={nudge.user.name} />
-                    <Field label="Email Address" value={nudge.user.email} />
-                    <Field label="User ID" value={`User ID: ${nudge.user._id}`} />
+                    <ModalFieldItem label="Fullname" value={nudge.user.name} />
+                    <ModalFieldItem label="Email Address" value={nudge.user.email} />
+                    <ModalFieldItem label="User ID" value={`User ID: ${nudge.user._id}`} />
                 </div>
             </div>
             <div className="space-y-3">
@@ -31,16 +30,16 @@ const NudgeDetails = ({ nudge } : { nudge: Nudge }) => {
                 />
 
                 <div className="space-y-2.5">
-                    <Field
+                    <ModalFieldItem
                         label="Nudge Type:"
-                        value={nudge.user.name} className="flex-row"
+                        value={nudge.user.name} className="flex-row items-center"
                         content={<NudgeType type={nudge.type} />}
                     />
-                    <Field
+                    <ModalFieldItem
                         label="Tone:"
                         value={nudge.tone.join(", ")} className="flex-row"
                     />
-                    <Field
+                    <ModalFieldItem
                         label="Status:"
                         value={nudge.status} className="flex-row text-primary"
                     />
@@ -55,7 +54,7 @@ const NudgeDetails = ({ nudge } : { nudge: Nudge }) => {
                     className="text-primary font-medium"
                 />
 
-                <Field value={nudge.content} />
+                <ModalFieldItem value={nudge.content} />
             </div>
 
             <div className="space-y-3">
@@ -66,12 +65,12 @@ const NudgeDetails = ({ nudge } : { nudge: Nudge }) => {
                 />
 
                 <div className="space-y-2.5">
-                    <Field
+                    <ModalFieldItem
                         label="Created At:"
                         value={formatDateString(nudge.createdAt)}
                         className="flex-row"
                     />
-                    <Field
+                    <ModalFieldItem
                         label="Last Updated:"
                         value={formatDateString(nudge.updatedAt)}
                         className="flex-row"
@@ -82,40 +81,4 @@ const NudgeDetails = ({ nudge } : { nudge: Nudge }) => {
     </DetailsModal>
   )
 }
-
-const Field = ({
-    label,
-    value,
-    className,
-    content,
-} : {
-    label?: string;
-    value?: string;
-    className?: string;
-    content?: React.ReactNode;
-}) => {
-    return (
-        <div className={mergeClasses(`flex flex-col gap-1.5`, className)}>
-            {label && (
-                <Text
-                    title={label}
-                    type="h4"
-                    className="text-white"
-                />
-            )}
-
-
-            {content && content}
-
-            {value && !content && (
-                <Text
-                    title={value}
-                    type="p"
-                    className={mergeClasses("text-grey", className)}
-                />
-            )}
-        </div>
-    )
-}
-
 export default NudgeDetails;

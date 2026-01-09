@@ -6,7 +6,7 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-  } from "../../components/ui/dropdown-menu"
+} from "../../components/ui/dropdown-menu"
 import { Button } from "../ui/button";
 
 
@@ -14,7 +14,7 @@ interface TableActionProps {
     View?: React.ReactNode;
     Edit?: React.ReactNode;
 }
-const TableAction  = ({
+const TableAction = ({
     View,
     Edit,
 }: TableActionProps) => {
@@ -25,14 +25,14 @@ const TableAction  = ({
                     <MoreVertical className="h-4 w-4" />
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-40 bg-[#0F3826] border-[0.5px] border-[#0F2F26] rounded-sm text-white shadow-sm p-4" align="end">
+            <DropdownMenuContent className="w-[206px] bg-[#0F3826] border-[0.5px] border-[#0F2F26] rounded-sm text-white shadow-sm p-4" align="end">
                 {View && (
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="hover:bg-transparent p-0">
                         {View}
                     </DropdownMenuItem>
                 )}
                 {Edit && (
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                         {Edit}
                     </DropdownMenuItem>
                 )}
@@ -41,4 +41,4 @@ const TableAction  = ({
     )
 }
 
-  export default TableAction;
+export default TableAction;

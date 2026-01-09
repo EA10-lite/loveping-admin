@@ -1,7 +1,6 @@
-import { DetailsModal, Text } from "../../../components";
+import { DetailsModal, ModalFieldItem, Text } from "../../../components";
 import type { Note } from "../../../utils/types";
 import { formatDateString } from "../../../utils/formatter";
-import { mergeClasses } from "../../../lib/mergeclasses";
 
 const NoteDetails = ({ note } : { note: Note }) => {
   return (
@@ -17,9 +16,9 @@ const NoteDetails = ({ note } : { note: Note }) => {
                 />
 
                 <div className="space-y-2.5">
-                    <Field label="Fullname" value={note.user.name} />
-                    <Field label="Email Address" value={note.user.email} />
-                    <Field label="User ID" value={`User ID: ${note.user._id}`} />
+                    <ModalFieldItem label="Fullname" value={note.user.name} />
+                    <ModalFieldItem label="Email Address" value={note.user.email} />
+                    <ModalFieldItem label="User ID" value={`User ID: ${note.user._id}`} />
                 </div>
             </div>
             <div className="space-y-4">
@@ -30,12 +29,12 @@ const NoteDetails = ({ note } : { note: Note }) => {
                 />
 
                 <div className="space-y-2.5">
-                    <Field
+                    <ModalFieldItem
                         label="Created At:"
                         value={formatDateString(note.createdAt)}
                         className="flex-row"
                     />
-                    <Field
+                    <ModalFieldItem
                         label="Last Updated:"
                         value={formatDateString(note.updatedAt)}
                         className="flex-row"
@@ -49,39 +48,11 @@ const NoteDetails = ({ note } : { note: Note }) => {
                     className="text-primary font-medium"
                 />
 
-                <Field value={note.content} />
+                <ModalFieldItem value={note.content} />
             </div>
         </div>
     </DetailsModal>
   )
-}
-
-const Field = ({
-    label,
-    value,
-    className
-} : {
-    label?: string;
-    value: string,
-    className?: string
-}) => {
-    return (
-        <div className={mergeClasses(`flex flex-col gap-1.5`, className)}>
-            {label && (
-                <Text
-                    title={label}
-                    type="h4"
-                    className="text-white"
-                />
-            )}
-
-            <Text
-                title={value}
-                type="p"
-                className="text-grey"
-            />
-        </div>
-    )
 }
 
 export default NoteDetails;

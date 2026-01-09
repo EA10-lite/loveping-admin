@@ -1,4 +1,4 @@
-import { ReusableTable, TableAction, Text } from "../../components";
+import { ReusableTable, StarRating, TableAction, Text } from "../../components";
 import { Button } from "../../components/ui/button";
 import { PiExport } from "react-icons/pi";
 import { feedbacks } from "../../data/feedback";
@@ -6,7 +6,6 @@ import { type ColumnDef } from "@tanstack/react-table";
 import { type Feedback as FeedbackType } from "../../utils/types";
 import { formatDateString } from "../../utils/formatter";
 import FeedbackDetails from "./_components/FeedbackDetails";
-import { FaStar } from "react-icons/fa";
 
 const columns: ColumnDef<FeedbackType>[] = [
     {
@@ -29,16 +28,7 @@ const columns: ColumnDef<FeedbackType>[] = [
     {
         accessorKey: "rating",
         header: "Rating",
-        cell: ({ row }) => {
-            const rating = row.getValue("rating") as number;
-            return (
-                <span className="text-sm text-white flex items-center gap-0.5">
-                    {Array.from({ length: rating }).map((_i, index) => (
-                        <FaStar key={index} color="gold" />
-                    ))}
-                </span>
-            )
-        }
+        cell: ({ row }) => <StarRating rating={row.getValue("rating")} />
     },
     {
         accessorKey: "message",
@@ -61,10 +51,10 @@ const columns: ColumnDef<FeedbackType>[] = [
     {
         id: "actions",
         header: "Action",
-        cell: () => (
+        cell: ({ row }) => (
             <div className="flex justify-end">
                 <TableAction
-                    View={<FeedbackDetails />}
+                    View={<FeedbackDetails feedback={row.original} />}
                 />
             </div>
         )
