@@ -14,3 +14,12 @@ export const addPartnerValidation = Yup.object().shape({
     website: Yup.string().url().required(),
     note: Yup.string(),
 })
+
+
+export const addFAQValidation = Yup.object().shape({
+    name: Yup.string().required(),
+    status: Yup.string().required(),
+    category: Yup.string().required(),
+    website: Yup.string().url().required(),
+    note: Yup.string(),
+})

@@ -4,12 +4,12 @@ import { FormField, FormModal, FormSelect, Textbox } from "../../../components";
 import type { FAQ } from "../../../utils/types";
 import { Button } from "../../../components/ui/button";
 import { Formik } from "formik";
-import { addPartnerValidation } from "../../../utils/validation";
+import { addFAQValidation } from "../../../utils/validation";
 import { toast } from "sonner";
 import { LuLoaderCircle } from "react-icons/lu";
 
 
-interface ManagePartnerProps {
+interface ManageFAQProps {
     faq?: FAQ
     type: "add" | "edit" | "edit-alt";
 }
@@ -17,7 +17,7 @@ interface ManagePartnerProps {
 const ManageFAQ = ({
     faq,
     type,
-}: ManagePartnerProps) => {
+}: ManageFAQProps) => {
     const [loading, setLoading] = useState<boolean>(false);
     const handleSubmit = async () => {
         try {
@@ -28,7 +28,7 @@ const ManageFAQ = ({
             setLoading(false);
         } catch (error) {
             console.log("error: ", error);
-            toast.error("Failed to submit partner details")
+            toast.error("Failed to submit faq details")
         }
     }
     return (
@@ -39,7 +39,7 @@ const ManageFAQ = ({
                 category: faq?.category || "",
             }}
             onSubmit={handleSubmit}
-            validationSchema={addPartnerValidation}
+            validationSchema={addFAQValidation}
         >
             {({ submitForm }) => (
                 <FormModal
@@ -55,7 +55,7 @@ const ManageFAQ = ({
                         ) : type === "edit-alt" && (
                             <Button
                                 variant="secondary"
-                                className="rounded-full h-12 w-full"
+                                className="rounded-full h-12 w-full bg-white/3 hover:bg-white/3"
                                 asChild
                             >
                                 <span>Edit FAQ</span>

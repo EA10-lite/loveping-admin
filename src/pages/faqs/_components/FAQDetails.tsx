@@ -9,7 +9,7 @@ const FAQDetails = ({ faq }: { faq: FAQ }) => {
     const [open, setOpen] = useState(false);
     return (
         <DetailsModal
-            title="Partner Details"
+            title="FAQ Review"
             open={open}
             onOpenChange={setOpen}
             ActionButton={(
