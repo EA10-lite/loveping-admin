@@ -10,12 +10,12 @@ import { FaFileAlt } from "react-icons/fa";
 
 
 interface ManagePartnerProps {
-    notification?: Notification
+    email?: Notification
     type: "add" | "edit" | "edit-alt";
 }
 
-const ManageNotification = ({
-    notification,
+const ManageEmail = ({
+    email,
     type,
 }: ManagePartnerProps) => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -34,23 +34,22 @@ const ManageNotification = ({
     return (
         <Formik
             initialValues={{
-                subject: notification?.title ? notification.title :  "",
-                body: notification?.description ? notification.description : "",
-                url: notification?.url ? notification.url : "",
-                audience: notification?.audience ? notification.audience : ""
+                subject: email?.title ? email.title :  "",
+                body: email?.description ? email.description : "",
+                audience: email?.audience ? email.audience : ""
             }}
             onSubmit={handleSubmit}
         >
             {({ submitForm, values }) => (
                 <FormModal
-                    title={type === "add" ? "Created Notification" : "Edit Notification"}
+                    title={type === "add" ? "Created Email" : "Edit Email"}
                     TriggerButton={
                         type === "add" ? (
                             <div
                                 className="rounded-sm px-2 gap-1.5 w-full flex items-center cursor-pointer"
                             >
                                 <Plus />
-                                <span className="text-sm font-medium">Create Notification</span>
+                                <span className="text-sm font-medium">Create Email</span>
                             </div>
                         ) : type === "edit-alt" && (
                             <Button
@@ -58,7 +57,7 @@ const ManageNotification = ({
                                 className="rounded-full h-12 w-full"
                                 asChild
                             >
-                                <span>Edit Notification</span>
+                                <span>Edit Email</span>
                             </Button>
                         )
                     }
@@ -101,13 +100,6 @@ const ManageNotification = ({
                                 label="Body"
                                 isMandatory={true}
                             />
-
-                            <FormField
-                                name="url"
-                                label="URL"
-                                className="h-12"
-                                isOptional={true}
-                            />
                         </div>
                     </div>
 
@@ -131,4 +123,4 @@ const ManageNotification = ({
     )
 }
 
-export default ManageNotification;
+export default ManageEmail;

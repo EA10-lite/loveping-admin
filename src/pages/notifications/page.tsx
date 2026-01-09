@@ -103,7 +103,7 @@ const columns: ColumnDef<Notification>[] = [
 
 const Notifications = () => {
     return (
-        <div className="notes">
+        <div className="notifcations">
             <div className="page-header">
                 <div className="flex items-center justify-between">
                     <Text
