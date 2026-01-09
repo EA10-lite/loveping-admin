@@ -7,6 +7,7 @@ import { formatDateString } from "../../utils/formatter";
 import { nudges } from "../../data/nudge";
 import { Badge } from "../../components/ui/badge";
 import NudgeDetails from "./_components/NudgeDetails";
+import NudgeType from "./_components/NudgeType";
 
 const columns: ColumnDef<Nudge>[] = [
     {
@@ -22,37 +23,19 @@ const columns: ColumnDef<Nudge>[] = [
     {
         accessorKey: "type",
         header: "Nudge Type",
+        cell: ({ row }) => <NudgeType type={row.getValue("type")} />
+    },
+    {
+        accessorKey: "tone",
+        header: "Tone/Category",
         cell: ({ row }) => {
-            let img = "/icons/message.svg";
-            const status = row.getValue("type") as string;
-
-            if(status.toLowerCase() === "gift") img = "/icons/gift.svg";
-            if(status.toLowerCase() === "call") img = "/icons/call.svg";
+            const tones = row.getValue("tone") as string[];
             return (
-                <div className="flex items-center gap-1">
-                    <img src={img} alt={row.getValue("type")} />
-                    <span className="text-white capitalize">{row.getValue("type")}</span>
-                </div>
+                <span className="text-white line-clamp-1 max-w-[300px]">
+                    {tones?.join(", ")}
+                </span>
             )
         }
-    },
-    {
-        accessorKey: "tone",
-        header: "Tone/Category",
-        cell: ({ row }) => (
-            <span className="text-white line-clamp-1 max-w-[300px]">
-                {row.getValue("tone")}
-            </span>
-        )
-    },
-    {
-        accessorKey: "tone",
-        header: "Tone/Category",
-        cell: ({ row }) => (
-            <span className="text-white line-clamp-1 max-w-[300px]">
-                {row.getValue("tone")}
-            </span>
-        )
     },
     {
         accessorKey: "status",
@@ -94,10 +77,10 @@ const columns: ColumnDef<Nudge>[] = [
     {
         id: "actions",
         header: "Action",
-        cell: () => (
+        cell: ({ row }) => (
             <div className="flex justify-end">
                 <TableAction
-                    View={<NudgeDetails />}
+                    View={<NudgeDetails nudge={row.original} />}
                 />
             </div>
         )
