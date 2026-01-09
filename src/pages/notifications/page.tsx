@@ -92,7 +92,7 @@ const columns: ColumnDef<Notification>[] = [
             <div className="flex justify-end">
                 <TableAction
                     View={<NotificationDetails notification={row.original} />}
-                    Edit={<ManageNotification type="edit" />}
+                    Edit={<ManageNotification type="edit" notification={row.original} />}
                     Delete={<DeleteNotification />}
                 />
             </div>

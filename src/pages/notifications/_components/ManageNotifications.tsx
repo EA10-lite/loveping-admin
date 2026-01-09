@@ -34,8 +34,10 @@ const ManageNotification = ({
     return (
         <Formik
             initialValues={{
-                subject: notification?.title || "",
-                body: notification?.description || ""
+                subject: notification?.title ? notification.title :  "",
+                body: notification?.description ? notification.description : "",
+                url: notification?.url ? notification.url : "",
+                audience: notification?.audience ? notification.audience : ""
             }}
             onSubmit={handleSubmit}
         >
@@ -110,7 +112,7 @@ const ManageNotification = ({
                     </div>
 
                     {values['body'] && values["subject"] &&(
-                        <div className="p-4">
+                        <div className="p-4 space-y-2">
                             <div className="flex items-center gap-2">
                                 <FaFileAlt className="size-4 text-white" />
                                 <p className="text-sm font-normal text-white">Preview</p>
@@ -119,6 +121,7 @@ const ManageNotification = ({
                             <ModalFieldItem
                                 label={values["subject"]}
                                 value={values["body"]}
+                                className="gap-1"
                             />
                         </div>
                     )}
