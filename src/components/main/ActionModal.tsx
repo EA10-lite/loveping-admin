@@ -1,5 +1,5 @@
 import { Button } from "../ui/button"
-import React, { type PropsWithChildren } from "react"
+import { type PropsWithChildren } from "react"
 import {
     Dialog,
     DialogContent,

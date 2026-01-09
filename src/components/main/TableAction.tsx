@@ -25,14 +25,17 @@ const TableAction = ({
                     <MoreVertical className="h-4 w-4" />
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-[206px] bg-[#0F3826] border-[0.5px] border-[#0F2F26] rounded-sm text-white shadow-sm p-4" align="end">
+            <DropdownMenuContent className="w-[206px] bg-[#0F3826] border-[0.5px] border-[#0F2F26] rounded-sm text-white shadow-sm p-3" align="end">
                 {View && (
-                    <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="hover:bg-transparent p-0">
+                    <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="hover:bg-transparent bg-transparent p-0">
                         {View}
                     </DropdownMenuItem>
                 )}
                 {Edit && (
-                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                    <DropdownMenuItem
+                        onSelect={(e) => e.preventDefault()}
+                        className="hover:bg-transparent p-0 bg-transparent"
+                    >
                         {Edit}
                     </DropdownMenuItem>
                 )}

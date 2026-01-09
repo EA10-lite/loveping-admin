@@ -92,7 +92,7 @@ export interface Partner {
     description: string;
     status: "active" | "inactive";
     website: string;
-    createdAt: string;
+    createdAt: Date;
     note?: string;
 }
 

@@ -16,6 +16,7 @@ type DetailsModalProps = PropsWithChildren<{
   buttonType?: "ghost" | "default" | "destructive",
   buttonTitle?: string;
   ActionButton?: React.ReactNode;
+  TriggerButton?: React.ReactNode;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
 }>
@@ -25,19 +26,22 @@ const DetailsModal = ({
   buttonType = "default",
   buttonTitle = "Close",
   ActionButton,
+  TriggerButton,
   children,
   open,
   onOpenChange
 }: DetailsModalProps) => {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetTrigger asChild>
-        <Button
-          className="bg-transparent hover:bg-[#143C2B] text-primary rounded-xs w-full justify-start"
-        >
-          <Eye className="text-primary" />
-          <span>View</span>
-        </Button>
+      <SheetTrigger asChild className="hover:bg-[#143C2B] p-0 bg-[#143C2B] w-fit">
+        {TriggerButton ? TriggerButton : (
+            <Button
+            className="bg-transparent hover:bg-[#143C2B] text-primary rounded-xs w-full justify-start p-1.5"
+          >
+            <Eye className="text-primary" />
+            <span>View</span>
+          </Button>
+        )}
       </SheetTrigger>
       <SheetContent className="min-w-[404px] bg-secondary border-[0.5px] border-primary/8 right-10 rounded-xl h-fit max-h-[90vh] overflow-auto top-1/2 -translate-y-1/2 p-0 [&>button.absolute]:hidden">
         <SheetHeader className="border-b border-primary/10 text-white flex flex-row items-center justify-between">

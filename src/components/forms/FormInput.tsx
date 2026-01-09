@@ -10,6 +10,7 @@ interface InputProps {
     handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     disabled?:    boolean;
     value:        string | number;
+    styles?: string;
 }
 
 const FormInput: React.FC<InputProps> = ({
@@ -19,6 +20,7 @@ const FormInput: React.FC<InputProps> = ({
     value,
     handleChange,
     disabled=false,
+    styles,
     ...otherProps
 }) => {
     return (
@@ -32,7 +34,8 @@ const FormInput: React.FC<InputProps> = ({
                 disabled={disabled}
                 className={
                     cn(
-                        "rounded-full w-full border border-primary/10 focus:ring-primary h-11 focus:outline-none focus-visible:ring-primary focus-visible:ring-[1px] transition-all text-white text-sm font-normal"
+                        "rounded-full w-full px-4 border border-primary/10 focus:ring-primary h-11 focus:outline-none focus-visible:ring-primary focus-visible:ring-[1px] transition-all text-white text-sm font-normal",
+                        styles
                     )
                 }
                 {...otherProps}
