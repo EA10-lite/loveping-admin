@@ -9,19 +9,24 @@ import {
 type ActionModalProps = PropsWithChildren<{
     buttonType?: "destructive" | "outline" | "default";
     buttonTitle?: string;
+    open?: boolean;
+    openModal?: ()=> void;
 }>
 
 const ActionModal = ({
     buttonType = "default",
     buttonTitle = "Open",
+    open=false,
+    openModal,
     children
 }: ActionModalProps) => {
     return (
-        <Dialog>
+        <Dialog open={open}>
             <DialogTrigger asChild>
                 <Button
                     variant={buttonType}
                     className="outline w-full rounded-full h-12"
+                    onClick={openModal}
                 >
                     {buttonTitle}
                 </Button>
