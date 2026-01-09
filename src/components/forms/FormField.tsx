@@ -12,6 +12,7 @@ interface FormFieldProps {
     type?: string;
     placeholder?: string;
     isMandatory?: boolean;
+    isOptional?: boolean;
     className?: string;
 }
 
@@ -21,6 +22,7 @@ const FormField = ({
     type = "text",
     placeholder,
     isMandatory=false,
+    isOptional=false,
     className,
 }: FormFieldProps) => {
     const { values, handleChange, errors, touched } = useFormikContext<FormikValues>();
@@ -31,7 +33,11 @@ const FormField = ({
         <div className="form-group">
             <Field className="gap-1">
                 <FieldLabel className="text-white text-sm font-medium">
-                    {label} {isMandatory && <span className="text-primary">*</span>}
+                    {label} {" "}
+                    {isMandatory && <span className="text-primary">*</span>}
+                    {isOptional && (
+                        <span className="text-primary rounded-full px-2 bg-[#FFFFFF05] text-xs inline py-1">Optional</span>
+                    )}
                 </FieldLabel>
                 <FormInput
                     name={name}

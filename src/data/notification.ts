@@ -14,10 +14,15 @@ const titles = [
     "Tip of the day"
 ];
 
+const audience = ["all", "new", "registered"]
+const status = ["published", "draft", "scheduled"];
+
 export const notifications: Notification[] = Array.from({ length: 50 }, (_, i) => ({
     _id: `notif_${i + 1}`,
     title: getRandomElement(titles),
-    description: generateParagraph(1),
+    audience: getRandomElement(audience) as "new" | "all" | "registered",
+    status: getRandomElement(status) as "published" | "draft" | "scheduled",
+    description: generateParagraph(),
     url: Math.random() > 0.7 ? `https://example.com/action/${i}` : undefined,
     scheduleNow: Math.random() > 0.5,
     scheduledDate: Math.random() > 0.5 ? getRandomDate(new Date(), new Date(2025, 11, 31)) : null,

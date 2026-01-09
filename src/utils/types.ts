@@ -44,6 +44,8 @@ interface UserPartner {
 export interface Notification {
     _id: string;
     title: string;
+    audience: "all" | "new" | "registered";
+    status: "published" | "draft" | "scheduled",
     description: string;
     url?: string;
     scheduleNow: boolean;

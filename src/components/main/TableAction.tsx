@@ -13,10 +13,12 @@ import { Button } from "../ui/button";
 interface TableActionProps {
     View?: React.ReactNode;
     Edit?: React.ReactNode;
+    Delete?: React.ReactNode;
 }
 const TableAction = ({
     View,
     Edit,
+    Delete,
 }: TableActionProps) => {
     return (
         <DropdownMenu>
@@ -37,6 +39,14 @@ const TableAction = ({
                         className="hover:bg-transparent p-0 bg-transparent"
                     >
                         {Edit}
+                    </DropdownMenuItem>
+                )}
+                {Delete && (
+                    <DropdownMenuItem
+                        onSelect={(e) => e.preventDefault()}
+                        className="hover:bg-transparent p-0 bg-transparent"
+                    >
+                        {Delete}
                     </DropdownMenuItem>
                 )}
             </DropdownMenuContent>
