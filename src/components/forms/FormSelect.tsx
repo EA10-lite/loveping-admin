@@ -30,11 +30,11 @@ const FormSelect = ({
     options,
     placeholder,
     styles,
-} : FormSelectProps) => {
+}: FormSelectProps) => {
     const { values, setFieldValue } = useFormikContext<FormikValues>();
 
     const handleChange = (value: string) => {
-        setFieldValue(values[name], value);
+        setFieldValue(name, value);
     }
     return (
         <div className="space-y-1.5">
