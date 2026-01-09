@@ -112,10 +112,10 @@ export type AddPartner = {
 export interface Issues {
     _id: string;
     user: User;
-    category: string;
-    status: string;
-    description: string;
-    note?: string;
+    type: string; // bug
+    summary: string;
+    status: "new" | "resolved" | "closed";
+    createdAt: Date;
 }
 
 /*

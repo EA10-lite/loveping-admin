@@ -2,14 +2,14 @@ import { type Issues } from '../utils/types';
 import { users } from './users';
 import { generateParagraph, getRandomElement } from './utils';
 
-const categories = ["Payment", "Account", "Technical", "Feedback", "Other"];
-const statuses = ["Open", "In Progress", "Resolved", "Closed"];
+const types = ["Bug", "Feature", "Improvement"];
+const statuses = ["new", "resolved", "closed"];
 
-export const issuesIndices: Issues[] = Array.from({ length: 50 }, (_, i) => ({
-    _id: `issue_${i + 1}`,
+export const issuesIndices: Issues[] = Array.from({ length: 50 }, () => ({
+    _id: Math.floor(100000 + Math.random() * 900000).toString(),
     user: getRandomElement(users),
-    category: getRandomElement(categories),
-    status: getRandomElement(statuses),
-    description: generateParagraph(1),
-    note: Math.random() > 0.5 ? generateParagraph(1) : undefined
+    type: getRandomElement(types),
+    summary: generateParagraph(1).substring(0, 50),
+    status: getRandomElement(statuses) as "new" | "resolved" | "closed",
+    createdAt: new Date()
 }));
