@@ -7,6 +7,7 @@ import { Formik } from "formik";
 import { toast } from "sonner";
 import { LuLoaderCircle } from "react-icons/lu";
 import { FaFileAlt } from "react-icons/fa";
+import { emailAndNotificationValidation } from "../../../utils/validation";
 
 
 interface ManagePartnerProps {
@@ -39,6 +40,7 @@ const ManageEmail = ({
                 audience: email?.audience ? email.audience : ""
             }}
             onSubmit={handleSubmit}
+            validationSchema={emailAndNotificationValidation}
         >
             {({ submitForm, values }) => (
                 <FormModal

@@ -5,6 +5,7 @@ import { Button } from "../../../components/ui/button";
 import { Formik } from "formik";
 import { toast } from "sonner";
 import { LuLoaderCircle } from "react-icons/lu";
+import { editUserValidation } from "../../../utils/validation";
 
 
 interface ManagePartnerProps {
@@ -37,6 +38,7 @@ const EditUser = ({
                 relationshipType: user.partner.relationshipType,
             }}
             onSubmit={handleSubmit}
+            validationSchema={editUserValidation}
         >
             {({ submitForm }) => (
                 <FormModal
