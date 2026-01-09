@@ -1,10 +1,9 @@
-import { ReusableTable, Text } from "../../components";
+import { ReusableTable, TableAction, Text } from "../../components";
 import { Button } from "../../components/ui/button";
 import { PiExport } from "react-icons/pi";
 import { issuesIndices } from "../../data/issues";
 import { type ColumnDef } from "@tanstack/react-table";
 import { type Issues as IssuesType } from "../../utils/types";
-import { MoreVertical } from "lucide-react";
 import { Badge } from "../../components/ui/badge";
 import { formatDateString } from "../../utils/formatter";
 
@@ -78,9 +77,7 @@ const columns: ColumnDef<IssuesType>[] = [
         header: "Action",
         cell: () => (
             <div className="flex justify-end">
-                <Button variant="ghost" className="h-8 w-8 p-0 text-primary/50 hover:text-primary hover:bg-transparent">
-                    <MoreVertical className="h-4 w-4" />
-                </Button>
+                <TableAction />
             </div>
         )
     }
@@ -131,3 +128,4 @@ const Issues = () => {
 }
 
 export default Issues;
+
