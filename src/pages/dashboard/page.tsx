@@ -6,6 +6,8 @@ import { PiUserCheck, PiUserCirclePlus, PiUsersFourThin } from "react-icons/pi";
 import { Sparkles } from "lucide-react";
 import UserStatusChart from "./_components/UserStatusChart";
 import NudgeDistributionChart from "./_components/NudgeDistributionChart";
+import ActivityFeed from "./_components/ActivityFeed";
+import RecentNotifications from "./_components/RecentNotification";
 
 
 const iconStyles = {
@@ -75,6 +77,12 @@ const Dashboard = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <UserStatusChart />
                     <NudgeDistributionChart />
+                </div>
+
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <ActivityFeed />
+                    <RecentNotifications />
                 </div>
             </div>
         </div>

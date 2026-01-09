@@ -34,8 +34,8 @@ const chartConfig = {
 
 const UserStatusChart = () => {
     return (
-        <Card className="border-[0.5px] border-primary/8 bg-[#05251C] p-6 rounded-sm">
-            <CardHeader className="items-center pb-0">
+        <Card className="border-[0.5px] border-primary/8 bg-[#05251C] p-4 rounded-sm">
+            <CardHeader className="items-center pb-0 px-0">
                 <CardTitle className="text-white">Active Users Trend</CardTitle>
             </CardHeader>
             <CardContent className="flex-1 pb-0">

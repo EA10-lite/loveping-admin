@@ -18,11 +18,11 @@ import {
 export const description = "A donut chart with text"
 
 const chartData = [
-  { nudge: "romantic", count: 275, fill: "#3BD1DC" },
-  { nudge: "appreciation", count: 200, fill: "#A561FF" },
-  { nudge: "apology", count: 287, fill: "#0050FD" },
-  { nudge: "reminder", count: 173, fill: "#F9751D" },
-  { nudge: "celebration", count: 190, fill: "#F9751D" },
+  { nudge: "romantic", count: 547, fill: "#3BD1DC" },
+  { nudge: "appreciation", count: 54, fill: "#A561FF" },
+  { nudge: "apology", count: 99, fill: "#0050FD" },
+  { nudge: "reminder", count: 63, fill: "#F9751D" },
+  { nudge: "celebration", count: 120, fill: "#D7BA38" },
 ]
 
 const chartConfig = {
@@ -43,19 +43,19 @@ const chartConfig = {
     color: "#F9751D",
   },
   celebration: {
-    label: "Reminder",
-    color: "#F9751D",
+    label: "Celeration",
+    color: "#D7BA38",
   },
 } satisfies ChartConfig
 
 const NudgeDistributionChart = () => {
-    const totalcount = React.useMemo(() => {
-        return chartData.reduce((acc, curr) => acc + curr.count, 0)
+    const topNudge = React.useMemo(() => {
+        return chartData.sort((a,b) => b.count - a.count)[0];
     }, [])
 
     return (
-        <Card className="border-[0.5px] border-primary/8 bg-[#05251C] p-6 rounded-sm">
-        <CardHeader className="items-center pb-0">
+        <Card className="border-[0.5px] border-primary/8 bg-[#05251C] p-4 rounded-sm">
+        <CardHeader className="items-center pb-0 px-0">
             <CardTitle className="text-white">Nudge Type Distribution</CardTitle>
         </CardHeader>
         <CardContent className="flex-1 pb-0">
@@ -90,9 +90,9 @@ const NudgeDistributionChart = () => {
                             <tspan
                                 x={viewBox.cx}
                                 y={viewBox.cy}
-                                className="fill-white text-lg font-semibold"
+                                className="fill-white text-lg font-semibold capitalize"
                             >
-                                {totalcount.toLocaleString()}
+                                {topNudge.nudge.toLocaleString()}
                             </tspan>
                             <tspan
                                 x={viewBox.cx}
