@@ -20,7 +20,7 @@ const badgeVariants = cva(
         outline:
           "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
         pending:
-          "bg-[#263620] text-[#FFA844] [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
+          "bg-[#263620] text-[#FFA844] border-none [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
       },
     },
     defaultVariants: {

@@ -4,13 +4,20 @@ import { MoreVertical } from "lucide-react";
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuGroup,
     DropdownMenuItem,
-    DropdownMenuLabel,
     DropdownMenuTrigger,
   } from "../../components/ui/dropdown-menu"
 import { Button } from "../ui/button";
-const TableAction  = () => {
+
+
+interface TableActionProps {
+    View?: React.ReactNode;
+    Edit?: React.ReactNode;
+}
+const TableAction  = ({
+    View,
+    Edit,
+}: TableActionProps) => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -18,17 +25,17 @@ const TableAction  = () => {
                     <MoreVertical className="h-4 w-4" />
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-40 bg-[#0F3826] border-[0.5px] border-[#0F2F26] rounded-sm text-white shadow-sm" align="end">
-                <DropdownMenuLabel>File Actions</DropdownMenuLabel>
-                <DropdownMenuGroup>
-                <DropdownMenuItem>
-                    New File...
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                    Share...
-                </DropdownMenuItem>
-                <DropdownMenuItem disabled>Download</DropdownMenuItem>
-                </DropdownMenuGroup>
+            <DropdownMenuContent className="w-40 bg-[#0F3826] border-[0.5px] border-[#0F2F26] rounded-sm text-white shadow-sm p-4" align="end">
+                {View && (
+                    <DropdownMenuItem>
+                        {View}
+                    </DropdownMenuItem>
+                )}
+                {Edit && (
+                    <DropdownMenuItem>
+                        {Edit}
+                    </DropdownMenuItem>
+                )}
             </DropdownMenuContent>
         </DropdownMenu>
     )

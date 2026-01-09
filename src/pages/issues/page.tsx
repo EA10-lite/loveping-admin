@@ -6,6 +6,7 @@ import { type ColumnDef } from "@tanstack/react-table";
 import { type Issues as IssuesType } from "../../utils/types";
 import { Badge } from "../../components/ui/badge";
 import { formatDateString } from "../../utils/formatter";
+import IssueDetails from "./_components/IssueDetails";
 
 const columns: ColumnDef<IssuesType>[] = [
     {
@@ -40,7 +41,7 @@ const columns: ColumnDef<IssuesType>[] = [
             const status = row.getValue("status") as string;
 
             let badgeVariant = "secondary";
-            if(status.toLowerCase() === "new") badgeVariant = "primary";
+            if (status.toLowerCase() === "new") badgeVariant = "primary";
             if (status.toLowerCase() === "resolved") badgeVariant = "default";
             if (status.toLowerCase() === "in-review") badgeVariant = "pending";
             if (status.toLowerCase() === "closed") badgeVariant = "destructive";
@@ -68,7 +69,7 @@ const columns: ColumnDef<IssuesType>[] = [
         header: "Repoted on",
         cell: ({ row }) => (
             <span className="text-white">
-                { formatDateString(new Date(row.getValue("createdAt")).toLocaleDateString())}
+                {formatDateString(row.getValue("createdAt"))}
             </span>
         )
     },
@@ -77,7 +78,9 @@ const columns: ColumnDef<IssuesType>[] = [
         header: "Action",
         cell: () => (
             <div className="flex justify-end">
-                <TableAction />
+                <TableAction
+                    View={<IssueDetails />}
+                />
             </div>
         )
     }
