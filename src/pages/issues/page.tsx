@@ -76,10 +76,10 @@ const columns: ColumnDef<IssuesType>[] = [
     {
         id: "actions",
         header: "Action",
-        cell: () => (
+        cell: ({ row }) => (
             <div className="flex justify-end">
                 <TableAction
-                    View={<IssueDetails />}
+                    View={<IssueDetails issue={row.original} />}
                 />
             </div>
         )
