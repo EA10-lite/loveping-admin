@@ -5,15 +5,17 @@ import { formatDateString } from "../../../utils/formatter";
 import type { Partner } from "../../../utils/types";
 import { toast } from "sonner";
 import { LuLoaderCircle } from "react-icons/lu";
+import ManagePartner from "./ManagePartners";
 
-const PartnerDetails = ({ partner } : { partner: Partner }) => {
-
+const PartnerDetails = ({ partner }: { partner: Partner }) => {
+    const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState<boolean>(false);
     const updateStatus = async () => {
         try {
             setLoading(true);
             await new Promise((resolve) => setTimeout(resolve, 1000));
             toast.success("Status updated successully")
+            setOpen(false);
         } catch (error) {
             console.log("error:", error);
             toast.error("Failed to update status")
@@ -23,13 +25,15 @@ const PartnerDetails = ({ partner } : { partner: Partner }) => {
     }
     return (
         <DetailsModal
-            title="Nudge Details"
+            title="Partner Details"
+            open={open}
+            onOpenChange={setOpen}
             ActionButton={(
-                <div className="flex flex-col gap-4">
-                    {/* <ManagePartner
-                        type="edit"
+                <div className="flex flex-col gap-3">
+                    <ManagePartner
+                        type="edit-alt"
                         partner={partner}
-                    /> */}
+                    />
                     <Button
                         variant="secondary"
                         className="h-12 rounded-full w-full"
@@ -42,7 +46,7 @@ const PartnerDetails = ({ partner } : { partner: Partner }) => {
                             <span>Set as {" "}
                                 {
                                     partner.status.toLowerCase() === "active" ?
-                                    "Inactive" : "Active"
+                                        "Inactive" : "Active"
                                 }
                             </span>
                         )}

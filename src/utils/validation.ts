@@ -9,7 +9,7 @@ export const loginValidation  = Yup.object().shape({
 
 export const addPartnerValidation = Yup.object().shape({
     name: Yup.string().required(),
-    status: Yup.string().required().oneOf(["active", "inactive"]),
+    status: Yup.string().required(),
     category: Yup.string().required(),
     note: Yup.string(),
 })

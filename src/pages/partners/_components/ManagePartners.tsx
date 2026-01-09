@@ -11,7 +11,7 @@ import { LuLoaderCircle } from "react-icons/lu";
 
 interface ManagePartnerProps {
     partner?: Partner
-    type: "add" | "edit"
+    type: "add" | "edit" | "edit-alt";
 }
 
 const ManagePartner = ({
@@ -35,13 +35,20 @@ const ManagePartner = ({
         <FormModal
             title={type === "add" ? "Add Partner" : "Edit Parnter"}
             TriggerButton={
-                type === "add" && (
+                type === "add" ? (
                     <div
                         className="rounded-sm px-4 gap-1.5 w-full flex items-center cursor-pointer"
                     >
                         <Plus />
                         <span className="text-sm font-medium">Add Partner</span>
                     </div>
+                ) : type === "edit-alt" && (
+                    <Button
+                        variant="default"
+                        className="bg-primary text-secondary rounded-full h-12 w-full hover:bg-primary"
+                    >
+                        <span>Edit Partner</span>
+                    </Button>
                 )
             }
             ActionButton={(
