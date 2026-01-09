@@ -1,6 +1,7 @@
 export { default as Dashboard } from "./dashboard/page";
 export { default as Notifications } from "./notifications/page";
 export { default as Users } from "./users/page";
+export { default as UserDetails } from "./users/[id]/page";
 export { default as Activities } from "./activities/page";
 export { default as Nudges } from "./nudges/page";
 export { default as Notes } from "./notes/page";

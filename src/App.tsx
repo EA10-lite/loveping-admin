@@ -25,6 +25,7 @@ import {
   FAQs,
   Emails,
   Login,
+  UserDetails,
 } from "./pages"
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
           <Route path="/" index element={<Dashboard />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/users" element={<Users />} />
+          <Route path="/users/:id" element={<UserDetails />} />
           <Route path="/activities" element={<Activities />} />
           <Route path="/nudges" element={<Nudges />} />
           <Route path="/notes" element={<Notes />} />
