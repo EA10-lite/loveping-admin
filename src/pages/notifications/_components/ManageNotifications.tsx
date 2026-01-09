@@ -47,7 +47,7 @@ const ManageNotification = ({
                     TriggerButton={
                         type === "add" ? (
                             <div
-                                className="rounded-sm px-4 gap-1.5 w-full flex items-center cursor-pointer"
+                                className="rounded-sm px-2 gap-1.5 w-full flex items-center cursor-pointer"
                             >
                                 <Plus />
                                 <span className="text-sm font-medium">Create Notification</span>

@@ -25,13 +25,13 @@ const columns: ColumnDef<Notification>[] = [
             const audience = row.getValue("audience") as string;
 
             let badgeVariant = "secondary";
-            if (audience.toLowerCase() === "alll") badgeVariant = "default";
+            if (audience.toLowerCase() === "all") badgeVariant = "purple";
             if (audience.toLowerCase() === "new") badgeVariant = "pending";
             if (audience.toLowerCase() === "registered") badgeVariant = "primary";
             return (
                 <Badge
                     className={`hover:bg-[#05251C]/80 font-normal capitalize`}
-                    variant={badgeVariant as "default" | "primary" | "pending" | "destructive" | "secondary" | "ghost"}
+                    variant={badgeVariant as "default" | "primary" | "pending" | "purple"}
                 >
                     {
                         audience.toLowerCase() === "all" ? "All Users" :
@@ -50,10 +50,11 @@ const columns: ColumnDef<Notification>[] = [
             let badgeVariant = "secondary";
             if (status.toLowerCase() === "published") badgeVariant = "default";
             if (status.toLowerCase() === "scheduled") badgeVariant = "pending";
+            if (status.toLowerCase() === "draft") badgeVariant = "ghost";
             return (
                 <Badge
                     className={`hover:bg-[#05251C]/80 font-normal capitalize`}
-                    variant={badgeVariant as "default" | "primary" | "pending" | "destructive" | "secondary" | "ghost"}
+                    variant={badgeVariant as "default" | "primary" | "pending" | "ghost"}
                 >
                     {status}
                 </Badge>
