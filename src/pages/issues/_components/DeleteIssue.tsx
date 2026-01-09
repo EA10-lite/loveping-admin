@@ -6,30 +6,30 @@ import { useState } from "react";
 import { LuLoaderCircle } from "react-icons/lu";
 
 
-const DeleteFeedback = ({ onSuccess }: { onSuccess?: () => void }) => {
-    const [open, setOpen] = useState<boolean>(false);
+const DeleteIssue = ({ onSuccess, open, onOpenChange }: { onSuccess?: () => void, open: boolean, onOpenChange: (open: boolean) => void }) => {
     const [deleting, setDeleting] = useState<boolean>(false);
 
     const handleDelete = async () => {
         try {
             setDeleting(true);
             await new Promise((resolve) => setTimeout(resolve, 1000));
-            toast.success("Report deleted successfully")
+            toast.success("Issue deleted successfully")
             onSuccess?.();
-            setOpen(false);
+            onOpenChange(false);
         } catch (error) {
             console.log("error:", error);
-            toast.error("Failed to delete feedback")
+            toast.error("Failed to delete issue")
         } finally {
             setDeleting(false);
         }
     }
     return (
         <ActionModal
-            buttonTitle="Delete Feedback"
-            buttonType="destructive"
+            buttonTitle="Delete Issue"
+            buttonType="ghost"
+            buttonclass="h-fit p-0 text-destructive w-fit justify-start hover:bg-transparent hover:text-destructive"
             open={open}
-            onOpenChange={setOpen}
+            onOpenChange={onOpenChange}
         >
             <div className="space-y-6">
                 <div className="">
@@ -41,11 +41,11 @@ const DeleteFeedback = ({ onSuccess }: { onSuccess?: () => void }) => {
 
                 <div className="text-center space-y-2">
                     <Text
-                        title="Delete Bug Report"
+                        title="Delete Issue"
                         type="h4"
                     />
                     <Text
-                        title="This rating and its associated feedback will be permanently removed. This action cannot be undone."
+                        title="This issue and its associated data will be permanently removed. This action cannot be undone."
                         type="p"
                         className="text-grey"
                     />
@@ -61,14 +61,14 @@ const DeleteFeedback = ({ onSuccess }: { onSuccess?: () => void }) => {
                         {deleting ? (
                             <LuLoaderCircle className="animate-spin text-white" />
                         ) : (
-                            <span>Delete Bug Report</span>
+                            <span>Delete Issue</span>
                         )}
                     </Button>
                     <Button
                         variant="secondary"
                         className="rounded-full h-12 w-full"
                         disabled={deleting}
-                        onClick={() => setOpen(false)}
+                        onClick={() => onOpenChange(false)}
                     >
                         <span>Close</span>
                     </Button>
@@ -78,4 +78,4 @@ const DeleteFeedback = ({ onSuccess }: { onSuccess?: () => void }) => {
     )
 }
 
-export default DeleteFeedback;
+export default DeleteIssue;

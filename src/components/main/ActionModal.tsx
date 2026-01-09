@@ -5,10 +5,12 @@ import {
     DialogContent,
     DialogTrigger,
 } from "../ui/dialog"
+import { cn } from "../../lib/utils";
 
 type ActionModalProps = PropsWithChildren<{
-    buttonType?: "destructive" | "outline" | "default";
+    buttonType?: "destructive" | "outline" | "default" | "ghost";
     buttonTitle?: string;
+    buttonclass?: string;
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
 }>
@@ -16,6 +18,7 @@ type ActionModalProps = PropsWithChildren<{
 const ActionModal = ({
     buttonType = "default",
     buttonTitle = "Open",
+    buttonclass = "",
     open,
     onOpenChange,
     children
@@ -25,7 +28,7 @@ const ActionModal = ({
             <DialogTrigger asChild>
                 <Button
                     variant={buttonType}
-                    className="outline w-full rounded-full h-12"
+                    className={cn("outline w-full rounded-full h-12", buttonclass)}
                 >
                     {buttonTitle}
                 </Button>
