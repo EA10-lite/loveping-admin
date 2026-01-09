@@ -10,6 +10,7 @@ import {
   ProtectedRoute,
   PublicRoute
 } from "./layouts";
+import { Toaster } from "./components/ui/sonner";
 
 import {
   Dashboard,
@@ -31,10 +32,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/auth/login" element={(
-            <PublicRoute>
-              <Login />
-            </PublicRoute>
-          )}
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        )}
         />
         <Route path="/" element={
           <ProtectedRoute>
@@ -54,6 +55,7 @@ function App() {
           <Route path="/emails" element={<Emails />} />
         </Route>
       </Routes>
+      <Toaster />
     </BrowserRouter>
   )
 }

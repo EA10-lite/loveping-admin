@@ -16,6 +16,8 @@ type DetailsModalProps = PropsWithChildren<{
   buttonType?: "ghost" | "default" | "destructive",
   buttonTitle?: string;
   ActionButton?: React.ReactNode;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }>
 
 const DetailsModal = ({
@@ -24,9 +26,11 @@ const DetailsModal = ({
   buttonTitle = "Close",
   ActionButton,
   children,
+  open,
+  onOpenChange
 }: DetailsModalProps) => {
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetTrigger asChild>
         <Button
           className="bg-transparent hover:bg-[#143C2B] text-primary rounded-xs w-full justify-start"
