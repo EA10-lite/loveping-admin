@@ -7,12 +7,14 @@ interface TextboxProps {
     name: string;
     label: string;
     isOptional?: boolean;
+    isMandatory?: boolean;
 }
 
 const Textbox = ({
     label,
     name,
     isOptional,
+    isMandatory,
 }: TextboxProps) => {
     const { values, handleChange } = useFormikContext<FormikValues>();
     return (
@@ -20,6 +22,9 @@ const Textbox = ({
             <div className="space-y-1.5">
                 <Label className="text-white text-sm font-medium mb-2">
                     {label}
+                    {isMandatory && (
+                        <span className="text-primary">*</span>
+                    )}
                     {isOptional && (
                         <span className="text-primary rounded-full px-2 bg-[#FFFFFF05] text-xs inline py-1">Optional</span>
                     )}

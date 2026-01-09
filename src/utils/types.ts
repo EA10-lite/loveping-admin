@@ -69,7 +69,8 @@ export interface FAQ {
     _id: string;
     question: string;
     answer: string;
-    status: "publised" | "draft";
+    status: "published" | "draft";
+    category: string;
     createdAt: Date;
     updatedAt: Date;
 }

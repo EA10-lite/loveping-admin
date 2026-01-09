@@ -22,7 +22,7 @@ import {
   Feedback,
   Issues,
   Partners,
-  Faqs,
+  FAQs,
   Emails,
   Login,
 } from "./pages"
@@ -51,7 +51,7 @@ function App() {
           <Route path="/feedback" element={<Feedback />} />
           <Route path="/issues" element={<Issues />} />
           <Route path="/partners" element={<Partners />} />
-          <Route path="/faqs" element={<Faqs />} />
+          <Route path="/faqs" element={<FAQs />} />
           <Route path="/emails" element={<Emails />} />
         </Route>
       </Routes>

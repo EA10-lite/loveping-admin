@@ -12,7 +12,7 @@ export const partners: Partner[] = Array.from({ length: 50 }, (_, i) => {
         description: generateParagraph(1),
         status: getRandomElement(["active", "inactive"]),
         website: `https://www.${name.toLowerCase().replace(/[^a-z]/g, '')}.com`,
-        createdAt: getRandomDate(new Date(2022, 0, 1), new Date()).toISOString(),
+        createdAt: getRandomDate(new Date(2022, 0, 1), new Date()),
         note: Math.random() > 0.7 ? generateParagraph(1) : undefined
     };
 });

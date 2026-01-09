@@ -1,5 +1,5 @@
 import { type FAQ } from '../utils/types';
-import { generateParagraph, getRandomDate, getRandomElement } from './utils';
+import { generateParagraph, getRandomDate, getRandomElement, } from './utils';
 
 const questions = [
     "How do I reset my password?",
@@ -14,11 +14,22 @@ const questions = [
     "Do you offer refunds?"
 ];
 
+
+const categories = [
+    "Getting started",
+    "Nudges & AI",
+    "Gift & Wishlist",
+    "Notifications",
+    "Account Login",
+    "Privacy & Security"
+];
+
 export const faqs: FAQ[] = Array.from({ length: 50 }, (_, i) => ({
     _id: `faq_${i + 1}`,
-    question: getRandomElement(questions) + ` (Variant ${i})`, // varying slightly
+    question: getRandomElement(questions) + ``, // varying slightly
     answer: generateParagraph(3),
-    status: getRandomElement(["publised", "draft"]), // Note: 'publised' is a typo in interface, keeping it to match
+    category: getRandomElement(categories),
+    status: getRandomElement(["published", "draft"]), // Note: 'publised' is a typo in interface, keeping it to match
     createdAt: getRandomDate(new Date(2022, 0, 1), new Date()),
     updatedAt: getRandomDate(new Date(2023, 0, 1), new Date())
 }));

@@ -1,0 +1,110 @@
+import { useState } from "react";
+import { Plus } from "lucide-react";
+import { FormField, FormModal, FormSelect, Textbox } from "../../../components";
+import type { FAQ } from "../../../utils/types";
+import { Button } from "../../../components/ui/button";
+import { Formik } from "formik";
+import { addPartnerValidation } from "../../../utils/validation";
+import { toast } from "sonner";
+import { LuLoaderCircle } from "react-icons/lu";
+
+
+interface ManagePartnerProps {
+    faq?: FAQ
+    type: "add" | "edit" | "edit-alt";
+}
+
+const ManageFAQ = ({
+    faq,
+    type,
+}: ManagePartnerProps) => {
+    const [loading, setLoading] = useState<boolean>(false);
+    const handleSubmit = async () => {
+        try {
+            setLoading(true);
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            toast.success("Issue deleted successfully")
+
+            setLoading(false);
+        } catch (error) {
+            console.log("error: ", error);
+            toast.error("Failed to submit partner details")
+        }
+    }
+    return (
+        <Formik
+            initialValues={{
+                faq: faq?.question || "",
+                anser: faq?.answer || "",
+                category: faq?.category || "",
+            }}
+            onSubmit={handleSubmit}
+            validationSchema={addPartnerValidation}
+        >
+            {({ submitForm }) => (
+                <FormModal
+                    title={type === "add" ? "Add FAQ" : "FAQ Review"}
+                    TriggerButton={
+                        type === "add" ? (
+                            <div
+                                className="rounded-sm px-4 gap-1.5 w-full flex items-center cursor-pointer"
+                            >
+                                <Plus />
+                                <span className="text-sm font-medium">Add FAQ</span>
+                            </div>
+                        ) : type === "edit-alt" && (
+                            <Button
+                                variant="secondary"
+                                className="rounded-full h-12 w-full"
+                                asChild
+                            >
+                                <span>Edit FAQ</span>
+                            </Button>
+                        )
+                    }
+                    ActionButton={(
+                        <Button
+                            className="rounded-full w-full h-12"
+                            variant={type === "add" ? "default" : "muted"}
+                            onClick={submitForm}
+                            disabled={loading}
+                        >
+                            {loading ? (
+                                <LuLoaderCircle className="animate-spin text-white" />
+                            ) : (
+                                <span>{type === "add" ? "Add FAQ" : "Save Changes"}</span>
+                            )}
+                        </Button>
+                    )}
+                >
+                    <div className="p-4 space-y-6">
+                        <div className="form space-y-6">
+                            <FormField
+                                name="question"
+                                label="Question"
+                                className="h-12"
+                                isMandatory={true}
+                            />
+                            <FormSelect
+                                name="category"
+                                label="Category"
+                                isMandatory={true}
+                                options={[
+                                    { label: "Getting Started", value: "Getting Started" },
+                                ]}
+                            />
+
+                            <Textbox
+                                name="answer"
+                                label="Answer"
+                                isMandatory={true}
+                            />
+                        </div>
+                    </div>
+                </FormModal>
+            )}
+        </Formik>
+    )
+}
+
+export default ManageFAQ;
