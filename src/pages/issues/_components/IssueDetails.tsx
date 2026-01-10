@@ -4,7 +4,7 @@ import { formatDateString } from "../../../utils/formatter";
 import { Textarea } from "../../../components/ui/textarea";
 import { Label } from "../../../components/ui/label";
 import { Button } from "../../../components/ui/button";
-import { CircleCheck, ChevronDown, Loader2 } from "lucide-react";
+import { CircleCheck, ChevronDown, Loader2, Check, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -17,11 +17,23 @@ const IssueDetails = ({ issue }: { issue: Issues }) => {
             setLoading(true);
             // Simulate API call
             await new Promise((resolve) => setTimeout(resolve, 1000));
-            toast.success("Issue marked as resolved");
+            toast.success("Issue marked as resolved",{
+                icon: (
+                    <div className="flex items-center justify-center w-8 h-8 rounded-md primary/10 mr-4">
+                        <Check className="size-4 text-primary" />
+                    </div>
+                )
+            });
             setOpen(false);
         } catch (error) {
             console.log("error:", error);
-            toast.error("Failed to mark issue as resolved");
+            toast.error("Failed to mark issue as resolved", {
+                icon: (
+                    <div className="flex items-center justify-center w-8 h-8 rounded-md primary/10 mr-4">
+                        <X className="size-4 text-primary" />
+                    </div>
+                )
+            });
         } finally {
             setLoading(false);
         }
