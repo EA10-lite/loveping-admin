@@ -54,6 +54,12 @@ export const users: FullUser[] = Array.from({ length: 50 }, (_, i) => {
             message: generateParagraph(1),
             type: getRandomElement(["rating", "message", "bug", "suggestion"]),
             createdAt: getRandomDate(new Date(2023, 0, 1), new Date())
+        })),
+        activites: Array.from({ length: Math.floor(Math.random() * 6) + 5 }, (_, j) => ({
+            _id: `activity_${i}_${j}`,
+            description: generateParagraph(1),
+            type: getRandomElement(["nudge", "notification", "feedback", "gift"]),
+            createdAt: getRandomDate(new Date(2023, 0, 1), new Date())
         }))
     };
 });

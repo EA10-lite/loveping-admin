@@ -34,7 +34,7 @@ const UserDetails = () => {
         {
             label: "Activity",
             value: "activity",
-            Component: <Activity />
+            Component: <Activity activities={data?.activites || []} />
         },
         {
             label: "Nudges",

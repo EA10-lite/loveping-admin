@@ -24,6 +24,7 @@ export interface FullUser extends User {
     notes: Note[];
     nudges: Nudge[];
     feedbacks: Feedback[];
+    activites: Activity[];
 }
 
 interface UserPartner {
