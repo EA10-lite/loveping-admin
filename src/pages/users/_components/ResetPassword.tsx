@@ -1,4 +1,4 @@
-import { RotateCw } from "lucide-react";
+import { RotateCw, Send } from "lucide-react";
 import { ActionModal, Text } from "../../../components";
 import { Button } from "../../../components/ui/button";
 import { toast } from "sonner";
@@ -14,7 +14,13 @@ const ResetPassword = ({ onSuccess, name, email }: { onSuccess?: () => void, nam
         try {
             setReseting(true);
             await new Promise((resolve) => setTimeout(resolve, 1000));
-            toast.success("Reset password link sent")
+            toast.success("Password reset email sent successfullyy", {
+                icon: (
+                    <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10 mr-4">
+                        <Send className="size-4 text-primary" />
+                    </div>
+                )
+            })
             onSuccess?.();
             setOpen(false);
         } catch (error) {

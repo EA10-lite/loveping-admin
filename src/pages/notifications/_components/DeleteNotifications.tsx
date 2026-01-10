@@ -1,4 +1,4 @@
-import { Trash2 } from "lucide-react";
+import { Trash2, X } from "lucide-react";
 import { ActionModal, Text } from "../../../components";
 import { Button } from "../../../components/ui/button";
 import { toast } from "sonner";
@@ -14,12 +14,24 @@ const DeleteNotification = ({ onSuccess }: { onSuccess?: () => void }) => {
         try {
             setDeleting(true);
             await new Promise((resolve) => setTimeout(resolve, 1000));
-            toast.success("Notification deleted successfully")
+            toast.success("Notification deleted successfully", {
+                icon: (
+                    <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10 mr-4">
+                        <Trash2 className="size-4 text-primary" />
+                    </div>
+                )
+            })
             onSuccess?.();
             setOpen(false);
         } catch (error) {
             console.log("error:", error);
-            toast.error("Failed to delete notification")
+            toast.error("Failed to delete notification", {
+                icon: (
+                    <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10 mr-4">
+                        <X className="size-4 text-primary" />
+                    </div>
+                )
+            })
         } finally {
             setDeleting(false);
         }

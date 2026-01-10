@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus } from "lucide-react";
+import { Check, Plus, X } from "lucide-react";
 import { FormField, FormModal, FormSelect, ModalFieldItem, Textbox } from "../../../components";
 import type { Notification } from "../../../utils/types";
 import { Button } from "../../../components/ui/button";
@@ -24,12 +24,24 @@ const ManageNotification = ({
         try {
             setLoading(true);
             await new Promise((resolve) => setTimeout(resolve, 1000));
-            toast.success("Issue deleted successfully")
+            toast.success("Notification scheduled successfully", {
+                icon: (
+                    <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10 mr-4">
+                        <Check className="size-4 text-primary" />
+                    </div>
+                )
+            })
 
             setLoading(false);
         } catch (error) {
             console.log("error: ", error);
-            toast.error("Failed to submit partner details")
+            toast.error("Failed to submit partner details", {
+                icon: (
+                    <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10 mr-4">
+                        <X className="size-4 text-primary" />
+                    </div>
+                )
+            })
         }
     }
     return (

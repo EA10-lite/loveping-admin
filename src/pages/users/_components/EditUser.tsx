@@ -6,6 +6,7 @@ import { Formik } from "formik";
 import { toast } from "sonner";
 import { LuLoaderCircle } from "react-icons/lu";
 import { editUserValidation } from "../../../utils/validation";
+import { Check } from "lucide-react";
 
 
 interface ManagePartnerProps {
@@ -20,12 +21,18 @@ const EditUser = ({
         try {
             setLoading(true);
             await new Promise((resolve) => setTimeout(resolve, 1000));
-            toast.success("Issue deleted successfully")
+            toast.success("User details updated successfully",{
+                icon: (
+                    <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10 mr-4">
+                        <Check className="size-4 text-primary" />
+                    </div>
+                )
+            })
 
             setLoading(false);
         } catch (error) {
             console.log("error: ", error);
-            toast.error("Failed to submit partner details")
+            toast.error("Failed to update user details")
         }
     }
     return (

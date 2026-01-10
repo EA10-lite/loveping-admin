@@ -6,6 +6,7 @@ import type { Partner } from "../../../utils/types";
 import { toast } from "sonner";
 import { LuLoaderCircle } from "react-icons/lu";
 import ManagePartner from "./ManagePartners";
+import { Check, X } from "lucide-react";
 
 const PartnerDetails = ({ partner }: { partner: Partner }) => {
     const [open, setOpen] = useState(false);
@@ -14,11 +15,23 @@ const PartnerDetails = ({ partner }: { partner: Partner }) => {
         try {
             setLoading(true);
             await new Promise((resolve) => setTimeout(resolve, 1000));
-            toast.success("Status updated successully")
+            toast.success("Status updated successully", {
+                icon: (
+                    <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10 mr-4">
+                        <Check className="size-4 text-primary" />
+                    </div>
+                )
+            })
             setOpen(false);
         } catch (error) {
             console.log("error:", error);
-            toast.error("Failed to update status")
+            toast.error("Failed to update status", {
+                icon: (
+                    <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10 mr-4">
+                        <X className="size-4 text-primary" />
+                    </div>
+                )
+            })
         } finally {
             setLoading(false);
         }
