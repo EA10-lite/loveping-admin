@@ -26,7 +26,7 @@ const DeleteIssue = ({ onSuccess, open, onOpenChange }: { onSuccess?: () => void
             console.log("error:", error);
             toast.error("Failed to delete issue", {
                 icon: (
-                    <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10 mr-4">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10  border-[0.5px] border-primary/10">
                         <X className="size-4 text-primary" />
                     </div>
                 )

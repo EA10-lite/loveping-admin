@@ -26,7 +26,7 @@ const ManageEmail = ({
             await new Promise((resolve) => setTimeout(resolve, 1000));
             toast.success("Email details updated successfully",{
                 icon: (
-                    <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10 mr-4">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10  border-[0.5px] border-primary/10">
                         <Check className="size-4 text-primary" />
                     </div>
                 )
@@ -37,7 +37,7 @@ const ManageEmail = ({
             console.log("error: ", error);
             toast.error("Failed to update email emails", {
                 icon: (
-                    <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10 mr-4">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10  border-[0.5px] border-primary/10">
                         <X className="size-4 text-primary" />
                     </div>
                 )

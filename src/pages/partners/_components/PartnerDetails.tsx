@@ -17,7 +17,7 @@ const PartnerDetails = ({ partner }: { partner: Partner }) => {
             await new Promise((resolve) => setTimeout(resolve, 1000));
             toast.success("Status updated successully", {
                 icon: (
-                    <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10 mr-4">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10  border-[0.5px] border-primary/10">
                         <Check className="size-4 text-primary" />
                     </div>
                 )
@@ -27,7 +27,7 @@ const PartnerDetails = ({ partner }: { partner: Partner }) => {
             console.log("error:", error);
             toast.error("Failed to update status", {
                 icon: (
-                    <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10 mr-4">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10  border-[0.5px] border-primary/10">
                         <X className="size-4 text-primary" />
                     </div>
                 )
