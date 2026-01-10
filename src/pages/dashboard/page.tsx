@@ -8,6 +8,7 @@ import UserStatusChart from "./_components/UserStatusChart";
 import NudgeDistributionChart from "./_components/NudgeDistributionChart";
 import ActivityFeed from "./_components/ActivityFeed";
 import RecentNotifications from "./_components/RecentNotification";
+import NudgeSentChart from "./_components/NudgeSentChart";
 
 
 const iconStyles = {
@@ -72,6 +73,10 @@ const Dashboard = () => {
                         icon={<PiUserCirclePlus className="size-4" />}
                         className={iconStyles["signup"]}
                     />
+                </div>
+
+                <div className="w-full">
+                    <NudgeSentChart />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -53,6 +53,8 @@ const UserStatusChart = () => {
                         dataKey="value"
                         nameKey="status"
                         innerRadius={75}
+                        cornerRadius={8}
+                        paddingAngle={4}
                     />
                 </PieChart>
                 </ChartContainer>

@@ -74,6 +74,8 @@ const NudgeDistributionChart = () => {
                     nameKey="nudge"
                     innerRadius={75}
                     strokeWidth={5}
+                    cornerRadius={8}
+                    paddingAngle={4}
                 >
                 <Label
                     className="text-white"
