@@ -3,7 +3,6 @@ import {
   InfoIcon,
   Loader2Icon,
   OctagonXIcon,
-  Trash2,
   TriangleAlertIcon,
 } from "lucide-react"
 import { useTheme } from "next-themes"
@@ -22,7 +21,6 @@ const Toaster = ({ ...props }: ToasterProps) => {
         warning: <TriangleAlertIcon className="size-4" />,
         error: <OctagonXIcon className="size-4" />,
         loading: <Loader2Icon className="size-4 animate-spin" />,
-        delete: <Trash2 className="size-4" />,
       }}
       position="top-right"
       style={
