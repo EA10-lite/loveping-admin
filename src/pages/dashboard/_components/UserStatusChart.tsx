@@ -10,10 +10,8 @@ import {
 import {
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent,
   type ChartConfig,
 } from "../../../components/ui/chart"
-import { TrendingUp } from "lucide-react"
 
 export const description = "A donut chart"
 
@@ -38,11 +36,7 @@ const CustomTooltip = ({ label, value }: { label: string, value: string }) => {
     <div className="bg-[#0E2E25] rounded-lg p-4 min-w-[168px] shadow-xl border border-white/5">
       <div className="flex items-baseline gap-1.5">
         <span className="text-base font-semibold text-white">{value}</span>
-        <span className="text-xs text-grey">Active users</span>
-      </div>
-      <div className="flex items-center gap-1.5 mt-2">
-        <TrendingUp className="w-4 h-4 text-primary" />
-        <span className="text-sm font-medium text-white">+20%</span>
+        <span className="text-xs text-grey">{label} users</span>
       </div>
     </div>
   );
