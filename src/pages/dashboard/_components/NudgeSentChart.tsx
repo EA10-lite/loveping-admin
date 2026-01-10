@@ -1,5 +1,6 @@
 
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
+import { useState } from "react"
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
 
 import {
   Card,
@@ -13,65 +14,132 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "../../../components/ui/chart"
+import { Button } from "../../../components/ui/button"
 
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-]
+const DATA_MAP: Record<string, { label: string; nudges: number }[]> = {
+  Day: [
+    { label: "12am", nudges: 100 },
+    { label: "4am", nudges: 50 },
+    { label: "8am", nudges: 200 },
+    { label: "12pm", nudges: 600 },
+    { label: "4pm", nudges: 800 },
+    { label: "8pm", nudges: 400 },
+    { label: "11pm", nudges: 200 },
+  ],
+  Week: [
+    { label: "Mon", nudges: 400 },
+    { label: "Tue", nudges: 300 },
+    { label: "Wed", nudges: 600 },
+    { label: "Thu", nudges: 800 },
+    { label: "Fri", nudges: 500 },
+    { label: "Sat", nudges: 900 },
+    { label: "Sun", nudges: 700 },
+  ],
+  Month: [
+    { label: "Week 1", nudges: 2000 },
+    { label: "Week 2", nudges: 1500 },
+    { label: "Week 3", nudges: 3000 },
+    { label: "Week 4", nudges: 2500 },
+  ],
+  Year: [
+    { label: "Jan", nudges: 350 },
+    { label: "Feb", nudges: 350 },
+    { label: "Mar", nudges: 550 },
+    { label: "Apr", nudges: 300 },
+    { label: "May", nudges: 800 },
+    { label: "Jun", nudges: 800 },
+    { label: "Jul", nudges: 400 },
+    { label: "Aug", nudges: 700 },
+    { label: "Sep", nudges: 1000 },
+    { label: "Oct", nudges: 300 },
+    { label: "Nov", nudges: 300 },
+    { label: "Dec", nudges: 150 },
+  ]
+}
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "var(--chart-1)",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "var(--chart-2)",
+  nudges: {
+    label: "Nudges",
+    color: "#22C55E",
   },
 } satisfies ChartConfig
 
 const NudgeSentChart = () => {
+  const [timeframe, setTimeframe] = useState("Year");
+  const chartData = DATA_MAP[timeframe];
+
   return (
-    <Card className="border-[0.5px] border-primary/8 bg-[#05251C] p-4 rounded-sm text-white space-y-6">
-      <CardHeader className="flex items-center justify-between">
-        <CardTitle>Nudges Sent Over Time</CardTitle>
+    <Card className="border-[0.5px] border-white/5 bg-[#05251C] p-4 rounded-xl text-white space-y-6">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0">
+        <CardTitle className="text-lg font-medium">Nudges Sent Over Time</CardTitle>
+        <div className="flex items-center gap-2 p-1 rounded-full">
+          {["Day", "Week", "Month", "Year"].map((filter) => (
+            <Button
+              key={filter}
+              variant="ghost"
+              size="sm"
+              onClick={() => setTimeframe(filter)}
+              className={`rounded-full border border-primary/10 px-4 h-8 text-xs font-medium transition-all ${filter === timeframe
+                  ? "bg-[#4ADE80] text-[#05251C] hover:bg-[#4ADE80]/90"
+                  : "bg-white/2 text-white/60 hover:text-white hover:bg-white/10"
+                }`}
+            >
+              {filter}
+            </Button>
+          ))}
+        </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-2">
         <ChartContainer config={chartConfig} className="max-h-[365px] w-full">
           <LineChart
             accessibilityLayer
             data={chartData}
             margin={{
-              left: 12,
+              left: 0,
               right: 12,
+              top: 10,
+              bottom: 0
             }}
           >
-            <CartesianGrid vertical={false} />
+            <CartesianGrid
+              vertical={false}
+              strokeDasharray="3 3"
+              stroke="rgba(255,255,255,0.1)"
+            />
             <XAxis
-              dataKey="month"
+              dataKey="label"
               tickLine={false}
               axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
+              tickMargin={15}
+              tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 12 }}
+            />
+            <YAxis
+              tickLine={false}
+              axisLine={false}
+              tickMargin={15}
+              ticks={timeframe === "Month" ? [500, 1000, 1500, 2000, 2500, 3000] : [100, 300, 500, 700, 1000, 1200]}
+              tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 12 }}
             />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
             <Line
-              dataKey="desktop"
+              dataKey="nudges"
               type="linear"
-              stroke="var(--color-primary)"
-              strokeWidth={2}
+              stroke="#22C55E"
+              strokeWidth={1.5}
               dot={{
-                fill: "var(--color-primary)",
+                fill: "#4ADE80",
+                stroke: "#4ADE80",
+                r: 3,
+                strokeWidth: 1,
               }}
               activeDot={{
-                r: 6,
+                r: 4,
+                fill: "#4ADE80",
+                stroke: "#fff",
+                strokeWidth: 2,
               }}
             />
           </LineChart>
