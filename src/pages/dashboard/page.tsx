@@ -109,7 +109,7 @@ const Metric = ({
     className,
 } : MetricProps) => {
     return (
-        <div className="border-[0.5px] border-primary/8 bg-[#05251C] rounded-sm p-4 space-y-3">
+        <div className="border-[0.5px] border-primary/8 bg-secondary-foreground rounded-sm p-4 space-y-3">
             <div className={
                 cn(
                     "w-10 h-10 rounded-full flex items-center justify-center border-[0.5px]",

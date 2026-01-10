@@ -80,7 +80,7 @@ export function ReusableTable<TData, TValue>({
 
     return (
         <div className="reusable-table">
-            <div className="space-y-4 w-full border-[0.5px] border-primary/8 bg-[#05251C] rounded-md">
+            <div className="space-y-4 w-full border-[0.5px] border-primary/8 bg-secondary-foreground rounded-md">
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-4 px-6">
                     {searchKey && (
                         <div className="relative w-full sm:max-w-sm">
@@ -108,7 +108,7 @@ export function ReusableTable<TData, TValue>({
                                 <SelectTrigger className="w-[150px] border-[0.5px] border-primary/8 text-white rounded-lg capitalize">
                                     <SelectValue placeholder={filter.title} />
                                 </SelectTrigger>
-                                <SelectContent className="bg-[#05251C] border-white/10 text-white">
+                                <SelectContent className="bg-secondary-foreground border-white/10 text-white">
                                     <SelectItem value="all">{filter.title}</SelectItem>
                                     {filter.options.map((option) => (
                                         <SelectItem key={option.value} value={option.value} className="capitalize">
@@ -124,7 +124,7 @@ export function ReusableTable<TData, TValue>({
                 <div className="rounded-md border-none">
                     <Table>
                         {showHeader && (
-                            <TableHeader className="bg-primary/4 hover:bg-primary/4 [&_tr]:border-b-[#05251C]">
+                            <TableHeader className="bg-primary/4 hover:bg-primary/4 [&_tr]:border-b-secondary-foreground">
                                 {table.getHeaderGroups().map((headerGroup) => (
                                     <TableRow key={headerGroup.id} className="hover:bg-primary/4 border-none">
                                         {headerGroup.headers.map((header) => {
@@ -184,7 +184,7 @@ export function ReusableTable<TData, TValue>({
                 <div className="flex items-center space-x-2">
                     <Button
                         variant="ghost"
-                        className="h-8 w-8 p-0 text-primary hover:bg-[#05251C] hover:text-[#34D399]"
+                        className="h-8 w-8 p-0 text-primary hover:bg-secondary-foreground hover:text-[#34D399]"
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
                     >
@@ -199,7 +199,7 @@ export function ReusableTable<TData, TValue>({
                                 onClick={() => table.setPageIndex(page - 1)}
                                 className={`h-8 w-8 p-0 rounded-full ${table.getState().pagination.pageIndex === page - 1
                                         ? "bg-primary text-secondary hover:bg-primary/90"
-                                        : "text-white hover:bg-[#05251C] hover:text-[#34D399]"
+                                        : "text-white hover:bg-secondary-foreground hover:text-[#34D399]"
                                     }`}
                             >
                                 {page}
@@ -209,7 +209,7 @@ export function ReusableTable<TData, TValue>({
 
                     <Button
                         variant="ghost"
-                        className="h-8 w-8 p-0 text-primary hover:bg-[#05251C] hover:text-[#34D399]"
+                        className="h-8 w-8 p-0 text-primary hover:bg-secondary-foreground hover:text-[#34D399]"
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
                     >
@@ -225,10 +225,10 @@ export function ReusableTable<TData, TValue>({
                             table.setPageSize(Number(value))
                         }}
                     >
-                        <SelectTrigger className="h-8 w-[70px] bg-[#05251C] border-none text-white">
+                        <SelectTrigger className="h-8 w-[70px] bg-secondary-foreground border-none text-white">
                             <SelectValue placeholder={table.getState().pagination.pageSize} />
                         </SelectTrigger>
-                        <SelectContent side="top" className="bg-[#05251C] border-none text-white">
+                        <SelectContent side="top" className="bg-secondary-foreground border-none text-white">
                             {[10, 20, 30, 40, 50].map((pageSize) => (
                                 <SelectItem key={pageSize} value={`${pageSize}`}>
                                     {pageSize}

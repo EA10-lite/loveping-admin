@@ -43,7 +43,7 @@ const columns: ColumnDef<Partner>[] = [
             if (status.toLowerCase() === "inactive") badgeVariant = "ghost";
             return (
                 <Badge
-                    className={`hover:bg-[#05251C]/80 font-normal capitalize`}
+                    className={`hover:bg-secondary-foreground/80 font-normal capitalize`}
                     variant={badgeVariant as "default" | "primary" | "pending" | "destructive" | "secondary" | "ghost"}
                 >
                     {status}

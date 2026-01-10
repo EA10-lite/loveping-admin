@@ -9,7 +9,7 @@ import {
 
 const ActivityFeed = () => {
     return (
-        <Card className="border-[0.5px] border-primary/8 bg-[#05251C] p-0 rounded-sm gap-0">
+        <Card className="border-[0.5px] border-primary/8 bg-secondary-foreground p-0 rounded-sm gap-0">
             <CardHeader className="items-center p-4 mb-0">
                 <CardTitle className="text-white">Activity Feed</CardTitle>
             </CardHeader>

@@ -102,7 +102,7 @@ const NudgeSentChart = () => {
   const chartData = DATA_MAP[timeframe];
 
   return (
-    <Card className="border-[0.5px] border-white/5 bg-[#05251C] p-4 rounded-xl text-white space-y-6">
+    <Card className="border-[0.5px] border-white/5 bg-secondary-foreground p-4 rounded-xl text-white space-y-6">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 p-0">
         <CardTitle className="text-lg font-medium">Nudges Sent Over Time</CardTitle>
         <div className="flex items-center gap-2 p-1 rounded-full">
@@ -113,7 +113,7 @@ const NudgeSentChart = () => {
               size="sm"
               onClick={() => setTimeframe(filter)}
               className={`rounded-full border border-primary/10 px-4 h-8 text-xs font-medium transition-all ${filter === timeframe
-                ? "bg-[#4ADE80] text-[#05251C] hover:bg-[#4ADE80]/90"
+                ? "bg-[#4ADE80] text-secondary-foreground hover:bg-[#4ADE80]/90"
                 : "bg-white/2 text-white/60 hover:text-white hover:bg-white/10"
                 }`}
             >

@@ -30,7 +30,7 @@ const columns: ColumnDef<Notification>[] = [
             if (audience.toLowerCase() === "registered") badgeVariant = "primary";
             return (
                 <Badge
-                    className={`hover:bg-[#05251C]/80 font-normal capitalize`}
+                    className={`hover:bg-secondary-foreground/80 font-normal capitalize`}
                     variant={badgeVariant as "default" | "primary" | "pending" | "purple"}
                 >
                     {
@@ -53,7 +53,7 @@ const columns: ColumnDef<Notification>[] = [
             if (status.toLowerCase() === "draft") badgeVariant = "ghost";
             return (
                 <Badge
-                    className={`hover:bg-[#05251C]/80 font-normal capitalize`}
+                    className={`hover:bg-secondary-foreground/80 font-normal capitalize`}
                     variant={badgeVariant as "default" | "primary" | "pending" | "ghost"}
                 >
                     {status}

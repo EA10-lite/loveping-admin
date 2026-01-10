@@ -112,7 +112,7 @@ const AppSidebar = () => {
                   className={
                     cn(
                       "text-white py-6 px-8 rounded-xs hover:bg-transparent hover:text-primary active:bg-transparent",
-                      pathname === item.url && "text-primary bg-[#05251C] border-[0.5px] border-primary/10 active:bg-[#05251C]"
+                      pathname === item.url && "text-primary bg-secondary-foreground border-[0.5px] border-primary/10 active:bg-secondary-foreground"
                     )
                   }
                 >

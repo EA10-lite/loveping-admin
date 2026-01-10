@@ -86,7 +86,7 @@ const UserDetails = () => {
             </div>
 
             <div className="page-body">
-                <div className="bg-[#05251C] rounded-sm p-4 border-[0.5px] border-primary/8 space-y-8">
+                <div className="bg-secondary-foreground rounded-sm p-4 border-[0.5px] border-primary/8 space-y-8">
                     <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
                         <div className="col-span-1 lg:col-span-3 space-y-4">
                             <Text
