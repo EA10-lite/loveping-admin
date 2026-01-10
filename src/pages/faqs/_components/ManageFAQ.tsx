@@ -23,7 +23,7 @@ const ManageFAQ = ({
         try {
             setLoading(true);
             await new Promise((resolve) => setTimeout(resolve, 1000));
-            toast.success("FAQ added successfully",{
+            toast.success("FAQ added successfully", {
                 icon: (
                     <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10  border-[0.5px] border-primary/10">
                         <Check className="size-4 text-primary" />

@@ -56,13 +56,13 @@ const columns: ColumnDef<FullUser>[] = [
     {
         id: "actions",
         header: "Action",
-        cell: ({row}) => (
+        cell: ({ row }) => (
             <div className="flex justify-end">
                 <TableAction
                     View={(
                         <Link
                             to={`/users/${row.original._id}`}
-                            className="flex items-center gap-2 bg-transparent hover:bg-[#143C2B] text-primary rounded-xs w-full justify-start p-1.5"
+                            className="flex items-center gap-2 bg-transparent hover:bg-[#143C2B] text-primary rounded-xs w-full justify-start p-1.5 px-2"
                         >
                             <Eye className="size-4 text-primary" />
                             <span className="text-primary">View</span>

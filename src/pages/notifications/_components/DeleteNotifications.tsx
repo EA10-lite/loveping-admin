@@ -42,7 +42,7 @@ const DeleteNotification = ({ onSuccess }: { onSuccess?: () => void }) => {
             buttonType="destructive"
             TriggerButton={(
                 <Button
-                    className="bg-transparent hover:bg-[#143C2B] text-red-500 rounded-xs w-full justify-start p-1.5"
+                    className="hover:bg-[#143C2B] text-red-500 rounded-xs w-full justify-start p-1.5"
                 >
                     <Trash2 className="text-red-500" />
                     <span>Delete</span>

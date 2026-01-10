@@ -11,6 +11,7 @@ import {
   SheetTrigger,
 } from "../ui/sheet"
 import { FaEdit } from "react-icons/fa";
+import { cn } from "../../lib/utils";
 
 type DetailsModalProps = PropsWithChildren<{
   title: string;
@@ -30,14 +31,16 @@ const FormModal = ({
 }: DetailsModalProps) => {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetTrigger asChild className="hover:bg-transparent p-0 bg-transparent w-fit">
+      <SheetTrigger asChild className={
+        cn(!TriggerButton && "bg-secondary-muted hover:bg-secondary-muted")
+      }>
         {TriggerButton ? TriggerButton : (
-            <Button
-                className="bg-transparent hover:bg-[#143C2B] text-primary rounded-xs w-full justify-start p-1.5"
-            >
-                <FaEdit className="text-primary" />
-                <span>Edit</span>
-            </Button>
+          <Button
+            className="hover:bg-[#143C2B] text-primary rounded-xs w-full justify-start p-1.5"
+          >
+            <FaEdit className="text-primary" />
+            <span>Edit</span>
+          </Button>
         )}
       </SheetTrigger>
       <SheetContent className="min-w-[404px] bg-secondary border-[0.5px] border-primary/8 right-10 rounded-xl h-fit max-h-[90vh] overflow-auto top-1/2 -translate-y-1/2 p-0 [&>button.absolute]:hidden">

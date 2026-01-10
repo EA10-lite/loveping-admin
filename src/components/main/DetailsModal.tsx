@@ -33,10 +33,10 @@ const DetailsModal = ({
 }: DetailsModalProps) => {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetTrigger asChild className="hover:bg-[#143C2B] p-0 bg-[#143C2B] w-fit">
+      <SheetTrigger asChild className="bg-secondary-muted hover:bg-secondary-muted">
         {TriggerButton ? TriggerButton : (
-            <Button
-            className="bg-transparent hover:bg-[#143C2B] text-primary rounded-xs w-full justify-start p-1.5"
+          <Button
+            className="hover:bg-[#143C2B] text-primary rounded-xs w-full justify-start p-1.5"
           >
             <Eye className="text-primary" />
             <span>View</span>
