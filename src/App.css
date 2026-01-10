@@ -9,3 +9,9 @@
 .toaster {
     background-color: #0F2F26;
 }
+
+
+.activities table tr {
+    border-bottom: 0px !important;
+    padding: 12px;
+}

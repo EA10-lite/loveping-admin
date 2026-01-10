@@ -46,6 +46,7 @@ interface ReusableTableProps<TData, TValue> {
     data: TData[]
     searchKey?: string
     filters?: FilterConfig[]
+    showHeader?: boolean
 }
 
 export function ReusableTable<TData, TValue>({
@@ -53,6 +54,7 @@ export function ReusableTable<TData, TValue>({
     data,
     searchKey,
     filters = [],
+    showHeader=true,
 }: ReusableTableProps<TData, TValue>) {
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
     const [globalFilter, setGlobalFilter] = React.useState("")
@@ -121,24 +123,26 @@ export function ReusableTable<TData, TValue>({
 
                 <div className="rounded-md border-none">
                     <Table>
-                        <TableHeader className="bg-primary/4 hover:bg-primary/4 [&_tr]:border-b-[#05251C]">
-                            {table.getHeaderGroups().map((headerGroup) => (
-                                <TableRow key={headerGroup.id} className="hover:bg-primary/4 border-none">
-                                    {headerGroup.headers.map((header) => {
-                                        return (
-                                            <TableHead key={header.id} className="text-primary font-medium">
-                                                {header.isPlaceholder
-                                                    ? null
-                                                    : flexRender(
-                                                        header.column.columnDef.header,
-                                                        header.getContext()
-                                                    )}
-                                            </TableHead>
-                                        )
-                                    })}
-                                </TableRow>
-                            ))}
-                        </TableHeader>
+                        {showHeader && (
+                            <TableHeader className="bg-primary/4 hover:bg-primary/4 [&_tr]:border-b-[#05251C]">
+                                {table.getHeaderGroups().map((headerGroup) => (
+                                    <TableRow key={headerGroup.id} className="hover:bg-primary/4 border-none">
+                                        {headerGroup.headers.map((header) => {
+                                            return (
+                                                <TableHead key={header.id} className="text-primary font-medium first:pl-6">
+                                                    {header.isPlaceholder
+                                                        ? null
+                                                        : flexRender(
+                                                            header.column.columnDef.header,
+                                                            header.getContext()
+                                                        )}
+                                                </TableHead>
+                                            )
+                                        })}
+                                    </TableRow>
+                                ))}
+                            </TableHeader>
+                        )}
                         <TableBody className="[&_tr:last-child]:border-0 text-white">
                             {table.getRowModel().rows?.length ? (
                                 table.getRowModel().rows.map((row) => (
@@ -148,7 +152,7 @@ export function ReusableTable<TData, TValue>({
                                         className="border-b border-primary/10 hover:bg-transparent"
                                     >
                                         {row.getVisibleCells().map((cell) => (
-                                            <TableCell key={cell.id} className="py-4">
+                                            <TableCell key={cell.id} className="py-4 first:pl-6">
                                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                             </TableCell>
                                         ))}

@@ -62,6 +62,19 @@ export type AddNotification = {
     dateSent: Date;
 }
 
+/*
+    Activity Interface
+*/
+
+
+export interface Activity {
+    _id: string;
+    createdAt: Date;
+    type: "nudge" | "notification" | "feedback" | "gift";
+    category?: string;
+    description: string;
+}
+
 
 /*
     FAQ interface
