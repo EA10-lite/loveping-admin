@@ -1,13 +1,9 @@
-"use client"
 
-import { TrendingUp } from "lucide-react"
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
 
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "../../../components/ui/card"
@@ -17,8 +13,6 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "../../../components/ui/chart"
-
-export const description = "A line chart with dots"
 
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
@@ -42,13 +36,12 @@ const chartConfig = {
 
 const NudgeSentChart = () => {
   return (
-    <Card className="border-[0.5px] border-primary/8 bg-[#05251C] p-4 rounded-sm">
-      <CardHeader>
-        <CardTitle>Line Chart - Dots</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+    <Card className="border-[0.5px] border-primary/8 bg-[#05251C] p-4 rounded-sm text-white space-y-6">
+      <CardHeader className="flex items-center justify-between">
+        <CardTitle>Nudges Sent Over Time</CardTitle>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="max-h-[265px] w-full">
+        <ChartContainer config={chartConfig} className="max-h-[365px] w-full">
           <LineChart
             accessibilityLayer
             data={chartData}
@@ -84,14 +77,6 @@ const NudgeSentChart = () => {
           </LineChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 leading-none font-medium">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="text-muted-foreground leading-none">
-          Showing total visitors for the last 6 months
-        </div>
-      </CardFooter>
     </Card>
   )
 }
