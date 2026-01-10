@@ -112,7 +112,7 @@ const NudgeDistributionChart = () => {
             </PieChart>
             </ChartContainer>
         </CardContent>
-        <CardFooter className="max-w-3/4 mx-auto text-base text-white flex items-center gap-6 justify-center flex-wrap">
+        <CardFooter className="max-w-3/4 mx-auto text-base text-white flex items-center gap-6 justify-center flex-wrap pb-6">
             {chartData?.map((item, index) => (
                 <div
                     key={index}

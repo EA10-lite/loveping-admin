@@ -1,4 +1,4 @@
-
+import { TrendingUp } from "lucide-react"
 import { useState } from "react"
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
 
@@ -11,7 +11,6 @@ import {
 import {
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent,
   type ChartConfig,
 } from "../../../components/ui/chart"
 import { Button } from "../../../components/ui/button"
@@ -64,13 +63,47 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
+const CustomTooltip = ({ active, payload, label, timeframe }: any) => {
+  if (active && payload && payload.length) {
+    const value = payload[0].value;
+
+    // Determine the comparison period text
+    let comparisonText = "";
+    if (timeframe === "Year") {
+      // Find previous month index
+      const currentIndex = DATA_MAP.Year.findIndex(d => d.label === label);
+      if (currentIndex > 0) {
+        comparisonText = `increase to ${DATA_MAP.Year[currentIndex - 1].label}`;
+      } else {
+        comparisonText = "increase to last year";
+      }
+    } else {
+      comparisonText = `increase to previous ${timeframe.toLowerCase()}`;
+    }
+
+    return (
+      <div className="bg-[#0E2E25] rounded-lg p-4 min-w-[168px] shadow-xl border border-white/5">
+        <div className="flex items-baseline gap-1.5">
+          <span className="text-base font-semibold text-white">{value}</span>
+          <span className="text-xs text-grey">Nudges Sent</span>
+        </div>
+        <div className="flex items-center gap-1.5 mt-2">
+          <TrendingUp className="w-4 h-4 text-primary" />
+          <span className="text-sm font-medium text-white">+20% {comparisonText}</span>
+        </div>
+      </div>
+    );
+  }
+  return null;
+};
+
 const NudgeSentChart = () => {
   const [timeframe, setTimeframe] = useState("Year");
   const chartData = DATA_MAP[timeframe];
 
   return (
     <Card className="border-[0.5px] border-white/5 bg-[#05251C] p-4 rounded-xl text-white space-y-6">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 p-0">
         <CardTitle className="text-lg font-medium">Nudges Sent Over Time</CardTitle>
         <div className="flex items-center gap-2 p-1 rounded-full">
           {["Day", "Week", "Month", "Year"].map((filter) => (
@@ -80,8 +113,8 @@ const NudgeSentChart = () => {
               size="sm"
               onClick={() => setTimeframe(filter)}
               className={`rounded-full border border-primary/10 px-4 h-8 text-xs font-medium transition-all ${filter === timeframe
-                  ? "bg-[#4ADE80] text-[#05251C] hover:bg-[#4ADE80]/90"
-                  : "bg-white/2 text-white/60 hover:text-white hover:bg-white/10"
+                ? "bg-[#4ADE80] text-[#05251C] hover:bg-[#4ADE80]/90"
+                : "bg-white/2 text-white/60 hover:text-white hover:bg-white/10"
                 }`}
             >
               {filter}
@@ -89,8 +122,8 @@ const NudgeSentChart = () => {
           ))}
         </div>
       </CardHeader>
-      <CardContent className="px-2">
-        <ChartContainer config={chartConfig} className="max-h-[365px] w-full">
+      <CardContent className="p-0">
+        <ChartContainer config={chartConfig} className="max-h-[365px] w-full p-0">
           <LineChart
             accessibilityLayer
             data={chartData}
@@ -122,7 +155,7 @@ const NudgeSentChart = () => {
             />
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent hideLabel />}
+              content={<CustomTooltip timeframe={timeframe} />}
             />
             <Line
               dataKey="nudges"

@@ -59,7 +59,7 @@ const UserStatusChart = () => {
                 </PieChart>
                 </ChartContainer>
             </CardContent>
-            <CardFooter className="flex items-center justify-center gap-6 text-base text-white">
+            <CardFooter className="flex items-center justify-center gap-6 text-base text-white pb-6">
                 <div className="flex items-center gap-2 leading-none font-medium">
                     <div className="w-2.5 h-2.5 rounded-full bg-primary" />
                     <span>Active Users</span>
