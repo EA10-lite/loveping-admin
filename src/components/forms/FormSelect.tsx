@@ -56,13 +56,14 @@ const FormSelect = ({
                 >
                     <SelectValue placeholder={placeholder || ""} />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-secondary border border-primary/10 text-white">
                     <SelectGroup>
                         <SelectLabel className="capitalize">{name}</SelectLabel>
                         {options.map((option, index) => (
                             <SelectItem
                                 key={index}
                                 value={option.value}
+                                className="py-2.5"
                             >
                                 {option.label}
                             </SelectItem>

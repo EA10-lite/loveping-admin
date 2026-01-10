@@ -113,7 +113,7 @@ const NudgeSentChart = () => {
               size="sm"
               onClick={() => setTimeframe(filter)}
               className={`rounded-full border border-primary/10 px-4 h-8 text-xs font-medium transition-all ${filter === timeframe
-                ? "bg-[#4ADE80] text-secondary-foreground hover:bg-[#4ADE80]/90"
+                ? "bg-primary text-secondary hover:bg-primary/90"
                 : "bg-white/2 text-white/60 hover:text-white hover:bg-white/10"
                 }`}
             >
