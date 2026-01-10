@@ -107,7 +107,7 @@ export function ReusableTable<TData, TValue>({
                                     <SelectValue placeholder={filter.title} />
                                 </SelectTrigger>
                                 <SelectContent className="bg-[#05251C] border-white/10 text-white">
-                                    <SelectItem value="all">All {filter.title}</SelectItem>
+                                    <SelectItem value="all">{filter.title}</SelectItem>
                                     {filter.options.map((option) => (
                                         <SelectItem key={option.value} value={option.value} className="capitalize">
                                             {option.label}

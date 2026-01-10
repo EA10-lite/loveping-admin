@@ -1,12 +1,12 @@
 import { Trash2 } from "lucide-react";
-import { ActionModal, Text } from "../../../components";
-import { Button } from "../../../components/ui/button";
+import { ActionModal, Text } from "../";
+import { Button } from "../ui/button";
 import { toast } from "sonner";
 import { useState } from "react";
 import { LuLoaderCircle } from "react-icons/lu";
 
 
-const DeleteFeedback = ({ onSuccess }: { onSuccess?: () => void }) => {
+const DeleteFeedback = ({ onSuccess, hasTrigger }: { onSuccess?: () => void, hasTrigger?: boolean, }) => {
     const [open, setOpen] = useState<boolean>(false);
     const [deleting, setDeleting] = useState<boolean>(false);
 
@@ -28,6 +28,14 @@ const DeleteFeedback = ({ onSuccess }: { onSuccess?: () => void }) => {
         <ActionModal
             buttonTitle="Delete Feedback"
             buttonType="destructive"
+            TriggerButton={hasTrigger && (
+                <Button
+                    className="bg-transparent hover:bg-[#143C2B] text-red-500 rounded-xs w-full justify-start p-1.5"
+                >
+                    <Trash2 className="text-red-500" />
+                    <span>Delete</span>
+                </Button>
+            )}
             open={open}
             onOpenChange={setOpen}
         >

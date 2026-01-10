@@ -1,6 +1,6 @@
-import { DetailsModal, ModalFieldItem, Text } from "../../../components";
-import type { Note } from "../../../utils/types";
-import { formatDateString } from "../../../utils/formatter";
+import { DetailsModal, ModalFieldItem, Text } from "../";
+import type { Note } from "../../utils/types";
+import { formatDateString } from "../../utils/formatter";
 
 const NoteDetails = ({ note } : { note: Note }) => {
   return (

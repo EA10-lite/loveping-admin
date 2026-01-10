@@ -5,7 +5,7 @@ import { notes } from "../../data/note";
 import { type ColumnDef } from "@tanstack/react-table";
 import { type Note } from "../../utils/types";
 import { formatDateString } from "../../utils/formatter";
-import NoteDetails from "./_components/NoteDetails";
+import { NoteDetails } from "../../components/shared";
 
 const columns: ColumnDef<Note>[] = [
     {

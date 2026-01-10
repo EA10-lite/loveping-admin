@@ -1,7 +1,7 @@
-import { DetailsModal, ModalFieldItem, Text } from "../../../components";
-import type { Nudge } from "../../../utils/types";
-import { formatDateString } from "../../../utils/formatter";
-import NudgeType from "./NudgeType";
+
+import { DetailsModal, ModalFieldItem, Text, NudgeType } from "../";
+import type { Nudge } from "../../utils/types";
+import { formatDateString } from "../../utils/formatter";
 
 const NudgeDetails = ({ nudge } : { nudge: Nudge }) => {
   return (

@@ -1,7 +1,7 @@
-import { DetailsModal, ModalFieldItem, StarRating, Text } from "../../../components";
+import { DetailsModal, ModalFieldItem, StarRating, Text } from "../";
 import React from "react";
-import type { Feedback } from "../../../utils/types";
-import { formatDateString } from "../../../utils/formatter";
+import type { Feedback } from "../../utils/types";
+import { formatDateString } from "../../utils/formatter";
 import DeleteFeedback from "./DeleteFeedback";
 
 const FeedbackDetails = ({ feedback }: { feedback: Feedback }) => {

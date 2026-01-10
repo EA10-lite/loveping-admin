@@ -5,7 +5,7 @@ import { feedbacks } from "../../data/feedback";
 import { type ColumnDef } from "@tanstack/react-table";
 import { type Feedback as FeedbackType } from "../../utils/types";
 import { formatDateString } from "../../utils/formatter";
-import FeedbackDetails from "./_components/FeedbackDetails";
+import { FeedbackDetails } from "../../components/shared";
 
 const columns: ColumnDef<FeedbackType>[] = [
     {

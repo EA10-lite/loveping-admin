@@ -1,4 +1,4 @@
-import { ReusableTable, TableAction, Text } from "../../components";
+import { NudgeType, ReusableTable, TableAction, Text } from "../../components";
 import { Button } from "../../components/ui/button";
 import { PiExport } from "react-icons/pi";
 import { type ColumnDef } from "@tanstack/react-table";
@@ -6,8 +6,7 @@ import { type Nudge } from "../../utils/types";
 import { formatDateString } from "../../utils/formatter";
 import { nudges } from "../../data/nudge";
 import { Badge } from "../../components/ui/badge";
-import NudgeDetails from "./_components/NudgeDetails";
-import NudgeType from "./_components/NudgeType";
+import { NudgeDetails } from "../../components/shared";
 
 const columns: ColumnDef<Nudge>[] = [
     {
