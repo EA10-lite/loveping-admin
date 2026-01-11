@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Check, Plus, X } from "lucide-react";
-import { FormField, FormModal, FormSelect, ModalFieldItem, Textbox } from "../../../components";
+import { DateAndTimePicker, FormField, FormModal, FormRadio, FormSelect, ModalFieldItem, Text, Textbox } from "../../../components";
 import type { Notification } from "../../../utils/types";
 import { Button } from "../../../components/ui/button";
 import { Formik } from "formik";
@@ -47,10 +47,13 @@ const ManageNotification = ({
     return (
         <Formik
             initialValues={{
-                subject: notification?.title ? notification.title :  "",
+                subject: notification?.title ? notification.title : "",
                 body: notification?.description ? notification.description : "",
                 url: notification?.url ? notification.url : "",
-                audience: notification?.audience ? notification.audience : ""
+                audience: notification?.audience ? notification.audience : "",
+                scheduledType: notification?.scheduleType ? notification?.scheduleType : "",
+                scheduledDate: notification?.scheduledDate ? notification.scheduledDate : null,
+                scheduledTime: notification?.scheduledTime ? notification.scheduledTime : null,
             }}
             onSubmit={handleSubmit}
             validationSchema={emailAndNotificationValidation}
@@ -122,10 +125,33 @@ const ManageNotification = ({
                                 className="h-12"
                                 isOptional={true}
                             />
+
+                            <FormRadio
+                                name="scheduledType"
+                                options={[
+                                    { label: "Send Now", value: "now" },
+                                    { label: "Schedule for Later", value: "later" },
+                                    { label: "Save as Draft", value: "draft" },
+                                ]}
+                            />
+
+                            {values["scheduledType"] === "later" && (
+                                <div className="space-y-4">
+                                    <Text
+                                        title="Schedule time to post"
+                                        type="h4"
+                                        className="text-white font-medium"
+                                    />
+                                    <DateAndTimePicker
+                                        dateName="scheduledDate"
+                                        timeName="scheduledTime"
+                                    />
+                                </div>
+                            )}
                         </div>
                     </div>
 
-                    {values['body'] && values["subject"] &&(
+                    {values['body'] && values["subject"] && (
                         <div className="p-4 space-y-2">
                             <div className="flex items-center gap-2">
                                 <FaFileAlt className="size-4 text-white" />

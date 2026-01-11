@@ -49,8 +49,9 @@ export interface Notification {
     status: "published" | "draft" | "scheduled",
     description: string;
     url?: string;
-    scheduleNow: boolean;
-    scheduledDate: Date | null;
+    scheduleType: "now" | "later" | "draft";
+    scheduledDate?: Date | null;
+    scheduledTime?: Date | null;
     dateSent: Date;
 }
 

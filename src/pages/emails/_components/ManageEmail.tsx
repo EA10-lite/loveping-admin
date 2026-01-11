@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Check, Plus, X } from "lucide-react";
-import { FormField, FormModal, FormSelect, ModalFieldItem, Textbox } from "../../../components";
+import { DateAndTimePicker, FormField, FormModal, FormRadio, FormSelect, ModalFieldItem, Text, Textbox } from "../../../components";
 import type { Notification } from "../../../utils/types";
 import { Button } from "../../../components/ui/button";
 import { Formik } from "formik";
@@ -24,7 +24,7 @@ const ManageEmail = ({
         try {
             setLoading(true);
             await new Promise((resolve) => setTimeout(resolve, 1000));
-            toast.success("Email details updated successfully",{
+            toast.success("Email details updated successfully", {
                 icon: (
                     <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10  border-[0.5px] border-primary/10">
                         <Check className="size-4 text-primary" />
@@ -47,9 +47,12 @@ const ManageEmail = ({
     return (
         <Formik
             initialValues={{
-                subject: email?.title ? email.title :  "",
+                subject: email?.title ? email.title : "",
                 body: email?.description ? email.description : "",
-                audience: email?.audience ? email.audience : ""
+                audience: email?.audience ? email.audience : "",
+                scheduledType: email?.scheduleType ? email.scheduleType : "",
+                scheduledDate: email?.scheduledDate ? email.scheduledDate : null,
+                scheduledTime: email?.scheduledTime ? email.scheduledTime : null,
             }}
             onSubmit={handleSubmit}
             validationSchema={emailAndNotificationValidation}
@@ -114,10 +117,33 @@ const ManageEmail = ({
                                 label="Body"
                                 isMandatory={true}
                             />
+
+                            <FormRadio
+                                name="scheduledType"
+                                options={[
+                                    { label: "Send Now", value: "now" },
+                                    { label: "Schedule for Later", value: "later" },
+                                    { label: "Save as Draft", value: "draft" },
+                                ]}
+                            />
+
+                            {values["scheduledType"] === "later" && (
+                                <div className="space-y-4">
+                                    <Text
+                                        title="Schedule time to post"
+                                        type="h4"
+                                        className="text-white font-medium"
+                                    />
+                                    <DateAndTimePicker
+                                        dateName="scheduledDate"
+                                        timeName="scheduledTime"
+                                    />
+                                </div>
+                            )}
                         </div>
                     </div>
 
-                    {values['body'] && values["subject"] &&(
+                    {values['body'] && values["subject"] && (
                         <div className="p-4 space-y-2">
                             <div className="flex items-center gap-2">
                                 <FaFileAlt className="size-4 text-white" />
