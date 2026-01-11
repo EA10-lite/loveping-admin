@@ -24,7 +24,8 @@ export const notifications: Notification[] = Array.from({ length: 50 }, (_, i) =
     status: getRandomElement(status) as "published" | "draft" | "scheduled",
     description: generateParagraph(),
     url: Math.random() > 0.7 ? `https://example.com/action/${i}` : undefined,
-    scheduleNow: Math.random() > 0.5,
+    scheduleType: getRandomElement(["now", "later", "draft"]) as "now" | "later" | "draft",
     scheduledDate: Math.random() > 0.5 ? getRandomDate(new Date(), new Date(2025, 11, 31)) : null,
+    scheduledTime: Math.random() > 0.5 ? getRandomDate(new Date(), new Date(2025, 11, 31)) : null,
     dateSent: getRandomDate(new Date(2023, 0, 1), new Date())
 }));

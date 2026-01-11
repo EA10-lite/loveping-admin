@@ -31,7 +31,6 @@ const DateAndTimePicker = ({
     const { values, setFieldValue } = useFormikContext<FormikValues>();
 
     const [open, setOpen] = React.useState(false)
-    const [date, setDate] = React.useState<Date | undefined>(undefined)
 
     return (
         <div className="flex gap-3 w-full">
@@ -47,17 +46,17 @@ const DateAndTimePicker = ({
                             id="date-picker"
                             className="justify-between font-normal w-full h-11 bg-transparent border border-primary/10 text-white hover:bg-transparent"
                         >
-                            {date ? date.toLocaleDateString() : "Select date"}
+                            {values[dateName] ? values[dateName].toLocaleDateString() : "Select date"}
                             <ChevronDownIcon />
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto overflow-hidden p-0" align="start">
                         <Calendar
                             mode="single"
-                            selected={date}
+                            selected={values[dateName]}
                             captionLayout="dropdown"
                             onSelect={(date) => {
-                                setDate(date)
+                                setFieldValue(dateName, date);
                                 setOpen(false)
                             }}
                         />
