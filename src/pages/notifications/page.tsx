@@ -7,7 +7,6 @@ import { Badge } from "../../components/ui/badge";
 import { notifications } from "../../data/notification";
 import ManageNotification from "./_components/ManageNotifications";
 import NotificationDetails from "./_components/NotificationDetails";
-import { cn } from "../../lib/utils";
 import DeleteNotification from "./_components/DeleteNotifications";
 
 const columns: ColumnDef<Notification>[] = [
@@ -64,16 +63,13 @@ const columns: ColumnDef<Notification>[] = [
     {
         accessorKey: "url",
         header: "URL",
-        cell: ({ row }) => (
-            <span
-                className={
-                    cn(
-                        "text-primary",
-                        row.getValue("url") ? "underline" : ""
-                    )
-                }
-            >
-                {row.getValue("url") ? row.getValue("url") : "-"}
+        cell: ({ row }) => row.getValue("url") ? (
+            <a href={row.getValue("url")} className="text-primary underline">
+                {row.getValue("url")}
+            </a>
+        ) : (
+            <span className="text-primary">
+                -
             </span>
         )
     },

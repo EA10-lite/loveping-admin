@@ -91,7 +91,7 @@ export function ReusableTable<TData, TValue>({
                                 onChange={(event) =>
                                     table.getColumn(searchKey)?.setFilterValue(event.target.value)
                                 }
-                                className="pl-9 border-[0.5px] border-primary/8 text-white placeholder:text-muted-foreground rounded-lg"
+                                className="pl-9 border-[0.5px] border-primary/8 text-white placeholder:text-muted-foreground rounded-lg focus:outline-none focus-visible:ring-primary focus-visible:ring-[1px] transition-all"
                             />
                         </div>
                     )}

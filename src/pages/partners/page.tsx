@@ -55,9 +55,9 @@ const columns: ColumnDef<Partner>[] = [
         accessorKey: "website",
         header: "Website",
         cell: ({ row }) => (
-            <span className="text-white underline">
+            <a href={row.getValue("website")} className="text-white underline">
                 {row.getValue("website")}
-            </span>
+            </a>
         )
     },
     {
