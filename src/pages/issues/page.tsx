@@ -111,7 +111,7 @@ const Issues = () => {
                 <ReusableTable
                     data={issuesIndices}
                     columns={columns}
-                    searchKey="summary"
+                    searchKeys={["_id", "summary", "type", "status"]}
                     filters={[
                         {
                             columnKey: "type",

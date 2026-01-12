@@ -47,13 +47,13 @@ const columns: ColumnDef<FeedbackType>[] = [
     }
 ]
 
-const Feedback = ({ feedbacks } : { feedbacks:  FeedbackType[]}) => {
+const Feedback = ({ feedbacks }: { feedbacks: FeedbackType[] }) => {
     return (
         <div className="notes">
             <ReusableTable
                 data={feedbacks}
                 columns={columns}
-                searchKey="summary"
+                searchKeys={["message", "type", "status"]}
                 filters={[
                     {
                         columnKey: "type",

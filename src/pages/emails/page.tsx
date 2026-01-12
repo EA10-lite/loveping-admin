@@ -33,7 +33,7 @@ const columns: ColumnDef<Notification>[] = [
                 >
                     {
                         audience.toLowerCase() === "all" ? "All Users" :
-                        audience.toLowerCase() === "new" ? "New Users" : "Registered Users"
+                            audience.toLowerCase() === "new" ? "New Users" : "Registered Users"
                     }
                 </Badge>
             )
@@ -113,7 +113,7 @@ const Emails = () => {
                 <ReusableTable
                     data={notifications}
                     columns={columns}
-                    searchKey="subject"
+                    searchKeys={["title", "status"]}
                     filters={[
                         {
                             columnKey: "status",

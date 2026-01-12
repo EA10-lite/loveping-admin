@@ -111,7 +111,7 @@ const Nudges = () => {
                 <ReusableTable
                     data={nudges}
                     columns={columns}
-                    searchKey="content"
+                    searchKeys={["content", "type", "status", "tone"]}
                     filters={[
                         {
                             columnKey: "type",
@@ -131,11 +131,11 @@ const Nudges = () => {
                             columnKey: "category",
                             title: "Tone/Category",
                             options: [
-                                { label: "Romantic", value: "romantic"},
-                                { label: "Playful", value: "playful"},
-                                { label: "Deep & Thoughtful", value: "deep_n_thoughful"},
-                                { label: "Supportive", value: "suppportive"},
-                                { label: "Funny/Lighthearted", value: "funny_n_lighthearted"}
+                                { label: "Romantic", value: "romantic" },
+                                { label: "Playful", value: "playful" },
+                                { label: "Deep & Thoughtful", value: "deep_n_thoughful" },
+                                { label: "Supportive", value: "suppportive" },
+                                { label: "Funny/Lighthearted", value: "funny_n_lighthearted" }
                             ].map(c => ({ label: c.label, value: c.value }))
                         },
                     ]}

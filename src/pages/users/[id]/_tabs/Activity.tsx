@@ -6,7 +6,7 @@ import { Bell, Gift, Sparkles, Star } from "lucide-react";
 import { formatTime } from "../../../../utils/formatter";
 
 
-const Activites = ({ activities } : { activities: Activity[] }) => {
+const Activites = ({ activities }: { activities: Activity[] }) => {
     const columns: ColumnDef<Activity>[] = [
         {
             accessorKey: "user",
@@ -44,7 +44,7 @@ const Activites = ({ activities } : { activities: Activity[] }) => {
             <ReusableTable
                 data={activities}
                 columns={columns}
-                searchKey="summary"
+                searchKeys={["description", "type", "status"]}
                 showHeader={false}
                 filters={[
                     {

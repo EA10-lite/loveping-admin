@@ -44,7 +44,7 @@ interface FilterConfig {
 interface ReusableTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
-    searchKey?: string
+    searchKeys?: string[]
     filters?: FilterConfig[]
     showHeader?: boolean
 }
@@ -52,9 +52,9 @@ interface ReusableTableProps<TData, TValue> {
 export function ReusableTable<TData, TValue>({
     columns,
     data,
-    searchKey,
+    searchKeys,
     filters = [],
-    showHeader=true,
+    showHeader = true,
 }: ReusableTableProps<TData, TValue>) {
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
     const [globalFilter, setGlobalFilter] = React.useState("")
@@ -67,6 +67,14 @@ export function ReusableTable<TData, TValue>({
         getFilteredRowModel: getFilteredRowModel(),
         onColumnFiltersChange: setColumnFilters,
         onGlobalFilterChange: setGlobalFilter,
+        globalFilterFn: (row, _columnId, filterValue) => {
+            if (!searchKeys || searchKeys.length === 0) return true;
+            const searchValue = filterValue.toLowerCase();
+            return searchKeys.some((key) => {
+                const value = row.getValue(key);
+                return String(value).toLowerCase().includes(searchValue);
+            });
+        },
         state: {
             columnFilters,
             globalFilter,
@@ -82,15 +90,13 @@ export function ReusableTable<TData, TValue>({
         <div className="reusable-table">
             <div className="space-y-4 w-full border-[0.5px] border-primary/8 bg-secondary-foreground rounded-md">
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-4 px-6">
-                    {searchKey && (
+                    {searchKeys && searchKeys.length > 0 && (
                         <div className="relative w-full sm:max-w-sm">
                             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                             <Input
                                 placeholder="Search"
-                                value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
-                                onChange={(event) =>
-                                    table.getColumn(searchKey)?.setFilterValue(event.target.value)
-                                }
+                                value={globalFilter ?? ""}
+                                onChange={(event) => setGlobalFilter(event.target.value)}
                                 className="pl-9 border-[0.5px] border-primary/8 text-white placeholder:text-muted-foreground rounded-lg focus:outline-none focus-visible:ring-primary focus-visible:ring-[1px] transition-all"
                             />
                         </div>
@@ -198,8 +204,8 @@ export function ReusableTable<TData, TValue>({
                                 variant="ghost"
                                 onClick={() => table.setPageIndex(page - 1)}
                                 className={`h-8 w-8 p-0 rounded-full ${table.getState().pagination.pageIndex === page - 1
-                                        ? "bg-primary text-secondary hover:bg-primary/90"
-                                        : "text-white hover:bg-secondary-foreground hover:text-[#34D399]"
+                                    ? "bg-primary text-secondary hover:bg-primary/90"
+                                    : "text-white hover:bg-secondary-foreground hover:text-[#34D399]"
                                     }`}
                             >
                                 {page}

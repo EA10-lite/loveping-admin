@@ -52,8 +52,8 @@ const columns: ColumnDef<Nudge>[] = [
         accessorKey: "content",
         header: "Preview",
         cell: ({ row }) => {
-            const content =  row.getValue("content") as string;
-            return(
+            const content = row.getValue("content") as string;
+            return (
                 <span className="text-white">
                     <Truncate text={content} />
                 </span>
@@ -82,13 +82,13 @@ const columns: ColumnDef<Nudge>[] = [
     }
 ]
 
-const Nudges = ({ nudges }: { nudges: Nudge[]}) => {
+const Nudges = ({ nudges }: { nudges: Nudge[] }) => {
     return (
         <div className="notes">
             <ReusableTable
                 data={nudges}
                 columns={columns}
-                searchKey="content"
+                searchKeys={["content", "type", "status"]}
                 filters={[
                     {
                         columnKey: "type",
@@ -108,11 +108,11 @@ const Nudges = ({ nudges }: { nudges: Nudge[]}) => {
                         columnKey: "category",
                         title: "Tone/Category",
                         options: [
-                            { label: "Romantic", value: "romantic"},
-                            { label: "Playful", value: "playful"},
-                            { label: "Deep & Thoughtful", value: "deep_n_thoughful"},
-                            { label: "Supportive", value: "suppportive"},
-                            { label: "Funny/Lighthearted", value: "funny_n_lighthearted"}
+                            { label: "Romantic", value: "romantic" },
+                            { label: "Playful", value: "playful" },
+                            { label: "Deep & Thoughtful", value: "deep_n_thoughful" },
+                            { label: "Supportive", value: "suppportive" },
+                            { label: "Funny/Lighthearted", value: "funny_n_lighthearted" }
                         ].map(c => ({ label: c.label, value: c.value }))
                     },
                 ]}

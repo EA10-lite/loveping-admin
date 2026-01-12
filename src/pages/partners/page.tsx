@@ -107,7 +107,7 @@ const Partners = () => {
                 <ReusableTable
                     data={partners}
                     columns={columns}
-                    searchKey="content"
+                    searchKeys={["name", "category", "description", "website"]}
                     filters={[
                         {
                             columnKey: "category",

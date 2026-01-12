@@ -89,7 +89,7 @@ const FAQs = () => {
                 <ReusableTable
                     data={faqs}
                     columns={columns}
-                    searchKey="content"
+                    searchKeys={["question", "category"]}
                     filters={[
                         {
                             columnKey: "category",

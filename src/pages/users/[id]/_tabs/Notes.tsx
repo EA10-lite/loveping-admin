@@ -53,13 +53,13 @@ const columns: ColumnDef<Note>[] = [
     }
 ]
 
-const Notes = ({ notes } : { notes: Note[] }) => {
+const Notes = ({ notes }: { notes: Note[] }) => {
     return (
         <div className="notes">
             <ReusableTable
                 data={notes}
                 columns={columns}
-                searchKey="content"
+                searchKeys={["content", "category"]}
                 filters={[
                     {
                         columnKey: "category",

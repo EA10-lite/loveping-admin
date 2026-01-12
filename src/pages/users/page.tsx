@@ -104,7 +104,7 @@ const Users = () => {
                 <ReusableTable
                     data={users}
                     columns={columns}
-                    searchKey="summary"
+                    searchKeys={["name", "email", "accountType"]}
                     filters={[
                         {
                             columnKey: "accountType",

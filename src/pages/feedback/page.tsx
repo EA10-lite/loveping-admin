@@ -86,7 +86,7 @@ const Feedback = () => {
                 <ReusableTable
                     data={feedbacks}
                     columns={columns}
-                    searchKey="summary"
+                    searchKeys={["message", "type", "status"]}
                     filters={[
                         {
                             columnKey: "type",

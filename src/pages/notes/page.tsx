@@ -90,7 +90,7 @@ const Notes = () => {
                 <ReusableTable
                     data={notes}
                     columns={columns}
-                    searchKey="content"
+                    searchKeys={["content", "category"]}
                     filters={[
                         {
                             columnKey: "category",
