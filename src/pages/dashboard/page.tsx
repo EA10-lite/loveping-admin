@@ -9,6 +9,7 @@ import NudgeDistributionChart from "./_components/NudgeDistributionChart";
 import ActivityFeed from "./_components/ActivityFeed";
 import RecentNotifications from "./_components/RecentNotification";
 import NudgeSentChart from "./_components/NudgeSentChart";
+import { useAdminStore } from "../../store/adminStore";
 
 
 const iconStyles = {
@@ -19,13 +20,15 @@ const iconStyles = {
 }
 
 const Dashboard = () => {
+    const { admin } = useAdminStore();
+
     return (
         <div className="dashboard space-y-6">
-             <div className="page-header">
+            <div className="page-header">
                 <div className="flex items-center justify-between">
                     <div className="">
                         <Text
-                            title="Hello Efe👋"
+                            title={`Hello ${admin?.full_name}👋`}
                             type="h4"
                             className="text-lg"
                         />
@@ -107,7 +110,7 @@ const Metric = ({
     value,
     icon,
     className,
-} : MetricProps) => {
+}: MetricProps) => {
     return (
         <div className="border-[0.5px] border-primary/8 bg-secondary-foreground rounded-sm p-4 space-y-3">
             <div className={

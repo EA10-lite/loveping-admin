@@ -34,7 +34,7 @@ const FormInput: React.FC<InputProps> = ({
                 disabled={disabled}
                 className={
                     cn(
-                        "rounded-full w-full px-4 border border-primary/10 focus:ring-primary h-11 focus:outline-none focus-visible:ring-primary focus-visible:ring-[1px] transition-all text-white text-sm font-normal",
+                        "rounded-full w-full px-4 border border-primary/10 focus:ring-primary h-11 focus:outline-none focus-visible:ring-[#1dc071] focus-visible:ring-[1px] transition-all text-white text-sm font-normal",
                         styles
                     )
                 }

@@ -1,29 +1,42 @@
 import { Formik } from "formik";
+import { login as loginService } from "../../../services/auth.service";
+import { toast } from "sonner";
 import { loginValidation } from "../../../utils/validation";
 import { FormField, Submit } from "../../../components";
 import { useState } from "react";
 import { useAdminStore } from "../../../store/adminStore";
 import { useNavigate } from "react-router-dom";
+import { Check, X } from "lucide-react";
 
 
 const Login = () => {
     const navigate = useNavigate();
     const { login } = useAdminStore();
     const [loading, setLoading] = useState<boolean>(false);
-    const handleSubmit = async () => {
+    const handleSubmit = async (values: { email_address: string; password: string }) => {
         setLoading(true);
-
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-
-        login({
-            id: "1234",
-            name: "Afigo Efe",
-            email: "afigo@email.com",
-            role: "admin"
-        })
-
-        setLoading(false);
-        navigate('/');
+        try {
+            const response = await loginService(values);
+            login(response);
+            toast.success("Login successful", {
+                icon: (
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 border-[0.5px] border-primary/10">
+                        <Check className="size-4 text-primary" />
+                    </div>
+                )
+            })
+            navigate('/');
+        } catch (error: any) {
+            toast.error(error.response?.data?.message || "Invalid credentials", {
+                icon: (
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 border-[0.5px] border-primary/10">
+                        <X className="size-4 text-primary" />
+                    </div>
+                )
+            })
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -43,23 +56,25 @@ const Login = () => {
 
                     <div className="form-container w-full">
                         <Formik
-                            initialValues={{ email: "", password: "" }}
+                            initialValues={{ email_address: "", password: "" }}
                             onSubmit={handleSubmit}
                             validationSchema={loginValidation}
                         >
-                            {()=> (
+                            {() => (
                                 <div className="form-content w-full space-y-2.5">
                                     <FormField
-                                        name="email"
+                                        name="email_address"
                                         placeholder=""
                                         label="Email Address"
                                         type="email"
+                                        disabled={loading}
                                     />
                                     <FormField
                                         name="password"
                                         placeholder=""
                                         label="Password"
                                         type="password"
+                                        disabled={loading}
                                     />
 
                                     <div className="mt-6">

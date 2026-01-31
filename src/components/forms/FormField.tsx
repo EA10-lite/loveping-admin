@@ -14,6 +14,7 @@ interface FormFieldProps {
     isMandatory?: boolean;
     isOptional?: boolean;
     className?: string;
+    disabled?: boolean;
 }
 
 const FormField = ({
@@ -21,8 +22,9 @@ const FormField = ({
     name,
     type = "text",
     placeholder,
-    isMandatory=false,
-    isOptional=false,
+    isMandatory = false,
+    isOptional = false,
+    disabled,
     className,
 }: FormFieldProps) => {
     const { values, handleChange, errors, touched } = useFormikContext<FormikValues>();
@@ -46,6 +48,7 @@ const FormField = ({
                     value={values[name]}
                     handleChange={handleChange}
                     styles={className}
+                    disabled={disabled}
                 />
 
                 <FieldError
