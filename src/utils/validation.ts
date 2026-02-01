@@ -28,6 +28,7 @@ export const addFAQValidation = Yup.object().shape({
     question: Yup.string().required(),
     category: Yup.string().required(),
     answer: Yup.string().required(),
+    status: Yup.string().required(),
 })
 
 

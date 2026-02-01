@@ -20,7 +20,8 @@ interface FormSelectProps {
     options: {
         label: string;
         value: string;
-    }[]
+    }[];
+    disabled?: boolean;
 }
 
 const FormSelect = ({
@@ -30,6 +31,7 @@ const FormSelect = ({
     options,
     placeholder,
     styles,
+    disabled,
 }: FormSelectProps) => {
     const { values, setFieldValue } = useFormikContext<FormikValues>();
 
@@ -45,7 +47,11 @@ const FormSelect = ({
                 )}
             </Label>
 
-            <Select value={values[name]} onValueChange={handleChange}>
+            <Select
+                value={values[name]}
+                onValueChange={handleChange}
+                disabled={disabled}
+            >
                 <SelectTrigger
                     className={
                         cn(

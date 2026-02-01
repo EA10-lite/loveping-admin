@@ -86,16 +86,19 @@ export interface FAQ {
     _id: string;
     question: string;
     answer: string;
-    status: "published" | "draft";
+    status: "published" | "unpublished";
     category: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: Date | string;
+    updatedAt: Date | string;
+    user: string; // from API response
+    __v?: number;
 }
 
 export type AddFAQ = {
     question: string;
-    status?: "published" | "draft";
-    anser: string;
+    status: "published" | "unpublished";
+    answer: string;
+    category: string;
 }
 
 

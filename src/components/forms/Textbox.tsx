@@ -8,6 +8,7 @@ interface TextboxProps {
     label: string;
     isOptional?: boolean;
     isMandatory?: boolean;
+    disabled?: boolean;
 }
 
 const Textbox = ({
@@ -15,6 +16,7 @@ const Textbox = ({
     name,
     isOptional,
     isMandatory,
+    disabled,
 }: TextboxProps) => {
     const { values, handleChange } = useFormikContext<FormikValues>();
     return (
@@ -34,6 +36,7 @@ const Textbox = ({
                     className="min-h-[109px] border border-[#48D9621A] resize-none text-white focus:outline-none focus-visible:ring-primary focus-visible:ring-[1px] transition-all"
                     value={values[name]}
                     onChange={handleChange}
+                    disabled={disabled}
                 />
             </div>
         </div>
