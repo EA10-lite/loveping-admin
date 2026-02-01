@@ -4,6 +4,8 @@ import * as React from "react"
 import {
     type ColumnDef,
     type ColumnFiltersState,
+    type PaginationState,
+    type OnChangeFn,
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
@@ -29,6 +31,7 @@ import {
     SelectValue,
 } from "../ui/select"
 import { Button } from "../ui/button"
+import { Skeleton } from "../ui/skeleton"
 
 interface FilterOption {
     label: string
@@ -40,13 +43,18 @@ interface FilterConfig {
     title: string
     options: FilterOption[]
 }
-
 interface ReusableTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
     searchKeys?: string[]
     filters?: FilterConfig[]
     showHeader?: boolean
+    manualPagination?: boolean
+    pageCount?: number
+    rowCount?: number
+    pagination?: PaginationState
+    onPaginationChange?: OnChangeFn<PaginationState>
+    isLoading?: boolean
 }
 
 export function ReusableTable<TData, TValue>({
@@ -55,9 +63,19 @@ export function ReusableTable<TData, TValue>({
     searchKeys,
     filters = [],
     showHeader = true,
+    manualPagination = false,
+    pageCount,
+    rowCount,
+    pagination,
+    onPaginationChange,
+    isLoading = false,
 }: ReusableTableProps<TData, TValue>) {
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
     const [globalFilter, setGlobalFilter] = React.useState("")
+    const [localPagination, setLocalPagination] = React.useState<PaginationState>({
+        pageIndex: 0,
+        pageSize: 10,
+    })
 
     const table = useReactTable({
         data,
@@ -67,6 +85,10 @@ export function ReusableTable<TData, TValue>({
         getFilteredRowModel: getFilteredRowModel(),
         onColumnFiltersChange: setColumnFilters,
         onGlobalFilterChange: setGlobalFilter,
+        onPaginationChange: onPaginationChange || setLocalPagination,
+        manualPagination,
+        pageCount,
+        rowCount,
         globalFilterFn: (row, _columnId, filterValue) => {
             if (!searchKeys || searchKeys.length === 0) return true;
             const searchValue = filterValue.toLowerCase();
@@ -78,11 +100,7 @@ export function ReusableTable<TData, TValue>({
         state: {
             columnFilters,
             globalFilter,
-        },
-        initialState: {
-            pagination: {
-                pageSize: 10,
-            },
+            pagination: pagination || localPagination,
         },
     })
 
@@ -150,7 +168,17 @@ export function ReusableTable<TData, TValue>({
                             </TableHeader>
                         )}
                         <TableBody className="[&_tr:last-child]:border-0 text-white">
-                            {table.getRowModel().rows?.length ? (
+                            {isLoading ? (
+                                Array.from({ length: 10 }).map((_, index) => (
+                                    <TableRow key={index} className="border-b border-primary/10 hover:bg-transparent">
+                                        {columns.map((_, colIndex) => (
+                                            <TableCell key={colIndex} className="py-4 first:pl-6">
+                                                <Skeleton className="h-4 w-full bg-primary/10" />
+                                            </TableCell>
+                                        ))}
+                                    </TableRow>
+                                ))
+                            ) : table.getRowModel().rows?.length ? (
                                 table.getRowModel().rows.map((row) => (
                                     <TableRow
                                         key={row.id}
