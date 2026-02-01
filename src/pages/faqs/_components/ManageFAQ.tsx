@@ -30,6 +30,7 @@ const ManageFAQ = ({
     type,
 }: ManageFAQProps) => {
     const [loading, setLoading] = useState<boolean>(false);
+    const [open, setOpen] = useState<boolean>(false);
     const queryClient = useQueryClient();
 
     const handleSubmit = async (values: any) => {
@@ -58,8 +59,7 @@ const ManageFAQ = ({
             }
 
             queryClient.invalidateQueries({ queryKey: ["faqs"] });
-            setLoading(false);
-            // Ideally close modal here by some mechanism if possible without prop drilling
+            setOpen(false);
         } catch (error: any) {
             console.log("error: ", error);
             toast.error(error.response?.data?.message || "Failed to save FAQ", {
@@ -69,6 +69,7 @@ const ManageFAQ = ({
                     </div>
                 )
             })
+        } finally {
             setLoading(false);
         }
     }
@@ -84,9 +85,11 @@ const ManageFAQ = ({
             onSubmit={handleSubmit}
             validationSchema={addFAQValidation}
         >
-            {({ submitForm }) => (
+            {({ submitForm, dirty }) => (
                 <FormModal
                     title={type === "add" ? "Add FAQ" : "FAQ Review"}
+                    open={open}
+                    onOpenChange={setOpen}
                     TriggerButton={
                         type === "add" ? (
                             <div
@@ -108,7 +111,7 @@ const ManageFAQ = ({
                     ActionButton={(
                         <Button
                             className="rounded-full w-full h-12"
-                            variant={type === "add" ? "default" : "muted"}
+                            variant={type === "add" ? "default" : dirty ? "default" : "muted"}
                             onClick={submitForm}
                             disabled={loading}
                         >
