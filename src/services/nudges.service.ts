@@ -19,13 +19,13 @@ export interface CreateNudgePayload {
     answer: string;
 }
 
-export interface GetFAQsParams {
+export interface GetNudgesParams {
     page?: number;
     limit?: number;
 }
 
 
-export const getNudges = async (params?: GetFAQsParams) => {
+export const getNudges = async (params?: GetNudgesParams) => {
     const response = await client.get<NudgeResponse>("/ping/admin", { params });
     return response.data;
 }

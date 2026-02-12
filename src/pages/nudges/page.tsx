@@ -9,6 +9,8 @@ import { NudgeDetails } from "../../components/shared";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { getNudges } from "../../services/nudges.service";
+import { exportToCSV } from "../../utils/exportToCSV";
+
 
 const columns: ColumnDef<Nudge>[] = [
     {
@@ -102,6 +104,22 @@ const Nudges = () => {
         })
     });
 
+    const handleExport = () => {
+        if (!nudgesData?.data) return;
+
+        const dataToExport = nudgesData.data.map((nudge: Nudge) => ({
+            "User": nudge.user?.name || "N/A",
+            "Type": nudge.type,
+            "Tone": nudge.tone?.join(", ") || "",
+            "Status": nudge.status,
+            "Action Taken": nudge.actionTaken || "",
+            "Content": nudge.content,
+            "Created At": formatDateString(new Date(nudge.createdAt))
+        }));
+
+        exportToCSV(dataToExport, "nudges_export.csv");
+    };
+
     console.log("nudgesData: ", nudgesData);
     return (
         <div className="notes">
@@ -116,6 +134,8 @@ const Nudges = () => {
                     <Button
                         variant="default"
                         className="rounded-sm px-4"
+                        onClick={handleExport}
+                        disabled={isLoading || !nudgesData?.data?.length}
                     >
                         <PiExport />
                         <span className="text-sm font-medium">Export</span>
