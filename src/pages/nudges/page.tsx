@@ -1,12 +1,14 @@
 import { NudgeType, ReusableTable, TableAction, Text } from "../../components";
 import { Button } from "../../components/ui/button";
 import { PiExport } from "react-icons/pi";
-import { type ColumnDef } from "@tanstack/react-table";
+import { type ColumnDef, type PaginationState } from "@tanstack/react-table";
 import { type Nudge } from "../../utils/types";
 import { formatDateString } from "../../utils/formatter";
-import { nudges } from "../../data/nudge";
 import { Badge } from "../../components/ui/badge";
 import { NudgeDetails } from "../../components/shared";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { getNudges } from "../../services/nudges.service";
 
 const columns: ColumnDef<Nudge>[] = [
     {
@@ -87,6 +89,20 @@ const columns: ColumnDef<Nudge>[] = [
 ]
 
 const Nudges = () => {
+    const [pagination, setPagination] = useState<PaginationState>({
+        pageIndex: 0,
+        pageSize: 10,
+    });
+
+    const { data: nudgesData, isLoading } = useQuery({
+        queryKey: ['faqs', pagination.pageIndex, pagination.pageSize],
+        queryFn: () => getNudges({
+            page: pagination.pageIndex + 1,
+            limit: pagination.pageSize
+        })
+    });
+
+    console.log("nudgesData: ", nudgesData);
     return (
         <div className="notes">
             <div className="page-header">
@@ -109,9 +125,14 @@ const Nudges = () => {
 
             <div className="page-body mt-6">
                 <ReusableTable
-                    data={nudges}
+                    data={nudgesData?.data || []}
                     columns={columns}
                     searchKeys={["content", "type", "status", "tone"]}
+                    isLoading={isLoading}
+                    manualPagination={true}
+                    pageCount={nudgesData?.totalPages || 1}
+                    pagination={pagination}
+                    onPaginationChange={setPagination}
                     filters={[
                         {
                             columnKey: "type",
