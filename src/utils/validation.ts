@@ -19,8 +19,8 @@ export const addPartnerValidation = Yup.object().shape({
     name: Yup.string().required(),
     status: Yup.string().required(),
     category: Yup.string().required(),
-    website: Yup.string().url().required(),
-    note: Yup.string(),
+    url: Yup.string().url().required(),
+    internal_note: Yup.string().optional(),
 })
 
 

@@ -105,24 +105,23 @@ export type AddFAQ = {
 /*
     PARTNER interface
 */
-
 export interface Partner {
     _id: string;
     name: string;
     category: string;
-    description: string;
+    internal_note?: string;
     status: "active" | "inactive";
-    website: string;
+    url: string;
     createdAt: Date;
-    note?: string;
+    updatedAt: Date;
 }
 
 export type AddPartner = {
     name: string;
     category: string;
-    website: string;
+    url: string;
     status?: "active" | "inactive";
-    note?: string;
+    internal_note?: string;
 }
 
 

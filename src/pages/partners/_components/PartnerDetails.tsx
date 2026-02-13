@@ -87,7 +87,7 @@ const PartnerDetails = ({ partner }: { partner: Partner }) => {
                         />
                         <ModalFieldItem
                             label="Website:"
-                            value={partner.website}
+                            value={partner.url}
                             className="flex-row underline"
                         />
                         <ModalFieldItem

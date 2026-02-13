@@ -7,11 +7,14 @@ import { Formik } from "formik";
 import { addPartnerValidation } from "../../../utils/validation";
 import { toast } from "sonner";
 import { LuLoaderCircle } from "react-icons/lu";
+import { addPartner, editPartner } from "../../../services/partner.service";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 interface ManagePartnerProps {
     partner?: Partner
     type: "add" | "edit" | "edit-alt";
+    onSuccess?: () => void;
 }
 
 const ManagePartner = ({
@@ -19,45 +22,66 @@ const ManagePartner = ({
     type,
 }: ManagePartnerProps) => {
     const [loading, setLoading] = useState<boolean>(false);
-    const handleSubmit = async () => {
-        try {
-            setLoading(true);
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            toast.success("Partner added successfully", {
-                icon: (
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10  border-[0.5px] border-primary/10">
-                        <Check className="size-4 text-primary" />
-                    </div>
-                )
-            })
+    const [open, setOpen] = useState<boolean>(false);
+    const queryClient = useQueryClient();
 
-            setLoading(false);
-        } catch (error) {
+    const handleSubmit = async (values: any) => {
+        setLoading(true);
+        try {
+            if (type === "add") {
+                await addPartner(values);
+                toast.success("Partner added successfully", {
+                    icon: (
+                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10  border-[0.5px] border-primary/10">
+                            <Check className="size-4 text-primary" />
+                        </div>
+                    )
+                });
+            } else {
+                if (partner?._id) {
+                    await editPartner(partner._id, values);
+                    toast.success("Partner updated successfully", {
+                        icon: (
+                            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10  border-[0.5px] border-primary/10">
+                                <Check className="size-4 text-primary" />
+                            </div>
+                        )
+                    });
+                }
+            }
+
+            queryClient.invalidateQueries({ queryKey: ["partners"] });
+            setOpen(false);
+        } catch (error: any) {
             console.log("error: ", error);
-            toast.error("Failed to submit partner details", {
+            toast.error(error.response?.data?.message || "Failed to save Partner", {
                 icon: (
                     <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10  border-[0.5px] border-primary/10">
                         <X className="size-4 text-primary" />
                     </div>
                 )
             })
+        } finally {
+            setLoading(false);
         }
     }
     return (
         <Formik
             initialValues={{
                 name: partner?.name || "",
-                status: partner?.status.toLowerCase() || "",
-                category: partner?.category.toLowerCase() || "",
-                note: partner?.note || "",
-                website: partner?.website || "",
+                status: partner?.status ? partner.status.toLowerCase() : "",
+                category: partner?.category ? partner.category.toLowerCase() : "",
+                internal_note: partner?.internal_note || "",
+                url: partner?.url || "",
             }}
             onSubmit={handleSubmit}
             validationSchema={addPartnerValidation}
         >
-            {({ submitForm }) => (
+            {({ submitForm, dirty }) => (
                 <FormModal
-                    title={type === "add" ? "Add Partner" : "Edit Parnter"}
+                    title={type === "add" ? "Add Partner" : "Edit Partner"}
+                    open={open}
+                    onOpenChange={setOpen}
                     TriggerButton={
                         type === "add" ? (
                             <div
@@ -78,7 +102,7 @@ const ManagePartner = ({
                     ActionButton={(
                         <Button
                             className="rounded-full w-full h-12"
-                            variant={type === "add" ? "default" : "muted"}
+                            variant={type === "add" ? "default" : dirty ? "default" : "muted"}
                             onClick={submitForm}
                             disabled={loading}
                         >
@@ -119,14 +143,14 @@ const ManagePartner = ({
                                 ]}
                             />
                             <FormField
-                                name="website"
+                                name="url"
                                 label="Website Url"
                                 className="h-12"
                                 isMandatory={true}
                             />
 
                             <Textbox
-                                name="note"
+                                name="internal_note"
                                 label="Internal note"
                                 isOptional={true}
                             />
