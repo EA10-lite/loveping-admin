@@ -37,6 +37,7 @@ const Textbox = ({
                     value={values[name]}
                     onChange={handleChange}
                     disabled={disabled}
+                    onKeyDown={(e) => e.stopPropagation()}
                 />
             </div>
         </div>
