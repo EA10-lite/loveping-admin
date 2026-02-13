@@ -28,8 +28,8 @@ const FeedbackDetails = ({ feedback }: { feedback: Feedback }) => {
                     />
 
                     <div className="space-y-2.5">
-                        <ModalFieldItem label="Fullname" value={feedback.user.name} />
-                        <ModalFieldItem label="Email Address" value={feedback.user.email} />
+                        <ModalFieldItem label="Fullname" value={feedback.user.full_name} />
+                        <ModalFieldItem label="Email Address" value={feedback.user.email_address} />
                         <ModalFieldItem label="User ID" value={`User ID: ${feedback.user._id}`} />
                     </div>
                 </div>

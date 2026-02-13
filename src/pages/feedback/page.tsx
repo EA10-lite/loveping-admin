@@ -14,7 +14,7 @@ const columns: ColumnDef<FeedbackType>[] = [
         cell: ({ row }) => {
             const user = row.original.user;
             return (
-                <span className="text-sm text-white">{user.email}</span>
+                <span className="text-sm text-white">{user.email_address}</span>
             )
         }
     },

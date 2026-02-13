@@ -11,7 +11,7 @@ const columns: ColumnDef<Note>[] = [
         cell: ({ row }) => {
             const user = row.original.user;
             return (
-                <span className="text-sm text-white">{user.name}</span>
+                <span className="text-sm text-white">{user.full_name}</span>
             )
         }
     },

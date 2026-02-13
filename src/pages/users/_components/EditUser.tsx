@@ -21,7 +21,7 @@ const EditUser = ({
         try {
             setLoading(true);
             await new Promise((resolve) => setTimeout(resolve, 1000));
-            toast.success("User details updated successfully",{
+            toast.success("User details updated successfully", {
                 icon: (
                     <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10  border-[0.5px] border-primary/10">
                         <Check className="size-4 text-primary" />
@@ -38,8 +38,8 @@ const EditUser = ({
     return (
         <Formik
             initialValues={{
-                fullname: user?.name,
-                email: user.email,
+                fullname: user?.full_name,
+                email: user.email_address,
                 phone: user.phone,
                 partnerName: user.partner.name,
                 relationshipType: user.partner.relationshipType,
@@ -103,8 +103,8 @@ const EditUser = ({
                                 name="relationshipType"
                                 label="Relationship Type"
                                 options={[
-                                    {label: "Spouse", value: "spouse" },
-                                    {label: "Girlfriend", value: "girlfriend" }
+                                    { label: "Spouse", value: "spouse" },
+                                    { label: "Girlfriend", value: "girlfriend" }
                                 ]}
                             />
                         </div>

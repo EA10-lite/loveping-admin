@@ -19,7 +19,7 @@ const columns: ColumnDef<Nudge>[] = [
         cell: ({ row }) => {
             const user = row.original.user;
             return (
-                <span className="text-sm text-white">{user.name}</span>
+                <span className="text-sm text-white">{user.full_name}</span>
             )
         }
     },
@@ -108,7 +108,7 @@ const Nudges = () => {
         if (!nudgesData?.data) return;
 
         const dataToExport = nudgesData.data.map((nudge: Nudge) => ({
-            "User": nudge.user?.name || "N/A",
+            "User": nudge.user?.full_name || "N/A",
             "Type": nudge.type,
             "Tone": nudge.tone?.join(", ") || "",
             "Status": nudge.status,

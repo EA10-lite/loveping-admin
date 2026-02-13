@@ -17,7 +17,7 @@ const IssueDetails = ({ issue }: { issue: Issues }) => {
             setLoading(true);
             // Simulate API call
             await new Promise((resolve) => setTimeout(resolve, 1000));
-            toast.success("Issue marked as resolved",{
+            toast.success("Issue marked as resolved", {
                 icon: (
                     <div className="flex items-center justify-center w-8 h-8 rounded-md primary/10 mr-4">
                         <Check className="size-4 text-primary" />
@@ -83,12 +83,12 @@ const IssueDetails = ({ issue }: { issue: Issues }) => {
                         <div className="space-y-2.5">
                             <ModalFieldItem
                                 label="Name:"
-                                value={issue.user.name}
+                                value={issue.user.full_name}
                                 className="flex-row"
                             />
                             <ModalFieldItem
                                 label="Email Address:"
-                                value={issue.user.email}
+                                value={issue.user.email_address}
                                 className="flex-row"
                             />
                             <ModalFieldItem
@@ -117,7 +117,7 @@ const IssueDetails = ({ issue }: { issue: Issues }) => {
                             />
                             <ModalFieldItem
                                 label="Category"
-                                value={issue.type}
+                                value={issue.issue_type}
                             />
                             <ModalFieldItem
                                 label="Date Reported"
@@ -134,7 +134,7 @@ const IssueDetails = ({ issue }: { issue: Issues }) => {
                         />
 
                         <ModalFieldItem
-                            value={issue.summary}
+                            value={issue.message}
                         />
                     </div>
 

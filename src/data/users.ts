@@ -1,5 +1,5 @@
 import { type FullUser } from '../utils/types';
-import { generateName, generateEmail, getRandomElement, getRandomDate, generateParagraph } from './utils';
+import { generateName, generateEmail, getRandomElement, getRandomDate } from './utils';
 
 export const users: FullUser[] = Array.from({ length: 50 }, (_, i) => {
     const name = generateName();
@@ -7,8 +7,8 @@ export const users: FullUser[] = Array.from({ length: 50 }, (_, i) => {
 
     return {
         _id: `user_${i + 1}`,
-        name: name,
-        email: generateEmail(name),
+        full_name: name,
+        email_address: generateEmail(name),
         phone: `+1${Math.floor(1000000000 + Math.random() * 9000000000)}`,
         partner: {
             name: partnerName,
@@ -28,38 +28,42 @@ export const users: FullUser[] = Array.from({ length: 50 }, (_, i) => {
         totalNudges: Math.floor(Math.random() * 100),
         giftsSent: Math.floor(Math.random() * 20),
         feedbackSubmitted: Math.floor(Math.random() * 10),
-        notes: Array.from({ length: Math.floor(Math.random() * 6) + 5 }, (_, j) => ({
-            _id: `note_${i}_${j}`,
-            user: { _id: `user_${i + 1}`, name: name, email: generateEmail(name) },
-            category: getRandomElement(["General", "Important", "Reminder", "Idea", "Personal"]),
-            content: generateParagraph(1),
-            createdAt: getRandomDate(new Date(2023, 0, 1), new Date()),
-            updatedAt: getRandomDate(new Date(2023, 0, 1), new Date())
-        })),
-        nudges: Array.from({ length: Math.floor(Math.random() * 6) + 5 }, (_, j) => ({
-            _id: `nudge_${i}_${j}`,
-            user: { _id: `user_${i + 1}`, name: name, email: generateEmail(name) },
-            type: getRandomElement(["call", "text", "gift"]),
-            tone: [getRandomElement(["Romantic", "Casual", "Funny", "Formal"])],
-            status: getRandomElement(["completed", "pending"]),
-            actionTaken: getRandomElement(["copied", "purchased", "sent", null]),
-            content: generateParagraph(1),
-            createdAt: getRandomDate(new Date(2023, 0, 1), new Date()),
-            updatedAt: getRandomDate(new Date(2023, 0, 1), new Date())
-        })),
-        feedbacks: Array.from({ length: Math.floor(Math.random() * 6) + 5 }, (_, j) => ({
-            _id: `feedback_${i}_${j}`,
-            user: { _id: `user_${i + 1}`, name: name, email: generateEmail(name) },
-            rating: Math.floor(Math.random() * 5) + 1,
-            message: generateParagraph(1),
-            type: getRandomElement(["rating", "message", "bug", "suggestion"]),
-            createdAt: getRandomDate(new Date(2023, 0, 1), new Date())
-        })),
-        activites: Array.from({ length: Math.floor(Math.random() * 6) + 5 }, (_, j) => ({
-            _id: `activity_${i}_${j}`,
-            description: generateParagraph(1),
-            type: getRandomElement(["nudge", "notification", "feedback", "gift"]),
-            createdAt: getRandomDate(new Date(2023, 0, 1), new Date())
-        }))
+        notes: [],
+        nudges: [],
+        feedbacks: [],
+        activites: [],
+        // notes: Array.from({ length: Math.floor(Math.random() * 6) + 5 }, (_, j) => ({
+        //     _id: `note_${i}_${j}`,
+        //     user: { _id: `user_${i + 1}`, name: name, email: generateEmail(name) },
+        //     category: getRandomElement(["General", "Important", "Reminder", "Idea", "Personal"]),
+        //     message: generateParagraph(1),
+        //     createdAt: getRandomDate(new Date(2023, 0, 1), new Date()),
+        //     updatedAt: getRandomDate(new Date(2023, 0, 1), new Date())
+        // })),
+        // nudges: Array.from({ length: Math.floor(Math.random() * 6) + 5 }, (_, j) => ({
+        //     _id: `nudge_${i}_${j}`,
+        //     user: { _id: `user_${i + 1}`, name: name, email: generateEmail(name) },
+        //     type: getRandomElement(["call", "text", "gift"]),
+        //     tone: [getRandomElement(["Romantic", "Casual", "Funny", "Formal"])],
+        //     status: getRandomElement(["completed", "pending"]),
+        //     actionTaken: getRandomElement(["copied", "purchased", "sent", null]),
+        //     content: generateParagraph(1),
+        //     createdAt: getRandomDate(new Date(2023, 0, 1), new Date()),
+        //     updatedAt: getRandomDate(new Date(2023, 0, 1), new Date())
+        // })),
+        // feedbacks: Array.from({ length: Math.floor(Math.random() * 6) + 5 }, (_, j) => ({
+        //     _id: `feedback_${i}_${j}`,
+        //     user: { _id: `user_${i + 1}`, name: name, email: generateEmail(name) },
+        //     rating: Math.floor(Math.random() * 5) + 1,
+        //     message: generateParagraph(1),
+        //     type: getRandomElement(["rating", "message", "bug", "suggestion"]),
+        //     createdAt: getRandomDate(new Date(2023, 0, 1), new Date())
+        // })),
+        // activites: Array.from({ length: Math.floor(Math.random() * 6) + 5 }, (_, j) => ({
+        //     _id: `activity_${i}_${j}`,
+        //     description: generateParagraph(1),
+        //     type: getRandomElement(["nudge", "notification", "feedback", "gift"]),
+        //     createdAt: getRandomDate(new Date(2023, 0, 1), new Date())
+        // }))
     };
 });

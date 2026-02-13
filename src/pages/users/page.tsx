@@ -70,8 +70,8 @@ const columns: ColumnDef<FullUser>[] = [
                     )}
                     Edit={<EditUser user={row.original} />}
                     Delete={<ResetPassword
-                        name={row.original.name}
-                        email={row.original.email}
+                        name={row.original.full_name}
+                        email={row.original.email_address}
                     />}
                 />
             </div>

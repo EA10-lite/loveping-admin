@@ -63,7 +63,7 @@ const UserDetails = () => {
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         <button
-                            onClick={()=> navigate(-1)}
+                            onClick={() => navigate(-1)}
                             className="cursor-pointer hover:text-primary transition-all duration-300ms ease-in-out"
                         >
                             <ArrowLeft />
@@ -98,11 +98,11 @@ const UserDetails = () => {
                             <div className="grid grid-cols-3 gap-6">
                                 <ModalFieldItem
                                     label="Customer Name"
-                                    value={data?.name}
+                                    value={data?.full_name}
                                 />
                                 <ModalFieldItem
                                     label="Email Address"
-                                    value={data?.email}
+                                    value={data?.email_address}
                                 />
                                 <ModalFieldItem
                                     label="Account Status"
@@ -153,7 +153,7 @@ const UserDetails = () => {
                                 className="text-primary font-medium"
                             />
 
-                             <div className="grid grid-cols-4 gap-6">
+                            <div className="grid grid-cols-4 gap-6">
                                 <ModalFieldItem
                                     label="Name"
                                     value={data?.partner?.name}
@@ -183,7 +183,7 @@ const UserDetails = () => {
                                     label="Anniversary"
                                     value={data?.partner?.anniversary && formatDateString(data?.partner?.anniversary)}
                                 />
-                             </div>
+                            </div>
                         </div>
                     </div>
 
@@ -196,7 +196,7 @@ const UserDetails = () => {
                             className="space-y-4"
                         >
                             <TabsList className="bg-transparent space-x-3">
-                                {tabs?.map((tab, index)=> (
+                                {tabs?.map((tab, index) => (
                                     <TabsTrigger
                                         key={index}
                                         className={cn(
@@ -210,7 +210,7 @@ const UserDetails = () => {
                                 ))}
                             </TabsList>
 
-                            {tabs?.map((tab, index)=> (
+                            {tabs?.map((tab, index) => (
                                 <TabsContent
                                     value={tab.value}
                                     key={index}
