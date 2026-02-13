@@ -143,12 +143,18 @@ export interface Issues {
 /*
     Notes interface
 */
-
 export interface Note {
     _id: string;
     user: User;
-    category: string;
-    content: string;
+    partner: Partner;
+    title: string;
+    status: string;
+    DayOfWeek: string;
+    message: string;
+    ping_type?: string;
+    isNote?: true;
+    isSaved?: true;
+    tones: string[];
     createdAt: Date;
     updatedAt: Date;
 }

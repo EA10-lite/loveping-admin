@@ -1,11 +1,14 @@
 import { ReusableTable, TableAction, Text } from "../../components";
 import { Button } from "../../components/ui/button";
 import { PiExport } from "react-icons/pi";
-import { notes } from "../../data/note";
-import { type ColumnDef } from "@tanstack/react-table";
+import { type ColumnDef, type PaginationState } from "@tanstack/react-table";
 import { type Note } from "../../utils/types";
 import { formatDateString } from "../../utils/formatter";
 import { NoteDetails } from "../../components/shared";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getNotes } from "../../services/notes.service";
+import { exportToCSV } from "../../utils/exportToCSV";
 
 const columns: ColumnDef<Note>[] = [
     {
@@ -14,23 +17,23 @@ const columns: ColumnDef<Note>[] = [
         cell: ({ row }) => {
             const user = row.original.user;
             return (
-                <span className="text-sm text-white">{user.name}</span>
+                <span className="text-sm text-white">{user.full_name}</span>
             )
         }
     },
     {
-        accessorKey: "content",
+        accessorKey: "message",
         header: "Note Preview",
         cell: ({ row }) => (
-            <span className="text-white">{row.getValue("content")}</span>
+            <span className="text-white">{row.getValue("message")}</span>
         )
     },
     {
-        accessorKey: "category",
+        accessorKey: "ping_type",
         header: "Type/Category",
         cell: ({ row }) => (
             <span className="text-white line-clamp-1 max-w-[300px]">
-                {row.getValue("category")}
+                {row.getValue("ping_type")}
             </span>
         )
     },
@@ -66,6 +69,18 @@ const columns: ColumnDef<Note>[] = [
 ]
 
 const Notes = () => {
+    const [pagination, setPagination] = useState<PaginationState>({
+        pageIndex: 0,
+        pageSize: 10,
+    });
+
+    const { data: notesData, isLoading } = useQuery({
+        queryKey: ['faqs', pagination.pageIndex, pagination.pageSize],
+        queryFn: () => getNotes({
+            page: pagination.pageIndex + 1,
+            limit: pagination.pageSize
+        })
+    });
     return (
         <div className="notes">
             <div className="page-header">
@@ -79,6 +94,8 @@ const Notes = () => {
                     <Button
                         variant="default"
                         className="rounded-sm px-4"
+                        disabled={isLoading || !notesData?.data.length}
+                        onClick={() => exportToCSV(notesData?.data || [], "Notes")}
                     >
                         <PiExport />
                         <span className="text-sm font-medium">Export</span>
@@ -88,7 +105,12 @@ const Notes = () => {
 
             <div className="page-body mt-6">
                 <ReusableTable
-                    data={notes}
+                    data={notesData?.data || []}
+                    pagination={pagination}
+                    onPaginationChange={setPagination}
+                    pageCount={notesData?.totalPages || 1}
+                    manualPagination={true}
+                    isLoading={isLoading}
                     columns={columns}
                     searchKeys={["content", "category"]}
                     filters={[
