@@ -9,6 +9,7 @@ import { Badge } from "../../components/ui/badge";
 import PartnerDetails from "./_components/PartnerDetails";
 import { getPartners } from "../../services/partner.service";
 import { useQuery } from "@tanstack/react-query";
+import DeletePartner from "./_components/DeletePartner";
 
 const Partners = () => {
     const [pagination, setPagination] = useState<PaginationState>({
@@ -93,6 +94,7 @@ const Partners = () => {
                     <TableAction
                         View={<PartnerDetails partner={row.original} />}
                         Edit={<ManagePartner type="edit" partner={row.original} />}
+                        Delete={<DeletePartner hasTrigger id={row.original._id} />}
                     />
                 </div>
             )
