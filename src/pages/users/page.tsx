@@ -12,11 +12,11 @@ import EditUser from "./_components/EditUser";
 
 const columns: ColumnDef<FullUser>[] = [
     {
-        accessorKey: "name",
+        accessorKey: "full_name",
         header: "Name",
         cell: ({ row }) => {
             return (
-                <span className="text-white">{row.getValue("name")}</span>
+                <span className="text-white">{row.getValue("full_name")}</span>
             )
         }
     },
