@@ -7,21 +7,28 @@ import { toast } from "sonner";
 import { LuLoaderCircle } from "react-icons/lu";
 import ManagePartner from "./ManagePartners";
 import { Check, X } from "lucide-react";
+import { editPartner } from "../../../services/partner.service";
+import { useQueryClient } from "@tanstack/react-query";
 
 const PartnerDetails = ({ partner }: { partner: Partner }) => {
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState<boolean>(false);
+    const queryClient = useQueryClient();
+
     const updateStatus = async () => {
         try {
             setLoading(true);
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            toast.success("Status updated successully", {
+            const newStatus = partner.status.toLowerCase() === "active" ? "inactive" : "active";
+            await editPartner(partner._id, { status: newStatus });
+
+            toast.success("Status updated successfully", {
                 icon: (
                     <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10  border-[0.5px] border-primary/10">
                         <Check className="size-4 text-primary" />
                     </div>
                 )
             })
+            queryClient.invalidateQueries({ queryKey: ["partners"] });
             setOpen(false);
         } catch (error) {
             console.log("error:", error);

@@ -52,6 +52,7 @@ const Partners = () => {
         {
             accessorKey: "status",
             header: "Status",
+            filterFn: "equals",
             cell: ({ row }) => {
                 const status = row.getValue("status") as string;
 

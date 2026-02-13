@@ -1,12 +1,15 @@
 import { ReusableTable, TableAction, Text } from "../../components";
 import { Button } from "../../components/ui/button";
 import { PiExport } from "react-icons/pi";
-import { issuesIndices } from "../../data/issues";
-import { type ColumnDef } from "@tanstack/react-table";
+import { type ColumnDef, type PaginationState } from "@tanstack/react-table";
 import { type Issues as IssuesType } from "../../utils/types";
 import { Badge } from "../../components/ui/badge";
 import { formatDateString } from "../../utils/formatter";
 import IssueDetails from "./_components/IssueDetails";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getIssues } from "../../services/issues.service";
+import { exportToCSV } from "../../utils/exportToCSV";
 
 const columns: ColumnDef<IssuesType>[] = [
     {
@@ -17,10 +20,10 @@ const columns: ColumnDef<IssuesType>[] = [
         )
     },
     {
-        accessorKey: "type",
+        accessorKey: "issue_type",
         header: "Type",
         cell: ({ row }) => (
-            <span className="text-white">{row.getValue("type")}</span>
+            <span className="text-white">{row.getValue("issue_type")}</span>
         )
     },
     {
@@ -29,7 +32,7 @@ const columns: ColumnDef<IssuesType>[] = [
         cell: ({ row }) => {
             const user = row.original.user;
             return (
-                <span className="text-sm text-white">{user.email}</span>
+                <span className="text-sm text-white">{user.email_address}</span>
             )
         }
     },
@@ -56,11 +59,11 @@ const columns: ColumnDef<IssuesType>[] = [
         }
     },
     {
-        accessorKey: "summary",
+        accessorKey: "message",
         header: "Issue Summary",
         cell: ({ row }) => (
             <span className="text-white line-clamp-1 max-w-[300px]" title={row.getValue("summary")}>
-                {row.getValue("summary")}
+                {row.getValue("message")}
             </span>
         )
     },
@@ -87,6 +90,18 @@ const columns: ColumnDef<IssuesType>[] = [
 ]
 
 const Issues = () => {
+    const [pagination, setPagination] = useState<PaginationState>({
+        pageIndex: 0,
+        pageSize: 10,
+    });
+
+    const { data: issuesData, isLoading } = useQuery({
+        queryKey: ['faqs', pagination.pageIndex, pagination.pageSize],
+        queryFn: () => getIssues({
+            page: pagination.pageIndex + 1,
+            limit: pagination.pageSize
+        })
+    });
     return (
         <div className="notes">
             <div className="page-header">
@@ -100,6 +115,8 @@ const Issues = () => {
                     <Button
                         variant="default"
                         className="rounded-sm px-4"
+                        disabled={isLoading || !issuesData?.data.length}
+                        onClick={() => exportToCSV(issuesData?.data || [], "issues")}
                     >
                         <PiExport />
                         <span className="text-sm font-medium">Export</span>
@@ -109,7 +126,12 @@ const Issues = () => {
 
             <div className="page-body mt-6">
                 <ReusableTable
-                    data={issuesIndices}
+                    data={issuesData?.data || []}
+                    pagination={pagination}
+                    onPaginationChange={setPagination}
+                    pageCount={issuesData?.totalPages || 1}
+                    manualPagination={true}
+                    isLoading={isLoading}
                     columns={columns}
                     searchKeys={["_id", "summary", "type", "status"]}
                     filters={[

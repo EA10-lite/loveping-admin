@@ -5,8 +5,8 @@
 
 interface User {
     _id: string;
-    name: string;
-    email: string;
+    full_name: string;
+    email_address: string;
 }
 
 export interface FullUser extends User {
@@ -129,13 +129,15 @@ export type AddPartner = {
     Issues interface
 */
 
+
 export interface Issues {
     _id: string;
     user: User;
-    type: string; // bug
-    summary: string;
+    issue_type: string;
+    message: string;
     status: "new" | "resolved" | "closed";
     createdAt: Date;
+    updatedAt: Date;
 }
 
 /*
