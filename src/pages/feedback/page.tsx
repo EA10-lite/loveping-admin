@@ -1,11 +1,14 @@
 import { ReusableTable, StarRating, TableAction, Text } from "../../components";
 import { Button } from "../../components/ui/button";
 import { PiExport } from "react-icons/pi";
-import { feedbacks } from "../../data/feedback";
-import { type ColumnDef } from "@tanstack/react-table";
+import { type ColumnDef, type PaginationState } from "@tanstack/react-table";
 import { type Feedback as FeedbackType } from "../../utils/types";
 import { formatDateString } from "../../utils/formatter";
 import { FeedbackDetails } from "../../components/shared";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getFeedbacks } from "../../services/feedback.service";
+import { exportToCSV } from "../../utils/exportToCSV";
 
 const columns: ColumnDef<FeedbackType>[] = [
     {
@@ -62,6 +65,35 @@ const columns: ColumnDef<FeedbackType>[] = [
 ]
 
 const Feedback = () => {
+    const [pagination, setPagination] = useState<PaginationState>({
+        pageIndex: 0,
+        pageSize: 10,
+    });
+
+    const { data: feedbacksData, isLoading } = useQuery({
+        queryKey: ['feedbacks', pagination.pageIndex, pagination.pageSize],
+        queryFn: () => getFeedbacks({
+            page: pagination.pageIndex + 1,
+            limit: pagination.pageSize
+        })
+    });
+
+    console.log("feedbacksData: ", feedbacksData);
+
+    const handleExport = () => {
+        if (!feedbacksData?.data) return;
+
+        const dataToExport = feedbacksData.data.map((feedback: FeedbackType) => ({
+            "User": feedback.user.email_address,
+            "Type": feedback.type,
+            "Rating": feedback.rating,
+            "Message": feedback.message,
+            "Created At": formatDateString(feedback.createdAt)
+        }));
+
+        exportToCSV(dataToExport, "feedbacks");
+    };
+
     return (
         <div className="notes">
             <div className="page-header">
@@ -75,6 +107,8 @@ const Feedback = () => {
                     <Button
                         variant="default"
                         className="rounded-sm px-4"
+                        disabled={isLoading || !feedbacksData?.data.length}
+                        onClick={handleExport}
                     >
                         <PiExport />
                         <span className="text-sm font-medium">Export</span>
@@ -84,7 +118,12 @@ const Feedback = () => {
 
             <div className="page-body mt-6">
                 <ReusableTable
-                    data={feedbacks}
+                    data={feedbacksData?.data || []}
+                    pagination={pagination}
+                    onPaginationChange={setPagination}
+                    pageCount={feedbacksData?.totalPages || 1}
+                    manualPagination={true}
+                    isLoading={isLoading}
                     columns={columns}
                     searchKeys={["message", "type", "status"]}
                     filters={[

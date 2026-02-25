@@ -97,7 +97,7 @@ const Nudges = () => {
     });
 
     const { data: nudgesData, isLoading } = useQuery({
-        queryKey: ['faqs', pagination.pageIndex, pagination.pageSize],
+        queryKey: ['nudges', pagination.pageIndex, pagination.pageSize],
         queryFn: () => getNudges({
             page: pagination.pageIndex + 1,
             limit: pagination.pageSize

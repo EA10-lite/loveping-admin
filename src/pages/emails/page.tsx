@@ -1,12 +1,14 @@
 import { ReusableTable, TableAction, Text } from "../../components";
 import { Button } from "../../components/ui/button";
-import { type ColumnDef } from "@tanstack/react-table";
+import { type ColumnDef, type PaginationState } from "@tanstack/react-table";
 import { type Notification } from "../../utils/types";
 import { formatDateString } from "../../utils/formatter";
 import { Badge } from "../../components/ui/badge";
-import { notifications } from "../../data/notification";
 import EmailDetails from "./_components/EmailDetails";
 import ManageEmail from "./_components/ManageEmail";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { getEmails } from "../../services/email.service";
 
 const columns: ColumnDef<Notification>[] = [
     {
@@ -90,6 +92,20 @@ const columns: ColumnDef<Notification>[] = [
 ]
 
 const Emails = () => {
+    const [pagination, setPagination] = useState<PaginationState>({
+        pageIndex: 0,
+        pageSize: 10,
+    });
+
+    const { data: emailsData, isLoading } = useQuery({
+        queryKey: ['emails', pagination.pageIndex, pagination.pageSize],
+        queryFn: () => getEmails({
+            page: pagination.pageIndex + 1,
+            limit: pagination.pageSize
+        })
+    });
+
+
     return (
         <div className="emails">
             <div className="page-header">
@@ -111,9 +127,14 @@ const Emails = () => {
 
             <div className="page-body mt-6">
                 <ReusableTable
-                    data={notifications}
+                    data={emailsData?.data || []}
                     columns={columns}
                     searchKeys={["title", "status"]}
+                    pagination={pagination}
+                    onPaginationChange={setPagination}
+                    pageCount={emailsData?.totalPages || 1}
+                    manualPagination={true}
+                    isLoading={isLoading}
                     filters={[
                         {
                             columnKey: "status",

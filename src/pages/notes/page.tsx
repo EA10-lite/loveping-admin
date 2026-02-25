@@ -75,7 +75,7 @@ const Notes = () => {
     });
 
     const { data: notesData, isLoading } = useQuery({
-        queryKey: ['faqs', pagination.pageIndex, pagination.pageSize],
+        queryKey: ['notes', pagination.pageIndex, pagination.pageSize],
         queryFn: () => getNotes({
             page: pagination.pageIndex + 1,
             limit: pagination.pageSize

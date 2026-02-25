@@ -96,7 +96,7 @@ const Issues = () => {
     });
 
     const { data: issuesData, isLoading } = useQuery({
-        queryKey: ['faqs', pagination.pageIndex, pagination.pageSize],
+        queryKey: ['issues', pagination.pageIndex, pagination.pageSize],
         queryFn: () => getIssues({
             page: pagination.pageIndex + 1,
             limit: pagination.pageSize

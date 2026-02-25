@@ -77,6 +77,32 @@ export interface Activity {
     description: string;
 }
 
+/*
+    Emails interface
+*/
+
+export interface Emails {
+    _id: string;
+    title: string;
+    audience: "all" | "new" | "registered";
+    status: "published" | "draft" | "scheduled",
+    description: string;
+    url?: string;
+    scheduleType: "now" | "later" | "draft";
+    scheduledDate?: Date | null;
+    scheduledTime?: Date | null;
+    dateSent: Date;
+}
+
+export type AddEmails = {
+    title: string;
+    description: string;
+    url?: string;
+    scheduleNow: boolean;
+    scheduledDate: Date | null;
+    dateSent: Date;
+}
+
 
 /*
     FAQ interface
