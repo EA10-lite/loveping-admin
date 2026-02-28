@@ -5,7 +5,10 @@
 
 interface User {
     _id: string;
+    id?: string;
     full_name: string;
+    name?: string;
+    email?: string;
     email_address: string;
 }
 
@@ -211,8 +214,7 @@ export interface Nudge {
 export interface Feedback {
     _id: string;
     user: User;
-    rating: number;
     message: string;
-    type: "rating" | "message" | "bug" | "suggestion";
+    feedback_type: 'positive' | 'negative';
     createdAt: Date;
 }

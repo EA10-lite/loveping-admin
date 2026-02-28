@@ -1,4 +1,4 @@
-import { DetailsModal, ModalFieldItem, StarRating, Text } from "../";
+import { DetailsModal, ModalFieldItem, Text } from "../";
 import React from "react";
 import type { Feedback } from "../../utils/types";
 import { formatDateString } from "../../utils/formatter";
@@ -28,9 +28,18 @@ const FeedbackDetails = ({ feedback }: { feedback: Feedback }) => {
                     />
 
                     <div className="space-y-2.5">
-                        <ModalFieldItem label="Fullname" value={feedback.user.full_name} />
-                        <ModalFieldItem label="Email Address" value={feedback.user.email_address} />
-                        <ModalFieldItem label="User ID" value={`User ID: ${feedback.user._id}`} />
+                        <ModalFieldItem
+                            label="Fullname"
+                            value={feedback.user?.name || feedback.user?.full_name}
+                        />
+                        <ModalFieldItem
+                            label="Email Address"
+                            value={feedback.user?.email || feedback.user?.email_address}
+                        />
+                        <ModalFieldItem
+                            label="User ID"
+                            value={`User ID: ${feedback.user._id || feedback?.user.id}`}
+                        />
                     </div>
                 </div>
                 <div className="space-y-4">
@@ -57,18 +66,9 @@ const FeedbackDetails = ({ feedback }: { feedback: Feedback }) => {
 
                     <div className="space-y-2.5">
                         <ModalFieldItem
-                            label="Type:"
-                            value={feedback.type}
-                            className="flex-row"
+                            value={feedback.feedback_type}
+                            className="text-white capitalize"
                         />
-                        {feedback.type === "rating" && (
-                            <ModalFieldItem
-                                label="Rating"
-                                value={""}
-                                content={<StarRating rating={feedback.rating} />}
-                                className="flex-row"
-                            />
-                        )}
                     </div>
                 </div>
                 <div className="space-y-4">

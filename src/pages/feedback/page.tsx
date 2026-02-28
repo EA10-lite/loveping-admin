@@ -1,4 +1,4 @@
-import { ReusableTable, StarRating, TableAction, Text } from "../../components";
+import { ReusableTable, TableAction, Text } from "../../components";
 import { Button } from "../../components/ui/button";
 import { PiExport } from "react-icons/pi";
 import { type ColumnDef, type PaginationState } from "@tanstack/react-table";
@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getFeedbacks } from "../../services/feedback.service";
 import { exportToCSV } from "../../utils/exportToCSV";
+import { Badge } from "../../components/ui/badge";
 
 const columns: ColumnDef<FeedbackType>[] = [
     {
@@ -17,21 +18,9 @@ const columns: ColumnDef<FeedbackType>[] = [
         cell: ({ row }) => {
             const user = row.original.user;
             return (
-                <span className="text-sm text-white">{user.email_address}</span>
+                <span className="text-sm text-white">{user?.name}</span>
             )
         }
-    },
-    {
-        accessorKey: "type",
-        header: "Type",
-        cell: ({ row }) => (
-            <span className="text-white capitalize">{row.getValue("type")}</span>
-        )
-    },
-    {
-        accessorKey: "rating",
-        header: "Rating",
-        cell: ({ row }) => <StarRating rating={row.getValue("rating")} />
     },
     {
         accessorKey: "message",
@@ -43,8 +32,20 @@ const columns: ColumnDef<FeedbackType>[] = [
         )
     },
     {
+        accessorKey: "feedback_type",
+        header: "Feedback Details",
+        cell: ({ row }) => (
+            <Badge
+                className={`hover:bg-secondary-foreground/80 font-normal capitalize`}
+                variant={row.getValue("feedback_type") === "positive" ? "default" : "destructive"}
+            >
+                {row.getValue("feedback_type")}
+            </Badge>
+        )
+    },
+    {
         accessorKey: "createdAt",
-        header: "Sudmitted on",
+        header: "Sudmitted At",
         cell: ({ row }) => (
             <span className="text-white">
                 {formatDateString(row.getValue("createdAt"))}
@@ -78,16 +79,13 @@ const Feedback = () => {
         })
     });
 
-    console.log("feedbacksData: ", feedbacksData);
-
     const handleExport = () => {
         if (!feedbacksData?.data) return;
 
         const dataToExport = feedbacksData.data.map((feedback: FeedbackType) => ({
             "User": feedback.user.email_address,
-            "Type": feedback.type,
-            "Rating": feedback.rating,
             "Message": feedback.message,
+            "Category": feedback.feedback_type,
             "Created At": formatDateString(feedback.createdAt)
         }));
 
@@ -125,18 +123,13 @@ const Feedback = () => {
                     manualPagination={true}
                     isLoading={isLoading}
                     columns={columns}
-                    searchKeys={["message", "type", "status"]}
+                    searchKeys={["message", "category"]}
                     filters={[
                         {
-                            columnKey: "type",
-                            title: "Type",
-                            options: ["Bug", "Feature", "Improvement"].map(c => ({ label: c, value: c }))
+                            columnKey: "category",
+                            title: "Type/Category",
+                            options: ["Positive", "Negative"].map(c => ({ label: c, value: c }))
                         },
-                        {
-                            columnKey: "status",
-                            title: "Status",
-                            options: ["new", "resolved", "closed"].map(s => ({ label: s, value: s }))
-                        }
                     ]}
                 />
             </div>

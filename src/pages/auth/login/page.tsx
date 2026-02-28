@@ -5,12 +5,10 @@ import { loginValidation } from "../../../utils/validation";
 import { FormField, Submit } from "../../../components";
 import { useState } from "react";
 import { useAdminStore } from "../../../store/adminStore";
-import { useNavigate } from "react-router-dom";
 import { Check, X } from "lucide-react";
 
 
 const Login = () => {
-    const navigate = useNavigate();
     const { login } = useAdminStore();
     const [loading, setLoading] = useState<boolean>(false);
     const handleSubmit = async (values: { email_address: string; password: string }) => {
@@ -25,7 +23,6 @@ const Login = () => {
                     </div>
                 )
             })
-            navigate('/');
         } catch (error: any) {
             toast.error(error.response?.data?.message || "Invalid credentials", {
                 icon: (
