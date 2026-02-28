@@ -41,8 +41,8 @@ const EditUser = ({
                 fullname: user?.full_name,
                 email: user.email_address,
                 phone: user.phone,
-                partnerName: user.partner.name,
-                relationshipType: user.partner.relationshipType,
+                partnerName: user?.partner?.name,
+                relationshipType: user?.partner?.relationshipType,
             }}
             onSubmit={handleSubmit}
             validationSchema={editUserValidation}
