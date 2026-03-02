@@ -1,7 +1,7 @@
 import { ReusableTable, TableAction, Text } from "../../components";
 import { Button } from "../../components/ui/button";
 import { type ColumnDef, type PaginationState } from "@tanstack/react-table";
-import { type Notification } from "../../utils/types";
+import { type Emails, type FullUser } from "../../utils/types";
 import { formatDateString } from "../../utils/formatter";
 import { Badge } from "../../components/ui/badge";
 import EmailDetails from "./_components/EmailDetails";
@@ -10,32 +10,35 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { getEmails } from "../../services/email.service";
 
-const columns: ColumnDef<Notification>[] = [
+const columns: ColumnDef<Emails>[] = [
     {
-        accessorKey: "title",
+        accessorKey: "subject",
         header: "Subject",
         cell: ({ row }) => (
-            <span className="text-sm text-white">{row.getValue("title")}</span>
+            <span className="text-sm text-white">{row.getValue("subject")}</span>
         )
     },
     {
-        accessorKey: "audience",
+        accessorKey: "recipient_type",
         header: "Audience",
         cell: ({ row }) => {
-            const audience = row.getValue("audience") as string;
+            const recipient_type = row.getValue("recipient_type") as string;
 
             let badgeVariant = "secondary";
-            if (audience.toLowerCase() === "all") badgeVariant = "purple";
-            if (audience.toLowerCase() === "new") badgeVariant = "pending";
-            if (audience.toLowerCase() === "registered") badgeVariant = "primary";
+            if (recipient_type.toLowerCase() === "all") badgeVariant = "purple";
+            if (recipient_type.toLowerCase() === "new") badgeVariant = "pending";
+            if (recipient_type.toLowerCase() === "registered") badgeVariant = "primary";
             return (
                 <Badge
                     className={`hover:bg-secondary-foreground/80 font-normal capitalize`}
                     variant={badgeVariant as "default" | "primary" | "pending" | "purple"}
                 >
                     {
-                        audience.toLowerCase() === "all" ? "All Users" :
-                            audience.toLowerCase() === "new" ? "New Users" : "Registered Users"
+                        recipient_type.toLowerCase() === "all" ? "All Users" :
+                        recipient_type.toLowerCase() === "new_users" ? "New Users" :
+                        recipient_type.toLowerCase() === "user" ? "User" :
+                        recipient_type.toLowerCase() === "group" ? "Group" :
+                        "All Users"
                     }
                 </Badge>
             )
@@ -48,34 +51,42 @@ const columns: ColumnDef<Notification>[] = [
             const status = row.getValue("status") as string;
 
             let badgeVariant = "secondary";
-            if (status.toLowerCase() === "published") badgeVariant = "default";
-            if (status.toLowerCase() === "scheduled") badgeVariant = "pending";
+            if (status.toLowerCase() === "sent") badgeVariant = "default";
+            if (status.toLowerCase() === "schedule_for_later") badgeVariant = "pending";
             if (status.toLowerCase() === "draft") badgeVariant = "ghost";
             return (
                 <Badge
                     className={`hover:bg-secondary-foreground/80 font-normal capitalize`}
                     variant={badgeVariant as "default" | "primary" | "pending" | "ghost"}
                 >
-                    {status}
+                    {status.toLowerCase() === "sent" ? "Sent" :
+                    status.toLowerCase() === "schedule_for_later" ? "Schedule" :
+                    status.toLowerCase() === "draft" ? "Draft" :
+                    "Send Now"}
                 </Badge>
             )
         }
     },
     {
-        accessorKey: "scheduledDate",
+        accessorKey: "createdAt",
         header: "Last Updated",
         cell: ({ row }) => (
             <span className="text-white">
-                {formatDateString(new Date(row.getValue("scheduledDate")))}
+                {formatDateString(new Date(row.getValue("createdAt")))}
             </span>
         )
     },
     {
-        accessorKey: "createdBy",
+        accessorKey: "createdByUser",
         header: "CreatedBy",
-        cell: () => (
-            <span className="text-white"> Admin </span>
-        )
+        cell: ({ row }) => {
+            const created_by = row.getValue("createdByUser") as FullUser;
+            return (
+                <span className="text-white">
+                    {created_by?.name || "Admin"}
+                </span>
+            )
+        }
     },
     {
         id: "actions",
@@ -83,7 +94,7 @@ const columns: ColumnDef<Notification>[] = [
         cell: ({ row }) => (
             <div className="flex justify-end">
                 <TableAction
-                    View={<EmailDetails notification={row.original} />}
+                    View={<EmailDetails email={row.original} />}
                     Edit={<ManageEmail type="edit" email={row.original} />}
                 />
             </div>
@@ -150,8 +161,7 @@ const Emails = () => {
                             title: "Audience",
                             options: [
                                 { label: "All users", value: "all" },
-                                { label: "Registered users", value: "registered" },
-                                { label: "New users", value: "new" },
+                                { label: "New users", value: "new_users" },
                             ].map(c => ({ label: c.label, value: c.value }))
                         }
                     ]}

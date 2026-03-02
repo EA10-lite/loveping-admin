@@ -2,14 +2,14 @@ import { useState } from "react";
 import { DetailsModal, ModalFieldItem } from "../../../components";
 import { Button } from "../../../components/ui/button";
 import { SheetClose } from "../../../components/ui/sheet";
-import type { Notification } from "../../../utils/types";
+import type { Emails } from "../../../utils/types";
 import { formatDateString } from "../../../utils/formatter";
 
-const EmailDetails = ({ notification }: { notification: Notification }) => {
+const EmailDetails = ({ email }: { email: Emails }) => {
     const [open, setOpen] = useState(false);
     return (
         <DetailsModal
-            title="Partner Details"
+            title="Email Details"
             open={open}
             onOpenChange={setOpen}
             ActionButton={(
@@ -30,19 +30,19 @@ const EmailDetails = ({ notification }: { notification: Notification }) => {
                     <div className="space-y-2.5">
                         <ModalFieldItem
                             label="Subject"
-                            value={notification.title}
+                            value={email.subject}
                         />
                         <ModalFieldItem
                             label="Audience"
-                            value={notification.audience}
+                            value={email.recipient_type}
                         />
                         <ModalFieldItem
-                            label="Sent on"
-                            value={notification?.scheduledDate ? formatDateString(new Date(notification?.scheduledDate)) : ""}
+                            label={email?.status === "sent" ? "Sent on" : "Scheduled on"}
+                            value={email?.status === "sent" ? formatDateString(new Date(email?.sentAt || "")) : email?.scheduled_at ? formatDateString(new Date(email?.scheduled_at)) : ""}
                         />
                         <ModalFieldItem
                             label="Body"
-                            value={notification.description}
+                            value={email.body}
                         />
                     </div>
                 </div>

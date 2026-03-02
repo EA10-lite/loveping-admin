@@ -34,6 +34,11 @@ export const addFAQValidation = Yup.object().shape({
 
 export const emailAndNotificationValidation = Yup.object().shape({
     subject: Yup.string().required(),
-    audience: Yup.string().required(),
+    recipient_type: Yup.string().required(),
     body: Yup.string().required(),
+    status: Yup.string().required(),
+    user_id: Yup.string().optional(),
+    image_url: Yup.string().optional(),
+    created_after: Yup.string().optional(),
+    scheduled_at: Yup.string().optional(),
 })

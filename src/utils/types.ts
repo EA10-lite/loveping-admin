@@ -86,15 +86,17 @@ export interface Activity {
 
 export interface Emails {
     _id: string;
-    title: string;
-    audience: "all" | "new" | "registered";
-    status: "published" | "draft" | "scheduled",
-    description: string;
+    subject: string;
+    body: string;
     url?: string;
-    scheduleType: "now" | "later" | "draft";
-    scheduledDate?: Date | null;
-    scheduledTime?: Date | null;
-    dateSent: Date;
+    recipient_type: "user" | "group" | "all" | "new_users";
+    user_id?: string;
+    image_url?: string;
+    created_after?: string;
+    scheduled_at?: string;
+    status: "send_now" | "sent" | "schedule_for_later" | "draft";
+    createdByUser?: User;
+    sentAt?: Date;
 }
 
 export type AddEmails = {

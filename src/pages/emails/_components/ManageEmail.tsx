@@ -1,17 +1,19 @@
 import { useState } from "react";
 import { Check, Plus, X } from "lucide-react";
 import { DateAndTimePicker, FormField, FormModal, FormRadio, FormSelect, ModalFieldItem, Text, Textbox } from "../../../components";
-import type { Notification } from "../../../utils/types";
+import type { Emails } from "../../../utils/types";
 import { Button } from "../../../components/ui/button";
 import { Formik } from "formik";
 import { toast } from "sonner";
 import { LuLoaderCircle } from "react-icons/lu";
 import { FaFileAlt } from "react-icons/fa";
 import { emailAndNotificationValidation } from "../../../utils/validation";
+import { createEmail, updateEmail, type CreateEmailPayload } from "../../../services/email.service";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 interface ManagePartnerProps {
-    email?: Notification
+    email?: Emails;
     type: "add" | "edit" | "edit-alt";
 }
 
@@ -19,46 +21,103 @@ const ManageEmail = ({
     email,
     type,
 }: ManagePartnerProps) => {
+    const queryClient = useQueryClient();
     const [loading, setLoading] = useState<boolean>(false);
-    const handleSubmit = async () => {
-        try {
-            setLoading(true);
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            toast.success("Email details updated successfully", {
-                icon: (
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10  border-[0.5px] border-primary/10">
-                        <Check className="size-4 text-primary" />
-                    </div>
-                )
-            })
+    const [open, setOpen] = useState(false);
 
-            setLoading(false);
-        } catch (error) {
+    const parseScheduledAt = (iso?: string): { date: Date | undefined; time: string } => {
+        if (!iso) return { date: undefined, time: "" };
+        const d = new Date(iso);
+        if (Number.isNaN(d.getTime())) return { date: undefined, time: "" };
+        const time = d.toTimeString().slice(0, 8);
+        return { date: d, time };
+    };
+
+    const handleSubmit = async (values: CreateEmailPayload & { scheduled_date?: Date; scheduled_time?: string }) => {
+        setLoading(true);
+        const [h, m, s] = values.scheduled_time?.split(":").map(Number) ?? [0, 0, 0];
+        const scheduled_at =
+            values.status === "schedule_for_later" && values.scheduled_date && values.scheduled_time
+                ? new Date(
+                      values.scheduled_date.getFullYear(),
+                      values.scheduled_date.getMonth(),
+                      values.scheduled_date.getDate(),
+                      h,
+                      m,
+                      s || 0
+                  ).toISOString()
+                : values.scheduled_at;
+        const payload: CreateEmailPayload = {
+            subject: values.subject,
+            body: values.body,
+            status: values.status,
+            recipient_type: values.recipient_type,
+            user_id: values.user_id,
+            image_url: values.image_url,
+            created_after: values.created_after,
+            scheduled_at,
+        };
+        try {
+            if (type === "add") {
+                await createEmail(payload);
+                toast.success("Email added successfully", {
+                    icon: (
+                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10  border-[0.5px] border-primary/10">
+                            <Check className="size-4 text-primary" />
+                        </div>
+                    )
+                });
+            } else {
+                if (email?._id) {
+                    await updateEmail(email._id, payload);
+                    toast.success("Email updated successfully", {
+                        icon: (
+                            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10  border-[0.5px] border-primary/10">
+                                <Check className="size-4 text-primary" />
+                            </div>
+                        )
+                    });
+                }
+            }
+
+            queryClient.invalidateQueries({ queryKey: ["emails"] });
+            setOpen(false);
+        } catch (error: unknown) {
             console.log("error: ", error);
-            toast.error("Failed to update email emails", {
+            const message = error && typeof error === "object" && "response" in error && typeof (error as { response?: { data?: { message?: string } } }).response?.data?.message === "string"
+                ? (error as { response: { data: { message: string } } }).response.data.message
+                : "Failed to save email emails";
+            toast.error(message, {
                 icon: (
                     <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10  border-[0.5px] border-primary/10">
                         <X className="size-4 text-primary" />
                     </div>
                 )
             })
+        } finally {
+            setLoading(false);
         }
     }
     return (
         <Formik
             initialValues={{
-                subject: email?.title ? email.title : "",
-                body: email?.description ? email.description : "",
-                audience: email?.audience ? email.audience : "",
-                scheduledType: email?.scheduleType ? email.scheduleType : "",
-                scheduledDate: email?.scheduledDate ? email.scheduledDate : null,
-                scheduledTime: email?.scheduledTime ? email.scheduledTime : null,
+                subject: email?.subject ? email.subject : "",
+                body: email?.body ? email.body : "",
+                recipient_type: email?.recipient_type ? email.recipient_type : "all",
+                status: email?.status ? email.status : "send_now",
+                user_id: email?.user_id ? email.user_id : "",
+                image_url: email?.image_url ? email.image_url : "",
+                created_after: email?.created_after ? email.created_after : "",
+                scheduled_at: email?.scheduled_at ? email.scheduled_at : "",
+                ...parseScheduledAt(email?.scheduled_at),
             }}
             onSubmit={handleSubmit}
             validationSchema={emailAndNotificationValidation}
         >
             {({ submitForm, values }) => (
                 <FormModal
+                    open={open}
+                    onOpenChange={setOpen}
                     title={type === "add" ? "Created Email" : "Edit Email"}
                     TriggerButton={
                         type === "add" ? (
@@ -102,13 +161,12 @@ const ManageEmail = ({
                                 isMandatory={true}
                             />
                             <FormSelect
-                                name="audience"
+                                name="recipient_type"
                                 label="Audience"
                                 isMandatory={true}
                                 options={[
                                     { label: "All Users", value: "all" },
-                                    { label: "New Users", value: "new" },
-                                    { label: "Registered Users", value: "registered" },
+                                    { label: "New Users", value: "new_users" },
                                 ]}
                             />
 
@@ -119,15 +177,15 @@ const ManageEmail = ({
                             />
 
                             <FormRadio
-                                name="scheduledType"
+                                name="status"
                                 options={[
-                                    { label: "Send Now", value: "now" },
-                                    { label: "Schedule for Later", value: "later" },
+                                    { label: "Send Now", value: "send_now" },
+                                    { label: "Schedule for Later", value: "schedule_for_later" },
                                     { label: "Save as Draft", value: "draft" },
                                 ]}
                             />
 
-                            {values["scheduledType"] === "later" && (
+                            {values["status"] === "schedule_for_later" && (
                                 <div className="space-y-4">
                                     <Text
                                         title="Schedule time to post"
@@ -135,8 +193,8 @@ const ManageEmail = ({
                                         className="text-white font-medium"
                                     />
                                     <DateAndTimePicker
-                                        dateName="scheduledDate"
-                                        timeName="scheduledTime"
+                                        dateName="scheduled_date"
+                                        timeName="scheduled_time"
                                     />
                                 </div>
                             )}

@@ -22,6 +22,16 @@ interface DateAndTimePickerProps {
     timeLabel?: string;
 }
 
+/** Coerce form value to a Date for display/calendar, or undefined */
+function toDateOrUndefined(value: unknown): Date | undefined {
+    if (value instanceof Date && !Number.isNaN(value.getTime())) return value;
+    if (typeof value === "string" && value) {
+        const d = new Date(value);
+        return Number.isNaN(d.getTime()) ? undefined : d;
+    }
+    return undefined;
+}
+
 const DateAndTimePicker = ({
     dateName,
     timeName,
@@ -30,7 +40,10 @@ const DateAndTimePicker = ({
 }: DateAndTimePickerProps) => {
     const { values, setFieldValue } = useFormikContext<FormikValues>();
 
-    const [open, setOpen] = React.useState(false)
+    const [open, setOpen] = React.useState(false);
+
+    const dateValue = toDateOrUndefined(values[dateName]);
+    const timeValue = typeof values[timeName] === "string" ? values[timeName] : (dateValue ? dateValue.toTimeString().slice(0, 8) : "");
 
     return (
         <div className="flex gap-3 w-full">
@@ -46,18 +59,18 @@ const DateAndTimePicker = ({
                             id="date-picker"
                             className="justify-between font-normal w-full h-11 bg-transparent border border-primary/10 text-white hover:bg-transparent"
                         >
-                            {values[dateName] ? values[dateName].toLocaleDateString() : "Select date"}
+                            {dateValue ? dateValue.toLocaleDateString() : "Select date"}
                             <ChevronDownIcon />
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto overflow-hidden p-0" align="start">
                         <Calendar
                             mode="single"
-                            selected={values[dateName]}
+                            selected={dateValue}
                             captionLayout="dropdown"
                             onSelect={(date) => {
-                                setFieldValue(dateName, date);
-                                setOpen(false)
+                                setFieldValue(dateName, date ?? undefined);
+                                setOpen(false);
                             }}
                         />
                     </PopoverContent>
@@ -73,8 +86,7 @@ const DateAndTimePicker = ({
                     type="time"
                     id="time-picker"
                     step="1"
-                    defaultValue="10:30:00"
-                    value={values[timeName]}
+                    value={timeValue}
                     onChange={(e) => setFieldValue(timeName, e.target.value)}
                     className="bg-transparent border border-primary/10 text-white h-11 appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
                 />
