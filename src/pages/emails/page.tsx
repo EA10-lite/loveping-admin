@@ -1,7 +1,7 @@
 import { ReusableTable, TableAction, Text } from "../../components";
 import { Button } from "../../components/ui/button";
 import { type ColumnDef, type PaginationState } from "@tanstack/react-table";
-import { type Emails, type FullUser } from "../../utils/types";
+import { type Emails as EmailRecord, type FullUser } from "../../utils/types";
 import { formatDateString } from "../../utils/formatter";
 import { Badge } from "../../components/ui/badge";
 import EmailDetails from "./_components/EmailDetails";
@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { getEmails } from "../../services/email.service";
 
-const columns: ColumnDef<Emails>[] = [
+const columns: ColumnDef<EmailRecord>[] = [
     {
         accessorKey: "subject",
         header: "Subject",
@@ -102,7 +102,7 @@ const columns: ColumnDef<Emails>[] = [
     }
 ]
 
-const Emails = () => {
+const EmailsPage = () => {
     const [pagination, setPagination] = useState<PaginationState>({
         pageIndex: 0,
         pageSize: 10,
@@ -171,5 +171,5 @@ const Emails = () => {
     )
 }
 
-export default Emails;
+export default EmailsPage;
 

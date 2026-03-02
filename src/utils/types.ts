@@ -218,5 +218,7 @@ export interface Feedback {
     user: User;
     message: string;
     feedback_type: 'positive' | 'negative';
+    rating?: number;
+    type?: string;
     createdAt: Date;
 }
