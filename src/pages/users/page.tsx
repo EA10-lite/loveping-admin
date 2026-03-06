@@ -13,22 +13,6 @@ import { useQuery } from "@tanstack/react-query";
 import { getUsers } from "../../services/users.service";
 import { Badge } from "../../components/ui/badge";
 
-// {
-//     "id": "69a2f5c3d84df0b7396162d3",
-//     "full_name": "Afolabi Damilare",
-//     "email_address": "afolabidamilar329@gmail.com",
-//     "user_type": "ping_user",
-//     "profile_visibility": true,
-//     "is_verified": false,
-//     "daily_nudge": true,
-//     "special_occassion_reminders": true,
-//     "silent_mode": false,
-//     "language": "english",
-//     "createdAt": "2026-02-28T14:03:47.299Z",
-//     "updatedAt": "2026-02-28T14:03:47.299Z",
-//     "partner": null
-// }
-
 const columns: ColumnDef<FullUser>[] = [
     {
         accessorKey: "full_name",
@@ -112,6 +96,9 @@ const Users = () => {
             limit: pagination.pageSize
         })
     });
+
+
+    console.log("usersData: ", usersData);
     return (
         <div className="notes">
             <div className="page-header">

@@ -2,7 +2,7 @@ import { ReusableTable, StarRating, TableAction, Truncate } from "../../../../co
 import { type ColumnDef } from "@tanstack/react-table";
 import { type Feedback as FeedbackType } from "../../../../utils/types";
 import { formatDateString } from "../../../../utils/formatter";
-import { DeleteFeedback, FeedbackDetails } from "../../../../components/shared";
+import { FeedbackDetails } from "../../../../components/shared";
 
 const columns: ColumnDef<FeedbackType>[] = [
     {
@@ -40,7 +40,6 @@ const columns: ColumnDef<FeedbackType>[] = [
             <div className="flex justify-end">
                 <TableAction
                     View={<FeedbackDetails feedback={row.original} />}
-                    Delete={<DeleteFeedback hasTrigger={true} />}
                 />
             </div>
         )
