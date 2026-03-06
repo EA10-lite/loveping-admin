@@ -9,11 +9,10 @@ const FeedbackDetails = ({ feedback }: { feedback: Feedback }) => {
     return (
         <DetailsModal
             title="Feedback Details"
-            buttonTitle="Delete Feedback"
-            buttonType="destructive"
             ActionButton={
                 <DeleteFeedback
                     onSuccess={() => setOpen(false)}
+                    id={feedback._id}
                 />
             }
             open={open}

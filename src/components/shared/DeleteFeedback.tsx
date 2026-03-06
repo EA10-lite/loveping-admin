@@ -4,16 +4,20 @@ import { Button } from "../ui/button";
 import { toast } from "sonner";
 import { useState } from "react";
 import { LuLoaderCircle } from "react-icons/lu";
+import { useQueryClient } from "@tanstack/react-query";
+import { deleteFeedback } from "../../services/feedback.service";
 
 
-const DeleteFeedback = ({ onSuccess, hasTrigger }: { onSuccess?: () => void, hasTrigger?: boolean, }) => {
+const DeleteFeedback = ({ onSuccess, hasTrigger, id }: { onSuccess?: () => void, hasTrigger?: boolean, id: string }) => {
     const [open, setOpen] = useState<boolean>(false);
     const [deleting, setDeleting] = useState<boolean>(false);
+    const queryClient = useQueryClient();
 
     const handleDelete = async () => {
         try {
             setDeleting(true);
-            await new Promise((resolve) => setTimeout(resolve, 1000));
+            await deleteFeedback(id);
+            await queryClient.invalidateQueries({ queryKey: ["feedbacks"] });
             toast.success("Report deleted successfully",{
                 icon: (
                     <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 border-[0.5px] border-primary/10">

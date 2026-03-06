@@ -27,7 +27,7 @@ const ActionModal = ({
 }: ActionModalProps) => {
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogTrigger asChild className="bg-secondary-muted hover:bg-secondary-muted">
+            <DialogTrigger asChild className="">
                 {TriggerButton ? TriggerButton : (
                     <Button
                         variant={buttonType}

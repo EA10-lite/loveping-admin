@@ -22,3 +22,9 @@ export const getFeedbacks = async (params?: GetFeedbackParams) => {
     const response = await client.get<FeedbackResponse>("/feedback", { params });
     return response.data;
 }
+
+
+export const deleteFeedback = async (id: string) => {
+    const response = await client.delete<FeedbackResponse>(`/feedback/${id}`);
+    return response.data;
+}
