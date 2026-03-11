@@ -5,3 +5,4 @@ export { default as Textbox } from "./Textbox";
 export { default as FormSelect } from "./FormSelect";
 export { default as FormRadio } from "./FormRadio";
 export { default as DateAndTimePicker } from "./DateAndTimePicker";
+export { default as ImagePicker } from "./ImagePicker";

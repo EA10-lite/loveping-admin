@@ -33,7 +33,7 @@ const Textbox = ({
                 </Label>
                 <Textarea
                     name={name}
-                    className="min-h-[109px] border border-[#48D9621A] resize-none text-white focus:outline-none focus-visible:ring-primary focus-visible:ring-[1px] transition-all"
+                    className="min-h-[109px] border border-primary/10 resize-none text-white focus:outline-none focus-visible:ring-primary focus-visible:ring-[1px] transition-all"
                     value={values[name]}
                     onChange={handleChange}
                     disabled={disabled}
