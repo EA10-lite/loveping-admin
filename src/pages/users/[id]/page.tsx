@@ -197,7 +197,7 @@ const UserDetails = () => {
                                 <div className="grid grid-cols-4 gap-6">
                                     <ModalFieldItem
                                         label="Name"
-                                        value={partner?.name}
+                                        value={partner?.partner_name}
                                     />
                                     <ModalFieldItem
                                         label="Email"
@@ -210,19 +210,19 @@ const UserDetails = () => {
                                     />
                                     <ModalFieldItem
                                         label="Love Language"
-                                        value={Array.isArray(partner?.loveLanguage) ? partner?.loveLanguage.join(", ") : partner?.name}
+                                        value={Array.isArray(partner?.love_language) ? partner?.love_language.join(", ") : partner?.partner_name}
                                     />
                                     <ModalFieldItem
                                         label="Birthday"
-                                        value={partner?.birthday && formatDateString(new Date(partner.birthday))}
+                                        value={partner?.partner_birthday && formatDateString(new Date(partner.partner_birthday))}
                                     />
                                     <ModalFieldItem
                                         label="Relationship Type"
-                                        value={partner?.relationshipType}
+                                        value={partner?.relationship_type}
                                     />
                                     <ModalFieldItem
                                         label="Anniversary"
-                                        value={partner?.anniversary && formatDateString(new Date(partner.anniversary))}
+                                        value={partner?.anniversary_date && formatDateString(new Date(partner.anniversary_date))}
                                     />
                                 </div>
                             ) : (

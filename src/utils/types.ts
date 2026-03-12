@@ -19,14 +19,34 @@ export interface PingsCount {
     gift: number;
 }
 
+// {
+//     "_id": "69b3347b37459a79d427fed8",
+//     "userId": "69b332c637459a79d427fec5",
+//     "partner_name": "Tunmise",
+//     "relationship_type": "spouse",
+//     "gender": "female",
+//     "partner_birthday": "2026-06-28T00:00:00.000Z",
+//     "anniversary_date": "2026-03-03T00:00:00.000Z",
+//     "love_language": [
+//         "quality_time",
+//         "words_of_affirmation",
+//         "act_of_service",
+//         "physical_touch",
+//         "receiving_gifts"
+//     ],
+//     "createdAt": "2026-03-12T21:47:39.159Z",
+//     "updatedAt": "2026-03-12T21:47:39.159Z",
+//     "__v": 0
+// }
+
 export interface UserPartner {
-    name: string;
+    partner_name: string;
     gender: "male" | "female";
     email: string;
-    loveLanguage: string[];
-    birthday: Date | string;
-    relationshipType: string;
-    anniversary: Date | string;
+    love_language: string[];
+    partner_birthday: Date | string;
+    relationship_type: string;
+    anniversary_date: Date | string;
 }
 
 export interface FullUser extends User {

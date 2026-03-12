@@ -29,7 +29,7 @@ const columns: ColumnDef<FullUser>[] = [
         cell: ({ row }) => {
             const partner = row.original.partner
             return (
-                <span className="text-white">{partner?.name || "N/A"}</span>
+                <span className="text-white">{partner?.partner_name || "N/A"}</span>
             )
         }
     },
