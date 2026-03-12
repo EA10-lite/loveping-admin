@@ -19,26 +19,6 @@ export interface PingsCount {
     gift: number;
 }
 
-// {
-//     "_id": "69b3347b37459a79d427fed8",
-//     "userId": "69b332c637459a79d427fec5",
-//     "partner_name": "Tunmise",
-//     "relationship_type": "spouse",
-//     "gender": "female",
-//     "partner_birthday": "2026-06-28T00:00:00.000Z",
-//     "anniversary_date": "2026-03-03T00:00:00.000Z",
-//     "love_language": [
-//         "quality_time",
-//         "words_of_affirmation",
-//         "act_of_service",
-//         "physical_touch",
-//         "receiving_gifts"
-//     ],
-//     "createdAt": "2026-03-12T21:47:39.159Z",
-//     "updatedAt": "2026-03-12T21:47:39.159Z",
-//     "__v": 0
-// }
-
 export interface UserPartner {
     partner_name: string;
     gender: "male" | "female";
@@ -61,7 +41,7 @@ export interface FullUser extends User {
     totalNudges?: number;
     giftsSent?: number;
     feedbackSubmitted?: number;
-    user_type: "ping_user" | "ping_admin";
+    user_type?: "ping_user" | "ping_admin";
     notes?: Note[];
     nudges?: Nudge[];
     feedbacks?: Feedback[];

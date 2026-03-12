@@ -41,8 +41,8 @@ const EditUser = ({
                 fullname: user?.full_name,
                 email: user.email_address,
                 phone: user.phone,
-                partnerName: user?.partner?.name,
-                relationshipType: user?.partner?.relationshipType,
+                partnerName: user?.partner?.partner_name,
+                relationshipType: user?.partner?.relationship_type,
             }}
             onSubmit={handleSubmit}
             validationSchema={editUserValidation}
@@ -95,12 +95,12 @@ const EditUser = ({
                                 title="Relationship Details"
                             />
                             <FormField
-                                name="partnerName"
+                                name="partner_name"
                                 label="Partner's Name"
                                 className="h-12"
                             />
                             <FormSelect
-                                name="relationshipType"
+                                name="relationship_type"
                                 label="Relationship Type"
                                 options={[
                                     { label: "Spouse", value: "spouse" },

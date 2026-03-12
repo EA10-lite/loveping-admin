@@ -11,13 +11,13 @@ export const users: FullUser[] = Array.from({ length: 50 }, (_, i) => {
         email_address: generateEmail(name),
         phone: `+1${Math.floor(1000000000 + Math.random() * 9000000000)}`,
         partner: {
-            name: partnerName,
+            partner_name: partnerName,
             gender: getRandomElement(["male", "female"]),
             email: generateEmail(partnerName),
-            loveLanguage: [getRandomElement(["Words of Affirmation", "Quality Time", "Receiving Gifts", "Acts of Service", "Physical Touch"])],
-            birthday: getRandomDate(new Date(1980, 0, 1), new Date(2000, 11, 31)),
-            relationshipType: getRandomElement(["Married", "Dating", "Engaged"]),
-            anniversary: getRandomDate(new Date(2010, 0, 1), new Date(2023, 11, 31))
+            love_language: [getRandomElement(["Words of Affirmation", "Quality Time", "Receiving Gifts", "Acts of Service", "Physical Touch"])],
+            partner_birthday: getRandomDate(new Date(1980, 0, 1), new Date(2000, 11, 31)),
+            relationship_type: getRandomElement(["Married", "Dating", "Engaged"]),
+            anniversary_date: getRandomDate(new Date(2010, 0, 1), new Date(2023, 11, 31))
         },
         accountType: getRandomElement(["guest", "registered"]),
         createdAt: getRandomDate(new Date(2023, 0, 1), new Date()),
