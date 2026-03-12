@@ -1,5 +1,5 @@
 import client from "./client.service";
-import type { FullUser } from "../utils/types";
+import type { FullUser, UserDetails } from "../utils/types";
 
 export type { FullUser };
 
@@ -25,7 +25,7 @@ export const getUsers = async (params?: GetUsersParams) => {
 
 
 export const getUserDetails = async (id: string) => {
-    const response = await client.get<FullUser>(`/auth/admin/users/${id}`);
+    const response = await client.get<UserDetails>(`/auth/admin/users/${id}`);
     return response.data;
 }
 

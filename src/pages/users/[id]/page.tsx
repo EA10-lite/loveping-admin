@@ -3,7 +3,6 @@ import { ModalFieldItem, Text } from "../../../components";
 import { Button } from "../../../components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
-import { users } from "../../../data/users";
 import { formatDateString } from "../../../utils/formatter";
 import {
     Activity,
@@ -20,42 +19,83 @@ import {
 } from "../../../components/ui/tabs"
 import { cn } from "../../../lib/utils";
 import { useState } from "react";
+import { getUserDetails } from "../../../services/users.service";
+import { useQuery } from "@tanstack/react-query";
 
-
+const EmptyPartnerState = () => (
+    <div className="flex items-center justify-center rounded-md border border-dashed border-primary/20 bg-secondary py-10">
+        <p className="text-sm text-muted-foreground">No partner added.</p>
+    </div>
+);
 
 const UserDetails = () => {
     const navigate = useNavigate();
 
     const { id } = useParams();
-    const data = users.find(user => user._id === id?.toString());
 
+    const { data: userData, isLoading } = useQuery({
+        queryKey: ['user', id],
+        queryFn: () => getUserDetails(id?.toString() || ""),
+    });
+
+    const partner = userData?.partner;
+    const pingsCount = userData?.pings_count;
 
     const tabs = [
         {
             label: "Activity",
             value: "activity",
-            Component: <Activity activities={data?.activites || []} />
+            Component: <Activity activities={[]} />
         },
         {
             label: "Nudges",
             value: "nudges",
-            Component: <Nudges nudges={data?.nudges || []} />
+            Component: <Nudges nudges={[]} />
         },
         {
             label: "Notes",
             value: "notes",
-            Component: <Notes notes={data?.notes || []} />
+            Component: <Notes notes={[]} />
         },
         {
             label: "Feedback",
             value: "feedback",
-            Component: <Feedback feedbacks={data?.feedbacks || []} />
+            Component: <Feedback feedbacks={[]} />
         },
     ]
 
 
     const [activeTab, setActiveTab] = useState<string>("activity");
 
+    if (isLoading) {
+        return (
+            <div className="user-details space-y-6">
+                <div className="page-header">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={() => navigate(-1)}
+                                className="cursor-pointer hover:text-primary transition-all duration-300ms ease-in-out"
+                            >
+                                <ArrowLeft />
+                            </button>
+                            <Text
+                                title="User Details"
+                                type="h4"
+                                className="text-lg"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="page-body">
+                    <div className="bg-secondary-foreground rounded-sm p-4 border-[0.5px] border-primary/8 space-y-4">
+                        <p className="text-sm text-muted-foreground">Loading user details...</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="user-details space-y-6">
@@ -98,24 +138,24 @@ const UserDetails = () => {
                             <div className="grid grid-cols-3 gap-6">
                                 <ModalFieldItem
                                     label="Customer Name"
-                                    value={data?.full_name}
+                                    value={userData?.user?.full_name}
                                 />
                                 <ModalFieldItem
                                     label="Email Address"
-                                    value={data?.email_address}
+                                    value={userData?.user?.email_address}
                                 />
                                 <ModalFieldItem
                                     label="Account Status"
-                                    value={data?.accountStatus}
+                                    value={userData?.user?.user_type === "ping_user" ? "active" : "inactive"}
                                     className="capitalize"
                                 />
                                 <ModalFieldItem
                                     label="Joined Date"
-                                    value={data?.createdAt && formatDateString(new Date(data?.createdAt))}
+                                    value={userData?.user?.createdAt && formatDateString(new Date(userData?.user?.createdAt))}
                                 />
                                 <ModalFieldItem
                                     label="Last Active"
-                                    value={data?.lastActive && formatDateString(new Date(data?.lastActive))}
+                                    value={userData?.user?.updatedAt && formatDateString(new Date(userData?.user?.updatedAt))}
                                 />
                             </div>
                         </div>
@@ -129,19 +169,19 @@ const UserDetails = () => {
                             <div className="grid grid-cols-2 gap-6">
                                 <ModalFieldItem
                                     label="Total Nudges Sent"
-                                    value={data?.totalNudges.toString()}
+                                    value={(pingsCount?.total ?? 0).toString()}
                                 />
                                 <ModalFieldItem
                                     label="Total Gift Saved"
-                                    value={data?.giftsSent.toString()}
+                                    value={(pingsCount?.gift ?? 0).toString()}
                                 />
                                 <ModalFieldItem
                                     label="Notes Created"
-                                    value={data?.notes.length.toString()}
+                                    value={"0"}
                                 />
                                 <ModalFieldItem
                                     label="Feedback Submitted"
-                                    value={data?.feedbackSubmitted.toString()}
+                                    value={"0"}
                                 />
                             </div>
                         </div>
@@ -153,37 +193,41 @@ const UserDetails = () => {
                                 className="text-primary font-medium"
                             />
 
-                            <div className="grid grid-cols-4 gap-6">
-                                <ModalFieldItem
-                                    label="Name"
-                                    value={data?.partner?.name}
-                                />
-                                <ModalFieldItem
-                                    label="Email"
-                                    value={data?.partner?.email}
-                                />
-                                <ModalFieldItem
-                                    label="Gender"
-                                    value={data?.partner?.gender}
-                                    className="capitalize"
-                                />
-                                <ModalFieldItem
-                                    label="Love Language"
-                                    value={data?.partner?.name}
-                                />
-                                <ModalFieldItem
-                                    label="Birthday"
-                                    value={data?.partner?.birthday && formatDateString(data?.partner?.birthday)}
-                                />
-                                <ModalFieldItem
-                                    label="Relationship Type"
-                                    value={data?.partner?.relationshipType}
-                                />
-                                <ModalFieldItem
-                                    label="Anniversary"
-                                    value={data?.partner?.anniversary && formatDateString(data?.partner?.anniversary)}
-                                />
-                            </div>
+                            {partner ? (
+                                <div className="grid grid-cols-4 gap-6">
+                                    <ModalFieldItem
+                                        label="Name"
+                                        value={partner?.name}
+                                    />
+                                    <ModalFieldItem
+                                        label="Email"
+                                        value={partner?.email}
+                                    />
+                                    <ModalFieldItem
+                                        label="Gender"
+                                        value={partner?.gender}
+                                        className="capitalize"
+                                    />
+                                    <ModalFieldItem
+                                        label="Love Language"
+                                        value={Array.isArray(partner?.loveLanguage) ? partner?.loveLanguage.join(", ") : partner?.name}
+                                    />
+                                    <ModalFieldItem
+                                        label="Birthday"
+                                        value={partner?.birthday && formatDateString(new Date(partner.birthday))}
+                                    />
+                                    <ModalFieldItem
+                                        label="Relationship Type"
+                                        value={partner?.relationshipType}
+                                    />
+                                    <ModalFieldItem
+                                        label="Anniversary"
+                                        value={partner?.anniversary && formatDateString(new Date(partner.anniversary))}
+                                    />
+                                </div>
+                            ) : (
+                                <EmptyPartnerState />
+                            )}
                         </div>
                     </div>
 

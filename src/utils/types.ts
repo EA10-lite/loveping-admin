@@ -3,7 +3,7 @@
 */
 
 
-interface User {
+export interface User {
     _id: string;
     id?: string;
     full_name: string;
@@ -12,33 +12,58 @@ interface User {
     email_address: string;
 }
 
-export interface FullUser extends User {
-    phone: string;
-    partner: UserPartner;
-    accountType: "guest" | "registered";
-    createdAt: Date;
-    updatedAt: Date;
-    lastActive: Date;
-    accountStatus: "active" | "inactive";
-    nudgesCreated: number;
-    totalNudges: number;
-    giftsSent: number;
-    feedbackSubmitted: number;
-    notes: Note[];
-    nudges: Nudge[];
-    feedbacks: Feedback[];
-    activites: Activity[];
+export interface PingsCount {
+    total: number;
+    text: number;
+    call: number;
+    gift: number;
 }
 
-interface UserPartner {
+export interface UserPartner {
     name: string;
     gender: "male" | "female";
     email: string;
     loveLanguage: string[];
-    birthday: Date;
+    birthday: Date | string;
     relationshipType: string;
-    anniversary: Date;
+    anniversary: Date | string;
 }
+
+export interface FullUser extends User {
+    phone?: string;
+    partner: UserPartner | null;
+    accountType?: "guest" | "registered";
+    createdAt: Date | string;
+    updatedAt: Date | string;
+    lastActive?: Date | string;
+    accountStatus?: "active" | "inactive";
+    nudgesCreated?: number;
+    totalNudges?: number;
+    giftsSent?: number;
+    feedbackSubmitted?: number;
+    user_type: "ping_user" | "ping_admin";
+    notes?: Note[];
+    nudges?: Nudge[];
+    feedbacks?: Feedback[];
+    activites?: Activity[];
+    pings_count?: PingsCount;
+}
+
+
+export interface UserDetails extends FullUser {
+    user: {
+        _id: string;
+        full_name: string;
+        email_address: string;
+        user_type: "ping_user" | "ping_admin";
+        createdAt: Date | string;
+        updatedAt: Date | string;
+    }
+    partner: UserPartner;
+    pings_count: PingsCount;
+}
+
+// UserPartner moved and extended above
 
 
 /*

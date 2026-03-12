@@ -72,7 +72,7 @@ const columns: ColumnDef<FullUser>[] = [
                             <span className="text-primary">View</span>
                         </Link>
                     )}
-                    Edit={<EditUser user={row.original} />}
+                    Edit={row.original?.user_type === "ping_admin" ? <EditUser user={row.original} /> : null}
                     Delete={<ResetPassword
                         name={row.original.full_name}
                         email={row.original.email_address}
@@ -96,9 +96,6 @@ const Users = () => {
             limit: pagination.pageSize
         })
     });
-
-
-    console.log("usersData: ", usersData);
     return (
         <div className="notes">
             <div className="page-header">
