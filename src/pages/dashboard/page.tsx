@@ -3,13 +3,16 @@ import { Text } from "../../components";
 import { Button } from "../../components/ui/button";
 import { cn } from "../../lib/utils";
 import { PiUserCheck, PiUserCirclePlus, PiUsersFourThin } from "react-icons/pi";
-import { Sparkles } from "lucide-react";
+import { Loader2, Sparkles } from "lucide-react";
 import UserStatusChart from "./_components/UserStatusChart";
 import NudgeDistributionChart from "./_components/NudgeDistributionChart";
+import PingDistributionChart from "./_components/PingTypeDistribution";
 import ActivityFeed from "./_components/ActivityFeed";
 import RecentNotifications from "./_components/RecentNotification";
 import NudgeSentChart from "./_components/NudgeSentChart";
 import { useAdminStore } from "../../store/adminStore";
+import { useQuery } from "@tanstack/react-query";
+import { getDashboardData } from "../../services/dashboard.service";
 
 
 const iconStyles = {
@@ -21,6 +24,17 @@ const iconStyles = {
 
 const Dashboard = () => {
     const { admin } = useAdminStore();
+
+    const { data: dashboardData, isLoading } = useQuery({
+        queryKey: ['feedbacks'],
+        queryFn: () => getDashboardData()
+    });
+
+    if (isLoading) {
+        return <div className="flex items-center justify-center h-screen">
+            <Loader2 className="size-8 animate-spin" />
+        </div>
+    }
 
     return (
         <div className="dashboard space-y-6">
@@ -51,28 +65,28 @@ const Dashboard = () => {
             </div>
 
             <div className="page-body space-y-6">
-                <div className="metrics grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="metrics grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
                     <Metric
                         label="Total users"
-                        value={"3000"}
+                        value={dashboardData?.totals.total_users.toString() || "0"}
                         icon={<PiUsersFourThin className="size-4" />}
                         className={iconStyles["users"]}
                     />
                     <Metric
                         label="Active users"
-                        value={"1800"}
+                        value={dashboardData?.active_vs_inactive.active.toString() || "0"}
                         icon={<PiUserCheck className="size-4" />}
                         className={iconStyles["active"]}
                     />
                     <Metric
                         label="Total Nudges Sent"
-                        value={"1000"}
+                        value={dashboardData?.totals.nudges_generated.toString() || "0"}
                         icon={<Sparkles className="size-4" />}
                         className={iconStyles["nudges"]}
                     />
                     <Metric
                         label="New Sign-ups Today"
-                        value={"20"}
+                        value={dashboardData?.totals.signups_today.toString() || "0"}
                         icon={<PiUserCirclePlus className="size-4" />}
                         className={iconStyles["signup"]}
                     />
@@ -82,14 +96,15 @@ const Dashboard = () => {
                     <NudgeSentChart />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <UserStatusChart />
-                    <NudgeDistributionChart />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {dashboardData?.active_vs_inactive && <UserStatusChart data={dashboardData?.active_vs_inactive} />}
+                    {dashboardData?.nudge_type_distribution?.by_tone && <NudgeDistributionChart data={dashboardData?.nudge_type_distribution?.by_tone} />}
+                    {dashboardData?.nudge_type_distribution?.by_ping_type && <PingDistributionChart data={dashboardData?.nudge_type_distribution?.by_ping_type} />}
                 </div>
 
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <ActivityFeed />
+                    <ActivityFeed data={dashboardData?.activity_feed || []} />
                     <RecentNotifications />
                 </div>
             </div>

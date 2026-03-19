@@ -15,55 +15,47 @@ import {
     type ChartConfig,
 } from "../../../components/ui/chart"
 
-export const description = "Nudge Type Distribution"
+export const description = "Ping Type Distribution"
 
-const FILL_COLORS = ["#3BD1DC", "#A561FF", "#0050FD", "#F9751D", "#D7BA38"];
+const FILL_COLORS = ["#0050FD", "#F9751D", "#D7BA38"];
 
 const chartConfig = {
-    romantic: {
-        label: "Romantic",
-        color: "#3BD1DC",
-    },
-    appreciation: {
-        label: "Appreciation",
-        color: "#A561FF",
-    },
-    apology: {
-        label: "Apology",
+    call: {
+        label: "Call",
         color: "#0050FD",
     },
-    reminder: {
-        label: "Reminder",
+    text: {
+        label: "Text",
         color: "#F9751D",
     },
-    celebration: {
-        label: "Celeration",
+    gift: {
+        label: "Gift",
         color: "#D7BA38",
     },
 } satisfies ChartConfig
 
 
-interface NudgeTypeDistribution {
-    tone: string;
+interface PingTypeDistribution {
+    type: string;
     count: number;
     percentage: number;
 }
 
-const NudgeDistributionChart = ({ data }: { data: NudgeTypeDistribution[] }) => {
-    const chartData = data?.map((item: NudgeTypeDistribution, index: number) => ({
+const PingDistributionChart = ({ data }: { data: PingTypeDistribution[] }) => {
+    const chartData = data?.map((item: PingTypeDistribution, index: number) => ({
         ...item,
         fill: FILL_COLORS[index],
-        nudge: item.tone === "deep_n_thoughtful" ? "Deep & Thoughtful" : item.tone,
+        ping: item.type,
     }))
 
-    const topNudge = React.useMemo(() => {
+    const topPing = React.useMemo(() => {
         return chartData.sort((a, b) => b.count - a.count)[0];
     }, [])
 
     return (
         <Card className="border-[0.5px] border-primary/8 bg-secondary-foreground p-4 rounded-sm">
             <CardHeader className="items-center pb-0 px-0">
-                <CardTitle className="text-white">Nudge Type Distribution</CardTitle>
+                <CardTitle className="text-white">Ping Type Distribution</CardTitle>
             </CardHeader>
             <CardContent className="flex-1 pb-0">
                 <ChartContainer
@@ -78,7 +70,7 @@ const NudgeDistributionChart = ({ data }: { data: NudgeTypeDistribution[] }) => 
                         <Pie
                             data={chartData}
                             dataKey="count"
-                            nameKey="nudge"
+                            nameKey="ping"
                             innerRadius={75}
                             strokeWidth={5}
                             cornerRadius={8}
@@ -101,14 +93,14 @@ const NudgeDistributionChart = ({ data }: { data: NudgeTypeDistribution[] }) => 
                                                     y={viewBox.cy}
                                                     className="fill-white text-lg font-semibold capitalize whitespace-wrap"
                                                 >
-                                                    {topNudge.nudge.toLocaleString()}
+                                                    {topPing.ping.toLocaleString()}
                                                 </tspan>
                                                 <tspan
                                                     x={viewBox.cx}
                                                     y={(viewBox.cy || 0) + 24}
                                                     className="fill-primary"
                                                 >
-                                                    {topNudge.percentage.toLocaleString()}%
+                                                    {topPing.percentage.toLocaleString()}%
                                                 </tspan>
                                             </text>
                                         )
@@ -131,7 +123,7 @@ const NudgeDistributionChart = ({ data }: { data: NudgeTypeDistribution[] }) => 
                                 background: item.fill
                             }}
                         />
-                        <span className="capitalize">{item.nudge}</span>
+                        <span className="capitalize">{item.ping}</span>
                     </div>
                 ))}
             </CardFooter>
@@ -140,4 +132,4 @@ const NudgeDistributionChart = ({ data }: { data: NudgeTypeDistribution[] }) => 
 }
 
 
-export default NudgeDistributionChart;
+export default PingDistributionChart;

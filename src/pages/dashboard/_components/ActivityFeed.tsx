@@ -5,9 +5,17 @@ import {
     CardContent,
     CardHeader,
     CardTitle,
-  } from "../../../components/ui/card"
+} from "../../../components/ui/card"
 
-const ActivityFeed = () => {
+
+interface ActivityData {
+    type: string;
+    title: string;
+    date: string;
+    time: string;
+}
+
+const ActivityFeed = ({ data }: { data: ActivityData[] }) => {
     return (
         <Card className="border-[0.5px] border-primary/8 bg-secondary-foreground p-0 rounded-sm gap-0">
             <CardHeader className="items-center p-4 mb-0">
@@ -15,32 +23,27 @@ const ActivityFeed = () => {
             </CardHeader>
 
             <CardContent className="p-0 pb-4 mt-0">
-                <div className="space-y-2.5">
-                    <Activity
-                        type="account"
-                        title="Amara J. generated a romantic text nudge for her partner."
-                        date="12/02/2025"
-                        time="2 mins ago"
-                    />
-                    <Activity
-                        type="generated"
-                        title="AI generated three new gift suggestions for Sarah K"
-                        date="12/02/2025"
-                        time="2 mins ago"
-                    />
-                    <Activity
-                        type="nudge"
-                        title="Amara J. generated a romantic text nudge for her partner."
-                        date="12/02/2025"
-                        time="2 mins ago"
-                    />
-                    <Activity
-                        type="gift"
-                        title="User Chloe M. submitted a feedback rating of 5 stars"
-                        date="12/02/2025"
-                        time="2 mins ago"
-                    />
-                </div>
+                {data.length > 0 ? (
+                    <div className="space-y-2.5">
+                        {data?.map((item, index) => (
+                            <Activity
+                                key={index}
+                                type={item.type}
+                                title={item.title}
+                                date={item.date}
+                                time={item.time}
+                            />
+                        ))}
+                    </div>
+                ) : (
+                    <div className="flex items-center justify-center h-full py-4">
+                        <Text
+                            title="No activity yet"
+                            type="h4"
+                            className="font-semibold"
+                        />
+                    </div>
+                )}
             </CardContent>
         </Card>
     )
@@ -59,7 +62,7 @@ const Activity = ({
     date,
     time,
     type,
-} : ActivityProps) => {
+}: ActivityProps) => {
     return (
         <div className="bg-white/3 w-full flex items-center gap-4 px-4 py-2.5">
             <div className="w-10 h-10 flex items-center justify-center rounded-full border-[0.5px] border-primary/10 bg-primary/10">

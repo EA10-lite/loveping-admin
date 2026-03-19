@@ -13,12 +13,13 @@ import {
   type ChartConfig,
 } from "../../../components/ui/chart"
 
-export const description = "A donut chart"
+interface ChartData {
+  range: "30d" | "7d";
+  active: number;
+  inactive: number;
+}
 
-const chartData = [
-  { status: "active", value: 782, fill: "var(--color-primary)" },
-  { status: "inactive", value: 228, fill: "#123229" },
-]
+export const description = "User Status Chart";
 
 const chartConfig = {
   active: {
@@ -31,18 +32,30 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-const CustomTooltip = ({ label, value }: { label: string, value: string }) => {
-  return (
-    <div className="bg-[#0E2E25] rounded-lg p-4 min-w-[168px] shadow-xl border border-white/5">
-      <div className="flex items-baseline gap-1.5">
-        <span className="text-base font-semibold text-white">{value}</span>
-        <span className="text-xs text-grey">{label} users</span>
+const CustomTooltip = ({ active, payload }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-[#0E2E25] rounded-lg p-4 min-w-[168px] shadow-xl border border-white/5">
+        <div className="flex items-baseline gap-1.5">
+          <span className="text-base font-semibold text-white">
+            {payload[0].value.toLocaleString()}
+          </span>
+          <span className="text-xs text-white">
+            {chartConfig[payload[0].name as keyof typeof chartConfig]?.label || payload[0].name} Users
+          </span>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+  return null;
 }
 
-const UserStatusChart = () => {
+const UserStatusChart = ({ data }: { data: ChartData }) => {
+  const chartData = [
+    { status: "active", value: data.active, fill: "var(--color-primary)" },
+    { status: "inactive", value: data.inactive, fill: "#123229" },
+  ]
+
   return (
     <Card className="border-[0.5px] border-primary/8 bg-secondary-foreground p-4 rounded-sm">
       <CardHeader className="items-center pb-0 px-0">
@@ -56,7 +69,7 @@ const UserStatusChart = () => {
           <PieChart>
             <ChartTooltip
               cursor={false}
-              content={<CustomTooltip label="" value="" />}
+              content={<CustomTooltip />}
             />
             <Pie
               data={chartData}

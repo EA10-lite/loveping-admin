@@ -1,0 +1,109 @@
+{
+    "totals": {
+        "total_users": 49,
+        "nudges_generated": 14,
+        "signups_today": 0
+    },
+    "active_users": {
+        "dau": 0,
+        "wau": 0,
+        "mau": 0
+    },
+    "active_vs_inactive": {
+        "range": "30d",
+        "active": 0,
+        "inactive": 49
+    },
+    "nudges_sent_over_time": {
+        "range": "year",
+        "start": "2025-04-01T00:00:00.000Z",
+        "end": "2026-03-19T04:15:57.852Z",
+        "points": [
+            {
+                "label": "2025-04",
+                "count": 0
+            },
+            {
+                "label": "2025-05",
+                "count": 0
+            },
+            {
+                "label": "2025-06",
+                "count": 0
+            },
+            {
+                "label": "2025-07",
+                "count": 0
+            },
+            {
+                "label": "2025-08",
+                "count": 0
+            },
+            {
+                "label": "2025-09",
+                "count": 0
+            },
+            {
+                "label": "2025-10",
+                "count": 0
+            },
+            {
+                "label": "2025-11",
+                "count": 2
+            },
+            {
+                "label": "2025-12",
+                "count": 0
+            },
+            {
+                "label": "2026-01",
+                "count": 2
+            },
+            {
+                "label": "2026-02",
+                "count": 3
+            },
+            {
+                "label": "2026-03",
+                "count": 7
+            }
+        ]
+    },
+    "nudge_type_distribution": {
+        "by_ping_type": [
+            {
+                "type": "text",
+                "count": 9,
+                "percentage": 64.3
+            },
+            {
+                "type": "call",
+                "count": 4,
+                "percentage": 28.6
+            },
+            {
+                "type": "gift",
+                "count": 1,
+                "percentage": 7.1
+            }
+        ],
+        "by_tone": [
+            {
+                "tone": "romantic",
+                "count": 9,
+                "percentage": 75
+            },
+            {
+                "tone": "deep_n_thoughtful",
+                "count": 2,
+                "percentage": 16.7
+            },
+            {
+                "tone": "funny_n_light_hearted",
+                "count": 1,
+                "percentage": 8.3
+            }
+        ]
+    },
+    "activity_feed": []
+}
