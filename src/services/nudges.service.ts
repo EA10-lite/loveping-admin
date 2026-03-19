@@ -26,6 +26,6 @@ export interface GetNudgesParams {
 
 
 export const getNudges = async (params?: GetNudgesParams) => {
-    const response = await client.get<NudgeResponse>("/ping/admin", { params });
+    const response = await client.get<NudgeResponse>("/ping/admin/all", { params });
     return response.data;
 }

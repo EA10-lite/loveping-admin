@@ -7,7 +7,7 @@ const ModalFieldItem = ({
     value,
     className,
     content,
-} : {
+}: {
     label?: string;
     value?: string;
     className?: string;
@@ -30,7 +30,7 @@ const ModalFieldItem = ({
                 <Text
                     title={value}
                     type="p"
-                    className={mergeClasses("text-grey", className)}
+                    className={mergeClasses("text-grey whitespace-pre-wrap", className)}
                 />
             )}
         </div>
