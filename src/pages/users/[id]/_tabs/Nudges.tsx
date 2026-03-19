@@ -6,30 +6,6 @@ import { Badge } from "../../../../components/ui/badge";
 import { NudgeType } from "../../../../components";
 import { NudgeDetails } from "../../../../components/shared";
 
-const nudgeData = [
-    {
-        "_id": "69bbaaa7da2aa9cd88f9c89c",
-        "user": "69b34cc37c9ef2225d3df753",
-        "partner": "69bba49ada2aa9cd88f9c805",
-        "date": "2026-03-19T07:49:59.406Z",
-        "status": "delivered",
-        "tones": [
-            "romantic",
-            "deep_n_thoughtful"
-        ],
-        "DayOfWeek": "thursday",
-        "title": "Love Note",
-        "message": "Oluwatunmise Adetokunbo, I just want you to know that i’ll choose you no matter what.",
-        "ping_type": "text",
-        "additional_message_list": [],
-        "isSaved": true,
-        "isNote": false,
-        "createdAt": "2026-03-19T07:49:59.408Z",
-        "updatedAt": "2026-03-19T07:49:59.408Z",
-        "__v": 0
-    },
-]
-
 interface UserNudge extends Nudge {
     username: string;
     partnername: string;
@@ -109,13 +85,10 @@ const columns: ColumnDef<UserNudge>[] = [
 ]
 
 const Nudges = ({ nudges, user, partner }: { nudges: Nudge[], user: string, partner: string }) => {
-    console.log("nudges: ", nudges);
-
     const nudgeData = nudges.map(nudge => ({
         ...nudge,
         username: user,
         partnername: partner,
-
     }))
     return (
         <div className="notes">

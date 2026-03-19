@@ -35,10 +35,10 @@ const columns: ColumnDef<EmailRecord>[] = [
                 >
                     {
                         recipient_type.toLowerCase() === "all" ? "All Users" :
-                        recipient_type.toLowerCase() === "new_users" ? "New Users" :
-                        recipient_type.toLowerCase() === "user" ? "User" :
-                        recipient_type.toLowerCase() === "group" ? "Group" :
-                        "All Users"
+                            recipient_type.toLowerCase() === "new_users" ? "New Users" :
+                                recipient_type.toLowerCase() === "user" ? "User" :
+                                    recipient_type.toLowerCase() === "group" ? "Group" :
+                                        "All Users"
                     }
                 </Badge>
             )
@@ -60,9 +60,9 @@ const columns: ColumnDef<EmailRecord>[] = [
                     variant={badgeVariant as "default" | "primary" | "pending" | "ghost"}
                 >
                     {status.toLowerCase() === "sent" ? "Sent" :
-                    status.toLowerCase() === "schedule_for_later" ? "Schedule" :
-                    status.toLowerCase() === "draft" ? "Draft" :
-                    "Send Now"}
+                        status.toLowerCase() === "schedule_for_later" ? "Schedule" :
+                            status.toLowerCase() === "draft" ? "Draft" :
+                                "Send Now"}
                 </Badge>
             )
         }
@@ -89,7 +89,6 @@ const columns: ColumnDef<EmailRecord>[] = [
         }
     },
     {
-        id: "actions",
         header: "Action",
         cell: ({ row }) => (
             <div className="flex justify-end">

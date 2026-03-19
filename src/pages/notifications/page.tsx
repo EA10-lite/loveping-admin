@@ -83,7 +83,7 @@ const columns: ColumnDef<Notification>[] = [
         )
     },
     {
-        id: "actions",
+
         header: "Action",
         cell: ({ row }) => (
             <div className="flex justify-end">

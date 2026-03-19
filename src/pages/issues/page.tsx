@@ -77,7 +77,7 @@ const columns: ColumnDef<IssuesType>[] = [
         )
     },
     {
-        id: "actions",
+
         header: "Action",
         cell: ({ row }) => (
             <div className="flex justify-end">

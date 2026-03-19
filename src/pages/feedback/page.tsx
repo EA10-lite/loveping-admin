@@ -53,7 +53,7 @@ const columns: ColumnDef<FeedbackType>[] = [
         )
     },
     {
-        id: "actions",
+
         header: "Action",
         cell: ({ row }) => (
             <div className="flex justify-end">

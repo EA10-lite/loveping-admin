@@ -54,7 +54,7 @@ const columns: ColumnDef<FAQ>[] = [
         )
     },
     {
-        id: "actions",
+
         header: "Action",
         cell: ({ row }) => (
             <div className="flex justify-end">
