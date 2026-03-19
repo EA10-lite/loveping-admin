@@ -18,8 +18,9 @@ const columns: ColumnDef<Nudge>[] = [
         header: "User",
         cell: ({ row }) => {
             const user = row.original.user;
+            const userName = typeof user === "string" ? user : user.full_name;
             return (
-                <span className="text-sm text-white">{user.full_name}</span>
+                <span className="text-sm text-white">{userName}</span>
             )
         }
     },
@@ -75,7 +76,7 @@ const columns: ColumnDef<Nudge>[] = [
         header: "Generated At",
         cell: ({ row }) => (
             <span className="text-white">
-                {formatDateString(new Date(row.getValue("createdAt")))}
+                {formatDateString(row.getValue("createdAt") as string | Date)}
             </span>
         )
     },
@@ -109,13 +110,13 @@ const Nudges = () => {
         if (!nudgesData?.data) return;
 
         const dataToExport = nudgesData.data.map((nudge: Nudge) => ({
-            "User": nudge.user?.full_name || "N/A",
+            "User": (typeof nudge.user === "string" ? nudge.user : nudge.user?.full_name) || "N/A",
             "Ping Type": nudge.ping_type,
             "Tones": nudge.tones?.join(", ") || "",
             "Status": nudge.status,
             "Action Taken": nudge.actionTaken || "",
             "Message": nudge.message,
-            "Created At": formatDateString(new Date(nudge.createdAt))
+            "Created At": formatDateString(nudge.createdAt)
         }));
 
         exportToCSV(dataToExport, "nudges_export.csv");

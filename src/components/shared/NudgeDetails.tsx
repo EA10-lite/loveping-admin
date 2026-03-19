@@ -4,6 +4,9 @@ import type { Nudge } from "../../utils/types";
 import { formatDateString } from "../../utils/formatter";
 
 const NudgeDetails = ({ nudge }: { nudge: Nudge }) => {
+    const user = typeof nudge.user === "string" ? null : nudge.user;
+    const userId = typeof nudge.user === "string" ? nudge.user : nudge.user._id;
+
     return (
         <DetailsModal
             title="Nudge Details"
@@ -17,9 +20,9 @@ const NudgeDetails = ({ nudge }: { nudge: Nudge }) => {
                     />
 
                     <div className="space-y-2.5">
-                        <ModalFieldItem label="Fullname" value={nudge.user.full_name} />
-                        <ModalFieldItem label="Email Address" value={nudge.user.email_address} />
-                        <ModalFieldItem label="User ID" value={`User ID: ${nudge.user._id}`} />
+                        <ModalFieldItem label="Fullname" value={user?.full_name || "N/A"} />
+                        <ModalFieldItem label="Email Address" value={user?.email_address || "N/A"} />
+                        <ModalFieldItem label="User ID" value={`User ID: ${userId}`} />
                     </div>
                 </div>
                 <div className="space-y-3">
@@ -32,7 +35,7 @@ const NudgeDetails = ({ nudge }: { nudge: Nudge }) => {
                     <div className="space-y-2.5">
                         <ModalFieldItem
                             label="Nudge Type:"
-                            value={nudge.user.full_name} className="flex-row items-center"
+                            value={user?.full_name || "N/A"} className="flex-row items-center"
                             content={<NudgeType type={nudge.ping_type} />}
                         />
                         <ModalFieldItem
@@ -45,6 +48,7 @@ const NudgeDetails = ({ nudge }: { nudge: Nudge }) => {
                         />
                     </div>
                 </div>
+
 
 
                 <div className="space-y-3">

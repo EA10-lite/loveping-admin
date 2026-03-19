@@ -57,7 +57,11 @@ const UserDetails = () => {
         {
             label: "Nudges",
             value: "nudges",
-            Component: <Nudges nudges={nudges || []} />
+            Component: <Nudges
+                nudges={nudges || []}
+                user={userData?.user?.full_name || "N/A"}
+                partner={partner?.partner_name || "N/A"}
+            />
         },
         {
             label: "Notes",

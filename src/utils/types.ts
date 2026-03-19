@@ -221,18 +221,18 @@ export interface Note {
 */
 export interface Nudge {
     _id: string;
-    user: User;
-    partner: Partner;
+    user: User | string;
+    partner: Partner | string | undefined;
     ping_type: "call" | "text" | "gift";
     tones: string[];
     status: "completed" | "pending" | "delivered";
     actionTaken: "copied" | "purchased" | "sent" | null;
     message: string;
     title: string;
-    date: Date;
-    DayOfWeek: string;
-    createdAt: Date;
-    updatedAt: Date;
+    date?: Date;
+    DayOfWeek?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 

@@ -1,7 +1,9 @@
-export const formatDateString = (date: Date | string) => {
+export const formatDateString = (date?: Date | string | null) => {
+  if (!date) return "N/A";
   const d = typeof date === "string" ? new Date(date) : date;
 
-  if (isNaN(d.getTime())) {
+  if (!d || isNaN(d.getTime())) {
+
     return "N/A";
   }
 
