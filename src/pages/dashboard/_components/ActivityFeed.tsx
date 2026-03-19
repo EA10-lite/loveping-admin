@@ -1,4 +1,4 @@
-import { Bell, Bot, CircleUserRound, Gift, Sparkles, Star } from "lucide-react"
+import { Bell, Bot, ChevronRight, CircleUserRound, Gift, Sparkles, Star } from "lucide-react"
 import { Text } from "../../../components"
 import {
     Card,
@@ -6,32 +6,60 @@ import {
     CardHeader,
     CardTitle,
 } from "../../../components/ui/card"
+import { formatDateString, formatTime } from "../../../utils/formatter";
+import { Link } from "react-router-dom";
 
 
 interface ActivityData {
     type: string;
-    title: string;
-    date: string;
-    time: string;
+    message: string;
+    createdAt: string;
 }
 
+
 const ActivityFeed = ({ data }: { data: ActivityData[] }) => {
+    const getType = (type: string) => {
+        let formattedType = "";
+
+        if (type.includes("ping")) {
+            formattedType = "nudge";
+        } else if (type.includes("auth") || type.includes("profile")) {
+            formattedType = "account";
+        } else if (type.includes("feedback")) {
+            formattedType = "feedback";
+        } else if (type.includes("gift")) {
+            formattedType = "gift";
+        } else if (type.includes("nudge")) {
+            formattedType = "nudge";
+        } else if (type.includes("notification")) {
+            formattedType = "notification";
+        } else if (type.includes("generated")) {
+            formattedType = "generated";
+        }
+
+        return formattedType;
+    }
     return (
         <Card className="border-[0.5px] border-primary/8 bg-secondary-foreground p-0 rounded-sm gap-0">
-            <CardHeader className="items-center p-4 mb-0">
+            <CardHeader className="items-center p-4 mb-0 flex items-center justify-between border-b-[0.5px] border-primary/8">
                 <CardTitle className="text-white">Activity Feed</CardTitle>
+
+                <Link to="/activities" className="text-primary text-sm flex items-center gap-1 hover:underline transition-all ease-in duration-300ms">
+                    <span>view all</span>
+                    <ChevronRight className="size-4" />
+                </Link>
             </CardHeader>
 
             <CardContent className="p-0 pb-4 mt-0">
                 {data.length > 0 ? (
                     <div className="space-y-2.5">
-                        {data?.map((item, index) => (
+                        {data?.slice(0, 5).map((item, index) => (
                             <Activity
                                 key={index}
-                                type={item.type}
-                                title={item.title}
-                                date={item.date}
-                                time={item.time}
+                                type={getType(item.type)}
+                                title={item.message}
+                                date={item.createdAt}
+                                time={item.createdAt}
                             />
                         ))}
                     </div>
@@ -60,7 +88,6 @@ type ActivityProps = {
 const Activity = ({
     title,
     date,
-    time,
     type,
 }: ActivityProps) => {
     return (
@@ -81,7 +108,7 @@ const Activity = ({
                     type="p"
                 />
                 <Text
-                    title={`${date} ${time}`}
+                    title={`${formatDateString(date)} ${formatTime(date)}`}
                     type="p"
                     className="text-xs text-grey text-normal"
                 />

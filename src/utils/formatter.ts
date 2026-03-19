@@ -1,4 +1,4 @@
-export const formatDateString = (date: Date) => {
+export const formatDateString = (date: Date | string) => {
   const d = typeof date === "string" ? new Date(date) : date;
 
   if (isNaN(d.getTime())) {
@@ -85,10 +85,10 @@ export const formatTime = (date: string | Date) => {
  */
 export const formatNumber = (value: number) => {
   if (value >= 1000) {
-      const thousands = value / 1000;
-      // Round to 1 decimal place, but remove trailing zero if it's a whole number
-      const rounded = Math.round(thousands * 10) / 10;
-      return rounded % 1 === 0 ? `${rounded}k` : `${rounded.toFixed(1)}k`;
+    const thousands = value / 1000;
+    // Round to 1 decimal place, but remove trailing zero if it's a whole number
+    const rounded = Math.round(thousands * 10) / 10;
+    return rounded % 1 === 0 ? `${rounded}k` : `${rounded.toFixed(1)}k`;
   }
   return value.toString();
 }
@@ -99,10 +99,10 @@ export const formatCurrency = (amount: number): string => {
 
 export const formatFileSize = (size: number): string => {
   if (size < 1024) {
-      return `${size} B`;
+    return `${size} B`;
   }
   if (size < 1024 * 1024) {
-      return `${(size / 1024).toFixed(2)} KB`;
+    return `${(size / 1024).toFixed(2)} KB`;
   }
   return `${(size / 1024 / 1024).toFixed(2)} MB`;
 };
