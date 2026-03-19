@@ -24,17 +24,17 @@ const columns: ColumnDef<Nudge>[] = [
         }
     },
     {
-        accessorKey: "type",
+        accessorKey: "ping_type",
         header: "Nudge Type",
-        cell: ({ row }) => <NudgeType type={row.getValue("type")} />
+        cell: ({ row }) => <NudgeType type={row.getValue("ping_type")} />
     },
     {
-        accessorKey: "tone",
+        accessorKey: "tones",
         header: "Tone/Category",
         cell: ({ row }) => {
-            const tones = row.getValue("tone") as string[];
+            const tones = row.getValue("tones") as string[];
             return (
-                <span className="text-white line-clamp-1 max-w-[300px]">
+                <span className="text-white line-clamp-1 max-w-[300px] capitalize">
                     {tones?.join(", ")}
                 </span>
             )
@@ -49,6 +49,8 @@ const columns: ColumnDef<Nudge>[] = [
             let badgeVariant = "secondary";
             if (status.toLowerCase() === "completed") badgeVariant = "default";
             if (status.toLowerCase() === "pending") badgeVariant = "pending";
+            if (status.toLowerCase() === "delivered") badgeVariant = "primary";
+
             return (
                 <Badge
                     className={`hover:bg-secondary-foreground/80 font-normal capitalize`}
@@ -78,7 +80,6 @@ const columns: ColumnDef<Nudge>[] = [
         )
     },
     {
-        id: "actions",
         header: "Action",
         cell: ({ row }) => (
             <div className="flex justify-end">
@@ -109,11 +110,11 @@ const Nudges = () => {
 
         const dataToExport = nudgesData.data.map((nudge: Nudge) => ({
             "User": nudge.user?.full_name || "N/A",
-            "Type": nudge.type,
-            "Tone": nudge.tone?.join(", ") || "",
+            "Ping Type": nudge.ping_type,
+            "Tones": nudge.tones?.join(", ") || "",
             "Status": nudge.status,
             "Action Taken": nudge.actionTaken || "",
-            "Content": nudge.content,
+            "Message": nudge.message,
             "Created At": formatDateString(new Date(nudge.createdAt))
         }));
 
