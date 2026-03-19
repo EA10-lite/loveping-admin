@@ -40,6 +40,13 @@ const UserDetails = () => {
 
     const partner = userData?.partner;
     const pingsCount = userData?.pings_count;
+    const nudges = userData?.nudges?.map((item) => {
+        return {
+            ...item,
+            user: userData?.user?.full_name,
+            partner: partner?.partner_name,
+        }
+    })
 
     const tabs = [
         {
@@ -50,7 +57,7 @@ const UserDetails = () => {
         {
             label: "Nudges",
             value: "nudges",
-            Component: <Nudges nudges={[]} />
+            Component: <Nudges nudges={nudges || []} />
         },
         {
             label: "Notes",
@@ -198,10 +205,6 @@ const UserDetails = () => {
                                     <ModalFieldItem
                                         label="Name"
                                         value={partner?.partner_name}
-                                    />
-                                    <ModalFieldItem
-                                        label="Email"
-                                        value={partner?.email}
                                     />
                                     <ModalFieldItem
                                         label="Gender"

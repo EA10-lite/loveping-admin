@@ -33,11 +33,11 @@ const NudgeDetails = ({ nudge }: { nudge: Nudge }) => {
                         <ModalFieldItem
                             label="Nudge Type:"
                             value={nudge.user.full_name} className="flex-row items-center"
-                            content={<NudgeType type={nudge.type} />}
+                            content={<NudgeType type={nudge.ping_type} />}
                         />
                         <ModalFieldItem
                             label="Tone:"
-                            value={nudge.tone.join(", ")} className="flex-row"
+                            value={nudge.tones.join(", ")} className="flex-row"
                         />
                         <ModalFieldItem
                             label="Status:"
@@ -54,7 +54,7 @@ const NudgeDetails = ({ nudge }: { nudge: Nudge }) => {
                         className="text-primary font-medium"
                     />
 
-                    <ModalFieldItem value={nudge.content} />
+                    <ModalFieldItem value={nudge.message} />
                 </div>
 
                 <div className="space-y-3">
