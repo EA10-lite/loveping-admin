@@ -10,6 +10,7 @@ export { default as Emails } from "./emails/page";
 export { default as FAQs } from "./faqs/page";
 export { default as Feedback } from "./feedback/page";
 export { default as Issues } from "./issues/page";
+export { default as NotFound } from "./not-found/page";
 
 
 export { default as Login } from "./auth/login/page";

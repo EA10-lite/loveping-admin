@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { Text } from "../../components";
 import { Button } from "../../components/ui/button";
+import { Skeleton } from "../../components/ui/skeleton";
 import { cn } from "../../lib/utils";
 import { PiUserCheck, PiUserCirclePlus, PiUsersFourThin } from "react-icons/pi";
-import { Loader2, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import UserStatusChart from "./_components/UserStatusChart";
 import NudgeDistributionChart from "./_components/NudgeDistributionChart";
 import PingDistributionChart from "./_components/PingTypeDistribution";
@@ -31,9 +32,7 @@ const Dashboard = () => {
     });
 
     if (isLoading) {
-        return <div className="flex items-center justify-center h-screen">
-            <Loader2 className="size-8 animate-spin" />
-        </div>
+        return <DashboardSkeleton />;
     }
 
     return (
@@ -148,5 +147,75 @@ const Metric = ({
         </div>
     )
 }
+
+const MetricSkeleton = () => {
+    return (
+        <div className="border-[0.5px] border-primary/8 bg-secondary-foreground rounded-sm p-4 space-y-3">
+            <Skeleton className="h-10 w-10 rounded-full bg-primary/10" />
+            <Skeleton className="h-8 w-20 bg-primary/10" />
+            <Skeleton className="h-5 w-32 bg-primary/10" />
+        </div>
+    );
+};
+
+const ChartSkeleton = () => {
+    return (
+        <div className="border-[0.5px] border-primary/8 bg-secondary-foreground rounded-sm p-4 space-y-4">
+            <Skeleton className="h-5 w-40 bg-primary/10" />
+            <Skeleton className="h-64 w-full bg-primary/10" />
+        </div>
+    );
+};
+
+const PanelSkeleton = () => {
+    return (
+        <div className="border-[0.5px] border-primary/8 bg-secondary-foreground rounded-sm p-4 space-y-3">
+            <Skeleton className="h-5 w-40 bg-primary/10" />
+            <Skeleton className="h-4 w-full bg-primary/10" />
+            <Skeleton className="h-4 w-5/6 bg-primary/10" />
+            <Skeleton className="h-4 w-3/4 bg-primary/10" />
+            <Skeleton className="h-4 w-4/5 bg-primary/10" />
+            <Skeleton className="h-4 w-2/3 bg-primary/10" />
+        </div>
+    );
+};
+
+const DashboardSkeleton = () => {
+    return (
+        <div className="dashboard space-y-6">
+            <div className="page-header">
+                <div className="flex items-center justify-between">
+                    <div className="space-y-2">
+                        <Skeleton className="h-7 w-56 bg-primary/10" />
+                        <Skeleton className="h-4 w-40 bg-primary/10" />
+                    </div>
+                    <Skeleton className="h-10 w-36 rounded-sm bg-primary/10" />
+                </div>
+            </div>
+
+            <div className="page-body space-y-6">
+                <div className="metrics grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+                    <MetricSkeleton />
+                    <MetricSkeleton />
+                    <MetricSkeleton />
+                    <MetricSkeleton />
+                </div>
+
+                <ChartSkeleton />
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <ChartSkeleton />
+                    <ChartSkeleton />
+                    <ChartSkeleton />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <PanelSkeleton />
+                    <PanelSkeleton />
+                </div>
+            </div>
+        </div>
+    );
+};
 
 export default Dashboard;

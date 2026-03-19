@@ -36,6 +36,7 @@ import {
   Emails,
   Login,
   UserDetails,
+  NotFound,
 } from "./pages"
 
 function App() {
@@ -67,6 +68,7 @@ function App() {
             <Route path="/faqs" element={<FAQs />} />
             <Route path="/emails" element={<Emails />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <Toaster />
       </BrowserRouter>
