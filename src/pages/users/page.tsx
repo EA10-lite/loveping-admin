@@ -72,7 +72,7 @@ const columns: ColumnDef<FullUser>[] = [
                             <span className="text-primary">View</span>
                         </Link>
                     )}
-                    Edit={row.original?.user_type === "Admin" ? <EditUser user={row.original} /> : null}
+                    Edit={row.original?.user_type !== "Admin" ? <EditUser user={row.original} /> : null}
                     Delete={<ResetPassword
                         name={row.original.full_name}
                         email={row.original.email_address}
