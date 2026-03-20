@@ -63,7 +63,7 @@ const columns: ColumnDef<FullUser>[] = [
         cell: ({ row }) => (
             <div className="flex justify-end">
                 <TableAction
-                    View={(
+                    View={row.original?.user_type === "Admin" ? null : (
                         <Link
                             to={`/users/${row.original.id}`}
                             className="flex items-center gap-2 bg-transparent hover:bg-[#143C2B] text-primary rounded-xs w-full justify-start p-1.5 px-2"
@@ -72,7 +72,7 @@ const columns: ColumnDef<FullUser>[] = [
                             <span className="text-primary">View</span>
                         </Link>
                     )}
-                    Edit={row.original?.user_type === "ping_admin" ? <EditUser user={row.original} /> : null}
+                    Edit={row.original?.user_type === "Admin" ? <EditUser user={row.original} /> : null}
                     Delete={<ResetPassword
                         name={row.original.full_name}
                         email={row.original.email_address}

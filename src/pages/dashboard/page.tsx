@@ -27,7 +27,7 @@ const Dashboard = () => {
     const { admin } = useAdminStore();
 
     const { data: dashboardData, isLoading } = useQuery({
-        queryKey: ['feedbacks'],
+        queryKey: ['dashboard'],
         queryFn: () => getDashboardData()
     });
 
