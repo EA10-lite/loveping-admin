@@ -23,7 +23,7 @@ const Activites = ({ activities }: { activities: Activity[] }) => {
                         </div>
                         <div className="">
                             <Text
-                                title={row.original.description}
+                                title={row.original.message}
                                 type="p"
                                 letterSpacing={"-2%"}
                             />
