@@ -41,7 +41,7 @@ export interface FullUser extends User {
     totalNudges?: number;
     giftsSent?: number;
     feedbackSubmitted?: number;
-    user_type?: "ping_user" | "ping_admin";
+    user_type?: "ping_user" | "ping_admin" | "Admin";
     notes?: Note[];
     nudges?: Nudge[];
     feedbacks?: Feedback[];
@@ -101,8 +101,7 @@ export interface Activity {
     _id: string;
     createdAt: Date;
     type: "nudge" | "notification" | "feedback" | "gift";
-    category?: string;
-    description: string;
+    message: string;
 }
 
 /*
