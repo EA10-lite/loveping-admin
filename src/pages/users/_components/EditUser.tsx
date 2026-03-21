@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DatePicker, FormField, FormModal, FormSelect, Text } from "../../../components";
+import { FormField, FormModal, Text } from "../../../components";
 import type { FullUser } from "../../../utils/types";
 import { Button } from "../../../components/ui/button";
 import { Formik } from "formik";
@@ -16,7 +16,6 @@ interface ManagePartnerProps {
 const EditUser = ({
     user,
 }: ManagePartnerProps) => {
-    console.log("user: ", user);
     const [loading, setLoading] = useState<boolean>(false);
     const handleSubmit = async () => {
         try {
@@ -41,9 +40,6 @@ const EditUser = ({
             initialValues={{
                 full_name: user?.full_name,
                 email_address: user.email_address,
-                partner_name: user?.partner?.partner_name,
-                relationshipType: user?.partner?.relationship_type,
-                anniversary_date: user?.partner?.anniversary_date,
             }}
             onSubmit={handleSubmit}
             validationSchema={editUserValidation}
@@ -84,33 +80,6 @@ const EditUser = ({
                                 className="h-12"
                             />
                         </div>
-                        { user?.partner && (
-                            <div className="form space-y-6">
-                                <Text
-                                    className="text-primary"
-                                    type="h4"
-                                    title="Relationship Details"
-                                />
-                                <FormField
-                                    name="partner_name"
-                                    label="Partner's Name"
-                                    className="h-12"
-                                />
-                                <FormSelect
-                                    name="relationship_type"
-                                    label="Relationship Type"
-                                    options={[
-                                        { label: "Spouse", value: "spouse" },
-                                        { label: "Girlfriend", value: "girlfriend" }
-                                    ]}
-                                />
-                                <DatePicker
-                                    name="anniversary_date"
-                                    label="Anniversary Date"
-                                    isOptional={true}
-                                />
-                            </div>
-                        )}
                     </div>
                 </FormModal>
             )}

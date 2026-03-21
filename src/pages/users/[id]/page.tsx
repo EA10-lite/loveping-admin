@@ -197,7 +197,7 @@ const UserDetails = () => {
                             </div>
                         </div>
 
-                        <div className="col-span-1 lg:col-span-4 space-y-4">
+                        <div className="col-span-1 lg:col-span-3 space-y-4">
                             <Text
                                 title="Partners Information"
                                 type="h4"
@@ -205,10 +205,16 @@ const UserDetails = () => {
                             />
 
                             {partner ? (
-                                <div className="grid grid-cols-4 gap-6">
+                                <div className="grid grid-cols-3 gap-6">
                                     <ModalFieldItem
                                         label="Name"
                                         value={partner?.partner_name}
+                                        className="capitalize"
+                                    />
+                                    <ModalFieldItem
+                                        label="Relationship Type"
+                                        value={partner?.relationship_type}
+                                        className="capitalize"
                                     />
                                     <ModalFieldItem
                                         label="Gender"
@@ -216,20 +222,17 @@ const UserDetails = () => {
                                         className="capitalize"
                                     />
                                     <ModalFieldItem
-                                        label="Love Language"
-                                        value={Array.isArray(partner?.love_language) ? partner?.love_language.join(", ") : partner?.partner_name}
-                                    />
-                                    <ModalFieldItem
                                         label="Birthday"
                                         value={partner?.partner_birthday && formatDateString(new Date(partner.partner_birthday))}
                                     />
                                     <ModalFieldItem
-                                        label="Relationship Type"
-                                        value={partner?.relationship_type}
-                                    />
-                                    <ModalFieldItem
                                         label="Anniversary"
                                         value={partner?.anniversary_date && formatDateString(new Date(partner.anniversary_date))}
+                                    />
+                                    <ModalFieldItem
+                                        label="Love Language"
+                                        value={Array.isArray(partner?.love_language) ? partner?.love_language.join(", ") : partner?.partner_name}
+                                        className="capitalize"
                                     />
                                 </div>
                             ) : (

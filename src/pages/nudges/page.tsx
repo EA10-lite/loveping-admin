@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { getNudges } from "../../services/nudges.service";
 import { exportToCSV } from "../../utils/exportToCSV";
+import { Link } from "react-router-dom";
 
 
 const columns: ColumnDef<Nudge>[] = [
@@ -19,8 +20,11 @@ const columns: ColumnDef<Nudge>[] = [
         cell: ({ row }) => {
             const user = row.original.user;
             const userName = typeof user === "string" ? user : user.full_name;
+            const userId = typeof user === "string" ? user : user._id;
             return (
-                <span className="text-sm text-white">{userName}</span>
+                <Link to={`/users/${userId}`}>
+                    <span className="text-sm text-white hover:underline">{userName}</span>
+                </Link>
             )
         }
     },
