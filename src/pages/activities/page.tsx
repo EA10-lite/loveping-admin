@@ -1,6 +1,7 @@
 import { PiExport } from "react-icons/pi";
 import { ReusableTable, Text } from "../../components";
 import { Button } from "../../components/ui/button";
+import { Skeleton } from "../../components/ui/skeleton";
 import type { Activity } from "../../utils/types";
 import type { ColumnDef, PaginationState } from "@tanstack/react-table";
 import { Bell, Bot, CircleUserRound, Gift, Sparkles, Star } from "lucide-react";
@@ -80,10 +81,6 @@ const Activites = () => {
         },
     ]
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
-
     return (
         <div className="activities">
             <div className="page-header">
@@ -104,33 +101,60 @@ const Activites = () => {
                 </div>
             </div>
 
-            <div className="page-body mt-6">
-                <ReusableTable
-                    data={activitiesData?.data || []}
-                    columns={columns}
-                    searchKeys={["description", "type", "status"]}
-                    showHeader={false}
-                    manualPagination={true}
-                    pageCount={activitiesData?.totalPages || 1}
-                    pagination={pagination}
-                    onPaginationChange={setPagination}
-                    filters={[
-                        {
-                            columnKey: "type",
-                            title: "Type",
-                            options: ["Bug", "Feature", "Improvement"].map(c => ({ label: c, value: c }))
-                        },
-                        {
-                            columnKey: "status",
-                            title: "Status",
-                            options: ["new", "resolved", "closed"].map(s => ({ label: s, value: s }))
-                        }
-                    ]}
-                />
+            {isLoading ? <ActivitiesSkeleton /> : activitiesData && (
+                <div className="page-body mt-6">
+                    <ReusableTable
+                        data={activitiesData?.data || []}
+                        columns={columns}
+                        searchKeys={["description", "type", "status"]}
+                        showHeader={false}
+                        manualPagination={true}
+                        pageCount={activitiesData?.totalPages || 1}
+                        pagination={pagination}
+                        onPaginationChange={setPagination}
+                        filters={[
+                            {
+                                columnKey: "type",
+                                title: "Type",
+                                options: ["Bug", "Feature", "Improvement"].map(c => ({ label: c, value: c }))
+                            },
+                            {
+                                columnKey: "status",
+                                title: "Status",
+                                options: ["new", "resolved", "closed"].map(s => ({ label: s, value: s }))
+                            }
+                        ]}
+                    />
 
-            </div>
+                </div>
+            )}
         </div>
     )
 }
+
+const ActivitiesSkeleton = () => {
+    return (
+        <div className="activities">
+            <div className="page-header">
+                <div className="flex items-center justify-between">
+                    <Skeleton className="h-7 w-28 bg-primary/10" />
+                    <Skeleton className="h-10 w-28 rounded-sm bg-primary/10" />
+                </div>
+            </div>
+
+            <div className="page-body mt-6 rounded-xl border border-primary/10 p-4 space-y-4">
+                {Array.from({ length: 10 }).map((_, index) => (
+                    <div key={index} className="flex items-center gap-3">
+                        <Skeleton className="h-10 w-10 rounded-full bg-primary/10 shrink-0" />
+                        <div className="flex-1 space-y-2">
+                            <Skeleton className="h-4 w-3/4 bg-primary/10" />
+                            <Skeleton className="h-3 w-1/2 bg-primary/10" />
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
 
 export default Activites;
