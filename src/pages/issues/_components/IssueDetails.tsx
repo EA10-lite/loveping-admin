@@ -203,7 +203,7 @@ const IssueDetails = ({ issue }: { issue: Issues }) => {
                             />
                             <ModalFieldItem
                                 label="User ID:"
-                                value={`User ID: ${issue.user._id}`}
+                                value={`${issue.user._id}`}
                                 className="flex-row"
                             />
                         </div>
