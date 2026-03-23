@@ -1,5 +1,5 @@
 import { PiExport } from "react-icons/pi";
-import { ModalFieldItem, Text } from "../../../components";
+import { ModalFieldItem, QueryErrorState, Text } from "../../../components";
 import { Button } from "../../../components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -33,7 +33,7 @@ const UserDetails = () => {
 
     const { id } = useParams();
 
-    const { data: userData, isLoading } = useQuery({
+    const { data: userData, isLoading, isError, error, refetch } = useQuery({
         queryKey: ['user', id],
         queryFn: () => getUserDetails(id?.toString() || ""),
     });
@@ -108,12 +108,54 @@ const UserDetails = () => {
         );
     }
 
+    if (isError) {
+        return (
+            <div className="user-details space-y-6">
+                <div className="page-header">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                            <button
+                                type="button"
+                                onClick={() => navigate(-1)}
+                                className="cursor-pointer hover:text-primary transition-all duration-300ms ease-in-out"
+                            >
+                                <ArrowLeft />
+                            </button>
+                            <Text
+                                title="User Details"
+                                type="h4"
+                                className="text-lg"
+                            />
+                        </div>
+
+                        <Button
+                            variant="default"
+                            className="rounded-sm px-4"
+                        >
+                            <PiExport />
+                            <span className="text-sm font-medium">Export</span>
+                        </Button>
+                    </div>
+                </div>
+
+                <div className="page-body">
+                    <QueryErrorState
+                        error={error}
+                        onRetry={() => refetch()}
+                        title="Couldn't load user details"
+                    />
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="user-details space-y-6">
             <div className="page-header">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         <button
+                            type="button"
                             onClick={() => navigate(-1)}
                             className="cursor-pointer hover:text-primary transition-all duration-300ms ease-in-out"
                         >

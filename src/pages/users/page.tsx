@@ -1,4 +1,4 @@
-import { ReusableTable, TableAction, Text } from "../../components";
+import { QueryErrorState, ReusableTable, TableAction, Text } from "../../components";
 import { Button } from "../../components/ui/button";
 import { PiExport } from "react-icons/pi";
 import { type ColumnDef, type PaginationState } from "@tanstack/react-table";
@@ -89,7 +89,7 @@ const Users = () => {
         pageSize: 10,
     });
 
-    const { data: usersData, isLoading } = useQuery({
+    const { data: usersData, isLoading, isError, error, refetch } = useQuery({
         queryKey: ['users', pagination.pageIndex, pagination.pageSize],
         queryFn: () => getUsers({
             page: pagination.pageIndex + 1,
@@ -117,23 +117,31 @@ const Users = () => {
             </div>
 
             <div className="page-body mt-6">
-                <ReusableTable
-                    data={usersData?.data || []}
-                    columns={columns}
-                    searchKeys={["full_name", "email_address", "user_type"]}
-                    manualPagination={true}
-                    pageCount={usersData?.totalPages || 1}
-                    pagination={pagination}
-                    onPaginationChange={setPagination}
-                    isLoading={isLoading}
-                    filters={[
-                        {
-                            columnKey: "user_type",
-                            title: "Account Type",
-                            options: ["guest", "registered"].map(c => ({ label: c, value: c }))
-                        },
-                    ]}
-                />
+                {isError ? (
+                    <QueryErrorState
+                        error={error}
+                        onRetry={() => refetch()}
+                        title="Couldn't load users"
+                    />
+                ) : (
+                    <ReusableTable
+                        data={usersData?.data || []}
+                        columns={columns}
+                        searchKeys={["full_name", "email_address", "user_type"]}
+                        manualPagination={true}
+                        pageCount={usersData?.totalPages || 1}
+                        pagination={pagination}
+                        onPaginationChange={setPagination}
+                        isLoading={isLoading}
+                        filters={[
+                            {
+                                columnKey: "user_type",
+                                title: "Account Type",
+                                options: ["guest", "registered"].map(c => ({ label: c, value: c }))
+                            },
+                        ]}
+                    />
+                )}
             </div>
         </div>
     )

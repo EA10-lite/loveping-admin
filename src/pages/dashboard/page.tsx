@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Text } from "../../components";
+import { Text, QueryErrorState } from "../../components";
 import { Button } from "../../components/ui/button";
 import { Skeleton } from "../../components/ui/skeleton";
 import { cn } from "../../lib/utils";
@@ -26,13 +26,53 @@ const iconStyles = {
 const Dashboard = () => {
     const { admin } = useAdminStore();
 
-    const { data: dashboardData, isLoading } = useQuery({
+    const { data: dashboardData, isLoading, isError, error, refetch } = useQuery({
         queryKey: ['dashboard'],
         queryFn: () => getDashboardData()
     });
 
     if (isLoading) {
         return <DashboardSkeleton />;
+    }
+
+    if (isError) {
+        return (
+            <div className="dashboard space-y-6">
+                <div className="page-header">
+                    <div className="flex items-center justify-between">
+                        <div className="">
+                            <Text
+                                title={`Hello ${admin?.full_name}👋`}
+                                type="h4"
+                                className="text-lg"
+                            />
+                            <Text
+                                title="How are you doing today?"
+                                type="p"
+                                className="text-sm text-grey"
+                            />
+                        </div>
+
+                        <Button
+                            variant="default"
+                            className="rounded-sm px-4"
+                        >
+                            <Link to="/users">
+                                <span>View All Users</span>
+                            </Link>
+                        </Button>
+                    </div>
+                </div>
+
+                <div className="page-body">
+                    <QueryErrorState
+                        error={error}
+                        onRetry={() => refetch()}
+                        title="Couldn't load dashboard"
+                    />
+                </div>
+            </div>
+        );
     }
 
     return (

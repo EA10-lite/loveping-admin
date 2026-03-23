@@ -1,4 +1,4 @@
-import { NudgeType, ReusableTable, TableAction, Text } from "../../components";
+import { NudgeType, QueryErrorState, ReusableTable, TableAction, Text } from "../../components";
 import { Button } from "../../components/ui/button";
 import { PiExport } from "react-icons/pi";
 import { type ColumnDef, type PaginationState } from "@tanstack/react-table";
@@ -102,7 +102,7 @@ const Nudges = () => {
         pageSize: 10,
     });
 
-    const { data: nudgesData, isLoading } = useQuery({
+    const { data: nudgesData, isLoading, isError, error, refetch } = useQuery({
         queryKey: ['nudges', pagination.pageIndex, pagination.pageSize],
         queryFn: () => getNudges({
             page: pagination.pageIndex + 1,
@@ -126,7 +126,6 @@ const Nudges = () => {
         exportToCSV(dataToExport, "nudges_export.csv");
     };
 
-    console.log("nudgesData: ", nudgesData);
     return (
         <div className="notes">
             <div className="page-header">
@@ -141,7 +140,7 @@ const Nudges = () => {
                         variant="default"
                         className="rounded-sm px-4"
                         onClick={handleExport}
-                        disabled={isLoading || !nudgesData?.data?.length}
+                        disabled={isLoading || isError || !nudgesData?.data?.length}
                     >
                         <PiExport />
                         <span className="text-sm font-medium">Export</span>
@@ -150,43 +149,51 @@ const Nudges = () => {
             </div>
 
             <div className="page-body mt-6">
-                <ReusableTable
-                    data={nudgesData?.data || []}
-                    columns={columns}
-                    searchKeys={["content", "type", "status", "tone"]}
-                    isLoading={isLoading}
-                    manualPagination={true}
-                    pageCount={nudgesData?.totalPages || 1}
-                    pagination={pagination}
-                    onPaginationChange={setPagination}
-                    filters={[
-                        {
-                            columnKey: "type",
-                            title: "Nudge Type",
-                            options: [
-                                "gift",
-                                "call",
-                                "text",
-                            ].map(c => ({ label: c, value: c }))
-                        },
-                        {
-                            columnKey: "status",
-                            title: "Status",
-                            options: ["completed", "pending"].map(s => ({ label: s, value: s }))
-                        },
-                        {
-                            columnKey: "category",
-                            title: "Tone/Category",
-                            options: [
-                                { label: "Romantic", value: "romantic" },
-                                { label: "Playful", value: "playful" },
-                                { label: "Deep & Thoughtful", value: "deep_n_thoughful" },
-                                { label: "Supportive", value: "suppportive" },
-                                { label: "Funny/Lighthearted", value: "funny_n_lighthearted" }
-                            ].map(c => ({ label: c.label, value: c.value }))
-                        },
-                    ]}
-                />
+                {isError ? (
+                    <QueryErrorState
+                        error={error}
+                        onRetry={() => refetch()}
+                        title="Couldn't load nudges"
+                    />
+                ) : (
+                    <ReusableTable
+                        data={nudgesData?.data || []}
+                        columns={columns}
+                        searchKeys={["content", "type", "status", "tone"]}
+                        isLoading={isLoading}
+                        manualPagination={true}
+                        pageCount={nudgesData?.totalPages || 1}
+                        pagination={pagination}
+                        onPaginationChange={setPagination}
+                        filters={[
+                            {
+                                columnKey: "type",
+                                title: "Nudge Type",
+                                options: [
+                                    "gift",
+                                    "call",
+                                    "text",
+                                ].map(c => ({ label: c, value: c }))
+                            },
+                            {
+                                columnKey: "status",
+                                title: "Status",
+                                options: ["completed", "pending"].map(s => ({ label: s, value: s }))
+                            },
+                            {
+                                columnKey: "category",
+                                title: "Tone/Category",
+                                options: [
+                                    { label: "Romantic", value: "romantic" },
+                                    { label: "Playful", value: "playful" },
+                                    { label: "Deep & Thoughtful", value: "deep_n_thoughful" },
+                                    { label: "Supportive", value: "suppportive" },
+                                    { label: "Funny/Lighthearted", value: "funny_n_lighthearted" }
+                                ].map(c => ({ label: c.label, value: c.value }))
+                            },
+                        ]}
+                    />
+                )}
             </div>
         </div>
     )

@@ -1,4 +1,4 @@
-import { ReusableTable, TableAction, Text } from "../../components";
+import { QueryErrorState, ReusableTable, TableAction, Text } from "../../components";
 import { Button } from "../../components/ui/button";
 import { PiExport } from "react-icons/pi";
 import { type ColumnDef, type PaginationState } from "@tanstack/react-table";
@@ -74,7 +74,7 @@ const Notes = () => {
         pageSize: 10,
     });
 
-    const { data: notesData, isLoading } = useQuery({
+    const { data: notesData, isLoading, isError, error, refetch } = useQuery({
         queryKey: ['notes', pagination.pageIndex, pagination.pageSize],
         queryFn: () => getNotes({
             page: pagination.pageIndex + 1,
@@ -94,7 +94,7 @@ const Notes = () => {
                     <Button
                         variant="default"
                         className="rounded-sm px-4"
-                        disabled={isLoading || !notesData?.data.length}
+                        disabled={isLoading || isError || !notesData?.data.length}
                         onClick={() => exportToCSV(notesData?.data || [], "Notes")}
                     >
                         <PiExport />
@@ -104,29 +104,37 @@ const Notes = () => {
             </div>
 
             <div className="page-body mt-6">
-                <ReusableTable
-                    data={notesData?.data || []}
-                    pagination={pagination}
-                    onPaginationChange={setPagination}
-                    pageCount={notesData?.totalPages || 1}
-                    manualPagination={true}
-                    isLoading={isLoading}
-                    columns={columns}
-                    searchKeys={["content", "category"]}
-                    filters={[
-                        {
-                            columnKey: "category",
-                            title: "Type/Category",
-                            options: [
-                                { label: "Romantic", value: "romantic" },
-                                { label: "Playful", value: "playful" },
-                                { label: "Deep & Thoughtful", value: "deep_n_thoughful" },
-                                { label: "Supportive", value: "suppportive" },
-                                { label: "Funny/Lighthearted", value: "funny_n_lighthearted" }
-                            ].map(c => ({ label: c.label, value: c.value }))
-                        }
-                    ]}
-                />
+                {isError ? (
+                    <QueryErrorState
+                        error={error}
+                        onRetry={() => refetch()}
+                        title="Couldn't load notes"
+                    />
+                ) : (
+                    <ReusableTable
+                        data={notesData?.data || []}
+                        pagination={pagination}
+                        onPaginationChange={setPagination}
+                        pageCount={notesData?.totalPages || 1}
+                        manualPagination={true}
+                        isLoading={isLoading}
+                        columns={columns}
+                        searchKeys={["content", "category"]}
+                        filters={[
+                            {
+                                columnKey: "category",
+                                title: "Type/Category",
+                                options: [
+                                    { label: "Romantic", value: "romantic" },
+                                    { label: "Playful", value: "playful" },
+                                    { label: "Deep & Thoughtful", value: "deep_n_thoughful" },
+                                    { label: "Supportive", value: "suppportive" },
+                                    { label: "Funny/Lighthearted", value: "funny_n_lighthearted" }
+                                ].map(c => ({ label: c.label, value: c.value }))
+                            }
+                        ]}
+                    />
+                )}
             </div>
         </div>
     )

@@ -1,4 +1,4 @@
-import { ReusableTable, TableAction, Text } from "../../components";
+import { QueryErrorState, ReusableTable, TableAction, Text } from "../../components";
 import { Button } from "../../components/ui/button";
 import { PiExport } from "react-icons/pi";
 import { type ColumnDef, type PaginationState } from "@tanstack/react-table";
@@ -95,7 +95,7 @@ const Issues = () => {
         pageSize: 10,
     });
 
-    const { data: issuesData, isLoading } = useQuery({
+    const { data: issuesData, isLoading, isError, error, refetch } = useQuery({
         queryKey: ['issues', pagination.pageIndex, pagination.pageSize],
         queryFn: () => getIssues({
             page: pagination.pageIndex + 1,
@@ -115,7 +115,7 @@ const Issues = () => {
                     <Button
                         variant="default"
                         className="rounded-sm px-4"
-                        disabled={isLoading || !issuesData?.data.length}
+                        disabled={isLoading || isError || !issuesData?.data.length}
                         onClick={() => exportToCSV(issuesData?.data || [], "issues")}
                     >
                         <PiExport />
@@ -125,28 +125,36 @@ const Issues = () => {
             </div>
 
             <div className="page-body mt-6">
-                <ReusableTable
-                    data={issuesData?.data || []}
-                    pagination={pagination}
-                    onPaginationChange={setPagination}
-                    pageCount={issuesData?.totalPages || 1}
-                    manualPagination={true}
-                    isLoading={isLoading}
-                    columns={columns}
-                    searchKeys={["_id", "summary", "type", "status"]}
-                    filters={[
-                        {
-                            columnKey: "type",
-                            title: "Type",
-                            options: ["Bug", "Feature", "Improvement"].map(c => ({ label: c, value: c }))
-                        },
-                        {
-                            columnKey: "status",
-                            title: "Status",
-                            options: ["new", "resolved", "closed"].map(s => ({ label: s, value: s }))
-                        }
-                    ]}
-                />
+                {isError ? (
+                    <QueryErrorState
+                        error={error}
+                        onRetry={() => refetch()}
+                        title="Couldn't load issues"
+                    />
+                ) : (
+                    <ReusableTable
+                        data={issuesData?.data || []}
+                        pagination={pagination}
+                        onPaginationChange={setPagination}
+                        pageCount={issuesData?.totalPages || 1}
+                        manualPagination={true}
+                        isLoading={isLoading}
+                        columns={columns}
+                        searchKeys={["_id", "summary", "type", "status"]}
+                        filters={[
+                            {
+                                columnKey: "type",
+                                title: "Type",
+                                options: ["Bug", "Feature", "Improvement"].map(c => ({ label: c, value: c }))
+                            },
+                            {
+                                columnKey: "status",
+                                title: "Status",
+                                options: ["new", "resolved", "closed"].map(s => ({ label: s, value: s }))
+                            }
+                        ]}
+                    />
+                )}
             </div>
         </div>
     )

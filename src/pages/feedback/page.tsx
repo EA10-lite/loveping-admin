@@ -1,4 +1,4 @@
-import { ReusableTable, TableAction, Text } from "../../components";
+import { QueryErrorState, ReusableTable, TableAction, Text } from "../../components";
 import { Button } from "../../components/ui/button";
 import { PiExport } from "react-icons/pi";
 import { type ColumnDef, type PaginationState } from "@tanstack/react-table";
@@ -71,7 +71,7 @@ const Feedback = () => {
         pageSize: 10,
     });
 
-    const { data: feedbacksData, isLoading } = useQuery({
+    const { data: feedbacksData, isLoading, isError, error, refetch } = useQuery({
         queryKey: ['feedbacks', pagination.pageIndex, pagination.pageSize],
         queryFn: () => getFeedbacks({
             page: pagination.pageIndex + 1,
@@ -105,7 +105,7 @@ const Feedback = () => {
                     <Button
                         variant="default"
                         className="rounded-sm px-4"
-                        disabled={isLoading || !feedbacksData?.data.length}
+                        disabled={isLoading || isError || !feedbacksData?.data.length}
                         onClick={handleExport}
                     >
                         <PiExport />
@@ -115,23 +115,31 @@ const Feedback = () => {
             </div>
 
             <div className="page-body mt-6">
-                <ReusableTable
-                    data={feedbacksData?.data || []}
-                    pagination={pagination}
-                    onPaginationChange={setPagination}
-                    pageCount={feedbacksData?.totalPages || 1}
-                    manualPagination={true}
-                    isLoading={isLoading}
-                    columns={columns}
-                    searchKeys={["message", "category"]}
-                    filters={[
-                        {
-                            columnKey: "category",
-                            title: "Type/Category",
-                            options: ["Positive", "Negative"].map(c => ({ label: c, value: c }))
-                        },
-                    ]}
-                />
+                {isError ? (
+                    <QueryErrorState
+                        error={error}
+                        onRetry={() => refetch()}
+                        title="Couldn't load feedback"
+                    />
+                ) : (
+                    <ReusableTable
+                        data={feedbacksData?.data || []}
+                        pagination={pagination}
+                        onPaginationChange={setPagination}
+                        pageCount={feedbacksData?.totalPages || 1}
+                        manualPagination={true}
+                        isLoading={isLoading}
+                        columns={columns}
+                        searchKeys={["message", "category"]}
+                        filters={[
+                            {
+                                columnKey: "category",
+                                title: "Type/Category",
+                                options: ["Positive", "Negative"].map(c => ({ label: c, value: c }))
+                            },
+                        ]}
+                    />
+                )}
             </div>
         </div>
     )

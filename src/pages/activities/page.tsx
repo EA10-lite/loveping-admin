@@ -1,5 +1,5 @@
 import { PiExport } from "react-icons/pi";
-import { ReusableTable, Text } from "../../components";
+import { QueryErrorState, ReusableTable, Text } from "../../components";
 import { Button } from "../../components/ui/button";
 import { Skeleton } from "../../components/ui/skeleton";
 import type { Activity } from "../../utils/types";
@@ -17,7 +17,7 @@ const Activites = () => {
         pageSize: 10,
     });
 
-    const { data: activitiesData, isLoading } = useQuery({
+    const { data: activitiesData, isLoading, isError, error, refetch } = useQuery({
         queryKey: ['activites', pagination.pageIndex, pagination.pageSize],
         queryFn: () => getActivities({
             page: pagination.pageIndex + 1,
@@ -101,7 +101,16 @@ const Activites = () => {
                 </div>
             </div>
 
-            {isLoading ? <ActivitiesSkeleton /> : activitiesData && (
+            {isLoading ? (
+                <ActivitiesSkeleton />
+            ) : isError ? (
+                <QueryErrorState
+                    className="mt-6"
+                    error={error}
+                    onRetry={() => refetch()}
+                    title="Couldn't load activities"
+                />
+            ) : activitiesData ? (
                 <div className="page-body mt-6">
                     <ReusableTable
                         data={activitiesData?.data || []}
@@ -127,7 +136,7 @@ const Activites = () => {
                     />
 
                 </div>
-            )}
+            ) : null}
         </div>
     )
 }
@@ -135,13 +144,6 @@ const Activites = () => {
 const ActivitiesSkeleton = () => {
     return (
         <div className="activities">
-            <div className="page-header">
-                <div className="flex items-center justify-between">
-                    <Skeleton className="h-7 w-28 bg-primary/10" />
-                    <Skeleton className="h-10 w-28 rounded-sm bg-primary/10" />
-                </div>
-            </div>
-
             <div className="page-body mt-6 rounded-xl border border-primary/10 p-4 space-y-4">
                 {Array.from({ length: 10 }).map((_, index) => (
                     <div key={index} className="flex items-center gap-3">

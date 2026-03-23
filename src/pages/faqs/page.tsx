@@ -1,4 +1,4 @@
-import { ReusableTable, TableAction, Text } from "../../components";
+import { QueryErrorState, ReusableTable, TableAction, Text } from "../../components";
 import { Button } from "../../components/ui/button";
 import { type ColumnDef, type PaginationState } from "@tanstack/react-table";
 import { type FAQ } from "../../services/faq.service";
@@ -73,7 +73,7 @@ const FAQs = () => {
         pageSize: 10,
     });
 
-    const { data: faqData, isLoading } = useQuery({
+    const { data: faqData, isLoading, isError, error, refetch } = useQuery({
         queryKey: ['faqs', pagination.pageIndex, pagination.pageSize],
         queryFn: () => getFAQs({
             page: pagination.pageIndex + 1,
@@ -101,38 +101,46 @@ const FAQs = () => {
             </div>
 
             <div className="page-body mt-6">
-                <ReusableTable
-                    data={faqData?.data || []}
-                    columns={columns}
-                    manualPagination={true}
-                    pageCount={faqData?.totalPages || 1}
-                    pagination={pagination}
-                    onPaginationChange={setPagination}
-                    isLoading={isLoading}
-                    searchKeys={["question", "category"]}
-                    filters={[
-                        {
-                            columnKey: "category",
-                            title: "Category",
-                            options: [
-                                "getting_started",
-                                "nudges_ai",
-                                "gifts_waitlist",
-                                "notifications",
-                                "account_login",
-                                "privacy_security"
-                            ].map(c => ({ label: c.replace(/_/g, " "), value: c }))
-                        },
-                        {
-                            columnKey: "status",
-                            title: "Status",
-                            options: [
-                                "published",
-                                "unpublished"
-                            ].map(c => ({ label: c, value: c }))
-                        }
-                    ]}
-                />
+                {isError ? (
+                    <QueryErrorState
+                        error={error}
+                        onRetry={() => refetch()}
+                        title="Couldn't load FAQs"
+                    />
+                ) : (
+                    <ReusableTable
+                        data={faqData?.data || []}
+                        columns={columns}
+                        manualPagination={true}
+                        pageCount={faqData?.totalPages || 1}
+                        pagination={pagination}
+                        onPaginationChange={setPagination}
+                        isLoading={isLoading}
+                        searchKeys={["question", "category"]}
+                        filters={[
+                            {
+                                columnKey: "category",
+                                title: "Category",
+                                options: [
+                                    "getting_started",
+                                    "nudges_ai",
+                                    "gifts_waitlist",
+                                    "notifications",
+                                    "account_login",
+                                    "privacy_security"
+                                ].map(c => ({ label: c.replace(/_/g, " "), value: c }))
+                            },
+                            {
+                                columnKey: "status",
+                                title: "Status",
+                                options: [
+                                    "published",
+                                    "unpublished"
+                                ].map(c => ({ label: c, value: c }))
+                            }
+                        ]}
+                    />
+                )}
             </div>
         </div>
     )

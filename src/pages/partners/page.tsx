@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ReusableTable, TableAction, Text } from "../../components";
+import { QueryErrorState, ReusableTable, TableAction, Text } from "../../components";
 import { Button } from "../../components/ui/button";
 import { type ColumnDef, type PaginationState } from "@tanstack/react-table";
 import { type Partner } from "../../utils/types";
@@ -17,7 +17,7 @@ const Partners = () => {
         pageSize: 10,
     });
 
-    const { data: partnersData, isLoading } = useQuery({
+    const { data: partnersData, isLoading, isError, error, refetch } = useQuery({
         queryKey: ['partners', pagination.pageIndex, pagination.pageSize],
         queryFn: () => getPartners({
             page: pagination.pageIndex + 1,
@@ -122,35 +122,43 @@ const Partners = () => {
             </div>
 
             <div className="page-body mt-6">
-                <ReusableTable
-                    data={partnersData?.data || []}
-                    columns={columns}
-                    searchKeys={["name", "category", "internal_note", "url"]}
-                    isLoading={isLoading}
-                    onPaginationChange={setPagination}
-                    pagination={pagination}
-                    filters={[
-                        {
-                            columnKey: "category",
-                            title: "Category",
-                            options: [
-                                "gift",
-                                "florist",
-                                "tech",
-                                "experience",
-                                "chocolatier"
-                            ].map(c => ({ label: c, value: c }))
-                        },
-                        {
-                            columnKey: "status",
-                            title: "Status",
-                            options: [
-                                "active",
-                                "inactive"
-                            ].map(c => ({ label: c, value: c }))
-                        }
-                    ]}
-                />
+                {isError ? (
+                    <QueryErrorState
+                        error={error}
+                        onRetry={() => refetch()}
+                        title="Couldn't load partners"
+                    />
+                ) : (
+                    <ReusableTable
+                        data={partnersData?.data || []}
+                        columns={columns}
+                        searchKeys={["name", "category", "internal_note", "url"]}
+                        isLoading={isLoading}
+                        onPaginationChange={setPagination}
+                        pagination={pagination}
+                        filters={[
+                            {
+                                columnKey: "category",
+                                title: "Category",
+                                options: [
+                                    "gift",
+                                    "florist",
+                                    "tech",
+                                    "experience",
+                                    "chocolatier"
+                                ].map(c => ({ label: c, value: c }))
+                            },
+                            {
+                                columnKey: "status",
+                                title: "Status",
+                                options: [
+                                    "active",
+                                    "inactive"
+                                ].map(c => ({ label: c, value: c }))
+                            }
+                        ]}
+                    />
+                )}
             </div>
         </div>
     )

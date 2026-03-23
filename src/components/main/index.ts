@@ -8,3 +8,4 @@ export { default as StarRating } from "./StarRating";
 export { default as ActionModal } from "./ActionModal";
 export { default as NudgeType } from "./NudgeType";
 export { default as Truncate } from "./Truncate";
+export { default as QueryErrorState } from "./QueryErrorState";

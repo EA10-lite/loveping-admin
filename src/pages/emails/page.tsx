@@ -1,4 +1,4 @@
-import { ReusableTable, TableAction, Text } from "../../components";
+import { QueryErrorState, ReusableTable, TableAction, Text } from "../../components";
 import { Button } from "../../components/ui/button";
 import { type ColumnDef, type PaginationState } from "@tanstack/react-table";
 import { type Emails as EmailRecord, type FullUser } from "../../utils/types";
@@ -107,7 +107,7 @@ const EmailsPage = () => {
         pageSize: 10,
     });
 
-    const { data: emailsData, isLoading } = useQuery({
+    const { data: emailsData, isLoading, isError, error, refetch } = useQuery({
         queryKey: ['emails', pagination.pageIndex, pagination.pageSize],
         queryFn: () => getEmails({
             page: pagination.pageIndex + 1,
@@ -136,35 +136,43 @@ const EmailsPage = () => {
             </div>
 
             <div className="page-body mt-6">
-                <ReusableTable
-                    data={emailsData?.data || []}
-                    columns={columns}
-                    searchKeys={["title", "status"]}
-                    pagination={pagination}
-                    onPaginationChange={setPagination}
-                    pageCount={emailsData?.totalPages || 1}
-                    manualPagination={true}
-                    isLoading={isLoading}
-                    filters={[
-                        {
-                            columnKey: "status",
-                            title: "Status",
-                            options: [
-                                "Published",
-                                "Scheduled",
-                                "Draft"
-                            ].map(c => ({ label: c, value: c }))
-                        },
-                        {
-                            columnKey: "audience",
-                            title: "Audience",
-                            options: [
-                                { label: "All users", value: "all" },
-                                { label: "New users", value: "new_users" },
-                            ].map(c => ({ label: c.label, value: c.value }))
-                        }
-                    ]}
-                />
+                {isError ? (
+                    <QueryErrorState
+                        error={error}
+                        onRetry={() => refetch()}
+                        title="Couldn't load emails"
+                    />
+                ) : (
+                    <ReusableTable
+                        data={emailsData?.data || []}
+                        columns={columns}
+                        searchKeys={["title", "status"]}
+                        pagination={pagination}
+                        onPaginationChange={setPagination}
+                        pageCount={emailsData?.totalPages || 1}
+                        manualPagination={true}
+                        isLoading={isLoading}
+                        filters={[
+                            {
+                                columnKey: "status",
+                                title: "Status",
+                                options: [
+                                    "Published",
+                                    "Scheduled",
+                                    "Draft"
+                                ].map(c => ({ label: c, value: c }))
+                            },
+                            {
+                                columnKey: "audience",
+                                title: "Audience",
+                                options: [
+                                    { label: "All users", value: "all" },
+                                    { label: "New users", value: "new_users" },
+                                ].map(c => ({ label: c.label, value: c.value }))
+                            }
+                        ]}
+                    />
+                )}
             </div>
         </div>
     )
