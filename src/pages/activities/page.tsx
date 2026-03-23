@@ -70,7 +70,7 @@ const Activites = () => {
                                 letterSpacing={"-2%"}
                             />
                             <Text
-                                title={`${row.original.type} • ${formatTime(row.original.createdAt)}`}
+                                title={`${getType(row.original.type)} • ${formatTime(row.original.createdAt)}`}
                                 type="p"
                                 letterSpacing={"-2%"}
                                 className="text-xs text-grey capitalize"
