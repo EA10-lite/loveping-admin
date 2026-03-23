@@ -49,7 +49,8 @@ const Activites = () => {
 
     const columns: ColumnDef<Activity>[] = [
         {
-            accessorKey: "user",
+            accessorKey: "type",
+            header: "Type",
             cell: ({ row }) => {
                 const type = row.original.type as string;
                 return (
@@ -125,7 +126,7 @@ const Activites = () => {
                             {
                                 columnKey: "type",
                                 title: "Type",
-                                options: ["ping", "auth", "feedback", "gift", "nudge", "notification", "generated"].map(c => ({ label: c, value: c }))
+                                options: ["ping", "auth", "profile", "feedback", "gift", "nudge", "notification", "generated"].map(c => ({ label: c, value: c }))
                             },
                         ]}
                     />
