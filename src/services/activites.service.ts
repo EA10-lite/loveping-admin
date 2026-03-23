@@ -16,6 +16,6 @@ export interface GetActivitiesParams {
 }
 
 export const getActivities = async (params?: GetActivitiesParams) => {
-    const response = await client.get<ActivitiesResponse>("/activities", { params });
+    const response = await client.get<ActivitiesResponse>("/auth/admin/activities", { params });
     return response.data;
 }

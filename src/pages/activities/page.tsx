@@ -125,13 +125,8 @@ const Activites = () => {
                             {
                                 columnKey: "type",
                                 title: "Type",
-                                options: ["Bug", "Feature", "Improvement"].map(c => ({ label: c, value: c }))
+                                options: ["ping", "auth", "feedback", "gift", "nudge", "notification", "generated"].map(c => ({ label: c, value: c }))
                             },
-                            {
-                                columnKey: "status",
-                                title: "Status",
-                                options: ["new", "resolved", "closed"].map(s => ({ label: s, value: s }))
-                            }
                         ]}
                     />
 
