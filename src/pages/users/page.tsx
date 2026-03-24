@@ -75,7 +75,7 @@ const columns: ColumnDef<FullUser>[] = [
                     Edit={row.original?.user_type !== "Admin" ? <EditUser user={row.original} /> : null}
                     Delete={<ResetPassword
                         name={row.original.full_name}
-                        email={row.original.email_address}
+                        email={row.original.email_address || row.original.email || ""}
                     />}
                 />
             </div>

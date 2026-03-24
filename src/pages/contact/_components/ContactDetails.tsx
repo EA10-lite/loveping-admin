@@ -1,5 +1,4 @@
 import { DetailsModal, ModalFieldItem, Text } from "../../../components";
-import React from "react";
 import type { ContactMessage } from "../../../utils/types";
 import { formatDateString } from "../../../utils/formatter";
 
@@ -55,7 +54,7 @@ const ContactDetails = ({ contact }: { contact: ContactMessage }) => {
 
                     <div className="space-y-2.5">
                         <ModalFieldItem
-                            value={contact.feedback_type}
+                            value={contact.user.email}
                             className="text-white capitalize"
                         />
                     </div>

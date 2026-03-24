@@ -258,4 +258,5 @@ export interface ContactMessage {
     user: User;
     createdAt: Date;
     updatedAt: Date;
+    message: string;
 }
