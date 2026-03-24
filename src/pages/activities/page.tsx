@@ -116,7 +116,7 @@ const Activites = () => {
                     <ReusableTable
                         data={activitiesData?.data || []}
                         columns={columns}
-                        searchKeys={["description", "type", "status"]}
+                        searchKeys={["message", "type"]}
                         showHeader={false}
                         manualPagination={true}
                         pageCount={activitiesData?.totalPages || 1}

@@ -29,12 +29,10 @@ const ManageFAQ = ({
     faq,
     type,
 }: ManageFAQProps) => {
-    const [loading, setLoading] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
     const queryClient = useQueryClient();
 
     const handleSubmit = async (values: any) => {
-        setLoading(true);
         try {
             if (type === "add") {
                 await createFAQ(values);
@@ -69,8 +67,6 @@ const ManageFAQ = ({
                     </div>
                 )
             })
-        } finally {
-            setLoading(false);
         }
     }
 
@@ -85,7 +81,7 @@ const ManageFAQ = ({
             onSubmit={handleSubmit}
             validationSchema={addFAQValidation}
         >
-            {({ submitForm, dirty }) => (
+            {({ submitForm, dirty, isSubmitting }) => (
                 <FormModal
                     title={type === "add" ? "Add FAQ" : "FAQ Review"}
                     open={open}
@@ -113,9 +109,9 @@ const ManageFAQ = ({
                             className="rounded-full w-full h-12"
                             variant={type === "add" ? "default" : dirty ? "default" : "muted"}
                             onClick={submitForm}
-                            disabled={loading}
+                            disabled={isSubmitting}
                         >
-                            {loading ? (
+                            {isSubmitting ? (
                                 <LuLoaderCircle className="animate-spin text-white" />
                             ) : (
                                 <span>{type === "add" ? "Add FAQ" : "Save Changes"}</span>
@@ -130,7 +126,7 @@ const ManageFAQ = ({
                                 label="Question"
                                 className="h-12"
                                 isMandatory={true}
-                                disabled={loading}
+                                disabled={isSubmitting}
                             />
                             <FormSelect
                                 name="category"
@@ -147,7 +143,7 @@ const ManageFAQ = ({
                                         { label: "Published", value: "published" },
                                         { label: "Unpublished", value: "unpublished" },
                                     ]}
-                                    disabled={loading}
+                                    disabled={isSubmitting}
                                 />
                             )}
                             {/* Also support status for ADD if requirement says so, but typically draft/published on add is useful. 
@@ -162,7 +158,7 @@ const ManageFAQ = ({
                                         { label: "Published", value: "published" },
                                         { label: "Unpublished", value: "unpublished" },
                                     ]}
-                                    disabled={loading}
+                                    disabled={isSubmitting}
                                 />
                             )}
 
@@ -170,7 +166,7 @@ const ManageFAQ = ({
                                 name="answer"
                                 label="Answer"
                                 isMandatory={true}
-                                disabled={loading}
+                                disabled={isSubmitting}
                             />
                         </div>
                     </div>

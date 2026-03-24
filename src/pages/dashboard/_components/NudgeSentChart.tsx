@@ -1,5 +1,5 @@
-import { TrendingUp } from "lucide-react"
-import { useState } from "react"
+import { TrendingDown, TrendingUp } from "lucide-react"
+import { useMemo, useState } from "react"
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
 
 import {
@@ -14,46 +14,61 @@ import {
   type ChartConfig,
 } from "../../../components/ui/chart"
 import { Button } from "../../../components/ui/button"
+import type { NudgeTimeSeries } from "../../../services/dashboard.service"
 
-const DATA_MAP: Record<string, { label: string; nudges: number }[]> = {
-  Day: [
-    { label: "12am", nudges: 100 },
-    { label: "4am", nudges: 50 },
-    { label: "8am", nudges: 200 },
-    { label: "12pm", nudges: 600 },
-    { label: "4pm", nudges: 800 },
-    { label: "8pm", nudges: 400 },
-    { label: "11pm", nudges: 200 },
-  ],
-  Week: [
-    { label: "Mon", nudges: 400 },
-    { label: "Tue", nudges: 300 },
-    { label: "Wed", nudges: 600 },
-    { label: "Thu", nudges: 800 },
-    { label: "Fri", nudges: 500 },
-    { label: "Sat", nudges: 900 },
-    { label: "Sun", nudges: 700 },
-  ],
-  Month: [
-    { label: "Week 1", nudges: 2000 },
-    { label: "Week 2", nudges: 1500 },
-    { label: "Week 3", nudges: 3000 },
-    { label: "Week 4", nudges: 2500 },
-  ],
-  Year: [
-    { label: "Jan", nudges: 350 },
-    { label: "Feb", nudges: 350 },
-    { label: "Mar", nudges: 550 },
-    { label: "Apr", nudges: 300 },
-    { label: "May", nudges: 800 },
-    { label: "Jun", nudges: 800 },
-    { label: "Jul", nudges: 400 },
-    { label: "Aug", nudges: 700 },
-    { label: "Sep", nudges: 1000 },
-    { label: "Oct", nudges: 300 },
-    { label: "Nov", nudges: 300 },
-    { label: "Dec", nudges: 150 },
-  ]
+type Timeframe = "Day" | "Week" | "Month" | "Year"
+
+type NudgeSentChartProps = {
+  data?: {
+    day: NudgeTimeSeries
+    week: NudgeTimeSeries
+    month: NudgeTimeSeries
+    year: NudgeTimeSeries
+  }
+}
+
+const TIMEFRAME_KEY: Record<Timeframe, keyof NonNullable<NudgeSentChartProps["data"]>> =
+  {
+    Day: "day",
+    Week: "week",
+    Month: "month",
+    Year: "year",
+  }
+
+type ChartRow = { label: string; nudges: number }
+
+function formatAxisLabel(timeframe: Timeframe, rawLabel: string): string {
+  if (timeframe === "Day") {
+    const parts = rawLabel.trim().split(/\s+/)
+    return parts[parts.length - 1] ?? rawLabel
+  }
+  if (timeframe === "Week" || timeframe === "Month") {
+    const d = new Date(`${rawLabel}T12:00:00`)
+    if (!Number.isNaN(d.getTime())) {
+      return d.toLocaleDateString(undefined, { month: "short", day: "numeric" })
+    }
+  }
+  if (timeframe === "Year") {
+    const [y, m] = rawLabel.split("-")
+    if (y && m) {
+      const d = new Date(Number(y), parseInt(m, 10) - 1, 1)
+      if (!Number.isNaN(d.getTime())) {
+        return d.toLocaleDateString(undefined, { month: "short", year: "2-digit" })
+      }
+    }
+  }
+  return rawLabel
+}
+
+function buildChartRows(
+  series: NudgeTimeSeries | undefined,
+  timeframe: Timeframe
+): ChartRow[] {
+  if (!series?.points?.length) return []
+  return series.points.map((p) => ({
+    label: formatAxisLabel(timeframe, p.label),
+    nudges: p.count,
+  }))
 }
 
 const chartConfig = {
@@ -63,50 +78,77 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-const CustomTooltip = ({ active, payload, label, timeframe }: any) => {
-  if (active && payload && payload.length) {
-    const value = payload[0].value;
+const CustomTooltip = ({
+  active,
+  payload,
+  label,
+  chartData,
+}: {
+  active?: boolean
+  payload?: Array<{ value?: number }>
+  label?: string
+  chartData: ChartRow[]
+}) => {
+  if (!active || !payload?.length || label == null) return null
 
-    // Determine the comparison period text
-    let comparisonText = "";
-    if (timeframe === "Year") {
-      // Find previous month index
-      const currentIndex = DATA_MAP.Year.findIndex(d => d.label === label);
-      if (currentIndex > 0) {
-        comparisonText = `increase to ${DATA_MAP.Year[currentIndex - 1].label}`;
-      } else {
-        comparisonText = "increase to last year";
-      }
-    } else {
-      comparisonText = `increase to previous ${timeframe.toLowerCase()}`;
-    }
+  const value = Number(payload[0].value ?? 0)
+  const idx = chartData.findIndex((d) => d.label === label)
+  const prev = idx > 0 ? chartData[idx - 1].nudges : null
 
-    return (
-      <div className="bg-[#0E2E25] rounded-lg p-4 min-w-[168px] shadow-xl border border-white/5">
-        <div className="flex items-baseline gap-1.5">
-          <span className="text-base font-semibold text-white">{value}</span>
-          <span className="text-xs text-grey">Nudges Sent</span>
-        </div>
+  let comparison: React.ReactNode = null
+  if (prev !== null) {
+    const diff = value - prev
+    if (diff > 0) {
+      comparison = (
         <div className="flex items-center gap-1.5 mt-2">
-          <TrendingUp className="w-4 h-4 text-primary" />
-          <span className="text-sm font-medium text-white">+20% {comparisonText}</span>
+          <TrendingUp className="w-4 h-4 text-primary shrink-0" />
+          <span className="text-sm font-medium text-white">
+            +{diff} vs previous period
+          </span>
         </div>
-      </div>
-    );
+      )
+    } else if (diff < 0) {
+      comparison = (
+        <div className="flex items-center gap-1.5 mt-2">
+          <TrendingDown className="w-4 h-4 text-red-400 shrink-0" />
+          <span className="text-sm font-medium text-white">
+            {diff} vs previous period
+          </span>
+        </div>
+      )
+    } else {
+      comparison = (
+        <p className="text-sm text-white/70 mt-2">Same as previous period</p>
+      )
+    }
   }
-  return null;
-};
 
-const NudgeSentChart = () => {
-  const [timeframe, setTimeframe] = useState("Year");
-  const chartData = DATA_MAP[timeframe];
+  return (
+    <div className="bg-[#0E2E25] rounded-lg p-4 min-w-[168px] shadow-xl border border-white/5">
+      <p className="text-xs text-grey mb-1">{label}</p>
+      <div className="flex items-baseline gap-1.5">
+        <span className="text-base font-semibold text-white">{value}</span>
+        <span className="text-xs text-grey">nudges sent</span>
+      </div>
+      {comparison}
+    </div>
+  )
+}
+
+const NudgeSentChart = ({ data }: NudgeSentChartProps) => {
+  const [timeframe, setTimeframe] = useState<Timeframe>("Year")
+
+  const chartData = useMemo(() => {
+    const key = TIMEFRAME_KEY[timeframe]
+    return buildChartRows(data?.[key], timeframe)
+  }, [data, timeframe])
 
   return (
     <Card className="border-[0.5px] border-white/5 bg-secondary-foreground p-4 rounded-xl text-white space-y-6">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 p-0">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 p-0 flex-wrap gap-3">
         <CardTitle className="text-lg font-medium">Nudges Sent Over Time</CardTitle>
-        <div className="flex items-center gap-2 p-1 rounded-full">
-          {["Day", "Week", "Month", "Year"].map((filter) => (
+        <div className="flex items-center gap-2 p-1 rounded-full flex-wrap justify-end">
+          {(Object.keys(TIMEFRAME_KEY) as Timeframe[]).map((filter) => (
             <Button
               key={filter}
               variant="ghost"
@@ -131,7 +173,7 @@ const NudgeSentChart = () => {
               left: 0,
               right: 12,
               top: 10,
-              bottom: 0
+              bottom: 0,
             }}
           >
             <CartesianGrid
@@ -144,18 +186,19 @@ const NudgeSentChart = () => {
               tickLine={false}
               axisLine={false}
               tickMargin={15}
-              tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 12 }}
+              minTickGap={timeframe === "Day" ? 8 : 24}
+              tick={{ fill: "rgba(255,255,255,0.4)", fontSize: 12 }}
             />
             <YAxis
               tickLine={false}
               axisLine={false}
               tickMargin={15}
-              ticks={timeframe === "Month" ? [500, 1000, 1500, 2000, 2500, 3000] : [100, 300, 500, 700, 1000, 1200]}
-              tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 12 }}
+              allowDecimals={false}
+              tick={{ fill: "rgba(255,255,255,0.4)", fontSize: 12 }}
             />
             <ChartTooltip
               cursor={false}
-              content={<CustomTooltip timeframe={timeframe} />}
+              content={<CustomTooltip chartData={chartData} />}
             />
             <Line
               dataKey="nudges"
@@ -182,5 +225,4 @@ const NudgeSentChart = () => {
   )
 }
 
-
-export default NudgeSentChart;
+export default NudgeSentChart

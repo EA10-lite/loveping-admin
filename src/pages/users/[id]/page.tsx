@@ -48,11 +48,30 @@ const UserDetails = () => {
         }
     })
 
+    const activities = userData?.activity_events?.map((item) => {
+        return {
+            ...item,
+            user: userData?.user?.full_name,
+        }
+    })
+
+    const feedbacks = userData?.feedback?.map((item) => {
+        return {
+            ...item,
+            id: item.id,
+            user: {
+                _id: userData?.user?._id,
+                id: userData?.user?.id,
+                full_name: userData?.user?.full_name,
+            }
+        }
+    })
+
     const tabs = [
         {
             label: "Activity",
             value: "activity",
-            Component: <Activity activities={[]} />
+            Component: <Activity activities={activities || []} />
         },
         {
             label: "Nudges",
@@ -71,7 +90,7 @@ const UserDetails = () => {
         {
             label: "Feedback",
             value: "feedback",
-            Component: <Feedback feedbacks={[]} />
+            Component: <Feedback feedbacks={feedbacks || []} />
         },
     ]
 

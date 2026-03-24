@@ -21,12 +21,10 @@ const ManagePartner = ({
     partner,
     type,
 }: ManagePartnerProps) => {
-    const [loading, setLoading] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
     const queryClient = useQueryClient();
 
     const handleSubmit = async (values: any) => {
-        setLoading(true);
         try {
             if (type === "add") {
                 await addPartner(values);
@@ -61,8 +59,6 @@ const ManagePartner = ({
                     </div>
                 )
             })
-        } finally {
-            setLoading(false);
         }
     }
     return (
@@ -77,7 +73,7 @@ const ManagePartner = ({
             onSubmit={handleSubmit}
             validationSchema={addPartnerValidation}
         >
-            {({ submitForm, dirty }) => (
+            {({ submitForm, dirty, isSubmitting }) => (
                 <FormModal
                     title={type === "add" ? "Add Partner" : "Edit Partner"}
                     open={open}
@@ -104,9 +100,9 @@ const ManagePartner = ({
                             className="rounded-full w-full h-12"
                             variant={type === "add" ? "default" : dirty ? "default" : "muted"}
                             onClick={submitForm}
-                            disabled={loading}
+                            disabled={isSubmitting}
                         >
-                            {loading ? (
+                            {isSubmitting ? (
                                 <LuLoaderCircle className="animate-spin text-white" />
                             ) : (
                                 <span>{type === "add" ? "Add Partner" : "Save Changes"}</span>

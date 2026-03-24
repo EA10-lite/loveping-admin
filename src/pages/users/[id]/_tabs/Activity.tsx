@@ -67,7 +67,7 @@ const Activites = ({ activities }: { activities: Activity[] }) => {
             <ReusableTable
                 data={activities}
                 columns={columns}
-                searchKeys={["description", "type", "status"]}
+                searchKeys={["message", "type"]}
                 showHeader={false}
                 filters={[
                     {

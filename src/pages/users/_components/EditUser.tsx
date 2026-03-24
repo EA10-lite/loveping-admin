@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { FormField, FormModal, Text } from "../../../components";
 import type { FullUser } from "../../../utils/types";
 import { Button } from "../../../components/ui/button";
@@ -16,10 +15,8 @@ interface ManagePartnerProps {
 const EditUser = ({
     user,
 }: ManagePartnerProps) => {
-    const [loading, setLoading] = useState<boolean>(false);
     const handleSubmit = async () => {
         try {
-            setLoading(true);
             await new Promise((resolve) => setTimeout(resolve, 1000));
             toast.success("User details updated successfully", {
                 icon: (
@@ -28,8 +25,6 @@ const EditUser = ({
                     </div>
                 )
             })
-
-            setLoading(false);
         } catch (error) {
             console.log("error: ", error);
             toast.error("Failed to update user details")
@@ -44,7 +39,7 @@ const EditUser = ({
             onSubmit={handleSubmit}
             validationSchema={editUserValidation}
         >
-            {({ submitForm }) => (
+            {({ submitForm, isSubmitting }) => (
                 <FormModal
                     title={"Edit User"}
                     ActionButton={(
@@ -52,9 +47,9 @@ const EditUser = ({
                             className="rounded-full w-full h-12"
                             variant={"default"}
                             onClick={submitForm}
-                            disabled={loading}
+                            disabled={isSubmitting}
                         >
-                            {loading ? (
+                            {isSubmitting ? (
                                 <LuLoaderCircle className="animate-spin text-white" />
                             ) : (
                                 <span>Save changes</span>

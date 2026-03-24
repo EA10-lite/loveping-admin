@@ -22,7 +22,6 @@ const ManageEmail = ({
     type,
 }: ManagePartnerProps) => {
     const queryClient = useQueryClient();
-    const [loading, setLoading] = useState<boolean>(false);
     const [open, setOpen] = useState(false);
 
     const parseScheduledAt = (iso?: string): { date: Date | undefined; time: string } => {
@@ -34,7 +33,6 @@ const ManageEmail = ({
     };
 
     const handleSubmit = async (values: CreateEmailPayload & { scheduled_date?: Date; scheduled_time?: string }) => {
-        setLoading(true);
         const [h, m, s] = values.scheduled_time?.split(":").map(Number) ?? [0, 0, 0];
         const scheduled_at =
             values.status === "schedule_for_later" && values.scheduled_date && values.scheduled_time
@@ -94,8 +92,6 @@ const ManageEmail = ({
                     </div>
                 )
             })
-        } finally {
-            setLoading(false);
         }
     }
     return (
@@ -114,7 +110,7 @@ const ManageEmail = ({
             onSubmit={handleSubmit}
             validationSchema={emailAndNotificationValidation}
         >
-            {({ submitForm, values }) => (
+            {({ submitForm, values, isSubmitting }) => (
                 <FormModal
                     open={open}
                     onOpenChange={setOpen}
@@ -142,9 +138,9 @@ const ManageEmail = ({
                             className="rounded-full w-full h-12"
                             variant={type === "add" ? "default" : "muted"}
                             onClick={submitForm}
-                            disabled={loading}
+                            disabled={isSubmitting}
                         >
-                            {loading ? (
+                            {isSubmitting ? (
                                 <LuLoaderCircle className="animate-spin text-white" />
                             ) : (
                                 <span>{type === "add" ? "Created & Send" : "Save Changes"}</span>

@@ -132,7 +132,7 @@ const Dashboard = () => {
                 </div>
 
                 <div className="w-full">
-                    <NudgeSentChart />
+                    <NudgeSentChart data={dashboardData?.nudges_sent_over_time} />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

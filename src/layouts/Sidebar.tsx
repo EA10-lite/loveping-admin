@@ -86,6 +86,11 @@ const items = [
     url: "/emails",
     icon: Mail,
   },
+  {
+    title: "Contact",
+    url: "/contact",
+    icon: MessageCircleMore,
+  }
 ]
 
 const AppSidebar = () => {

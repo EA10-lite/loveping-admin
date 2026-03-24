@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Check, Plus, X } from "lucide-react";
 import { DateAndTimePicker, FormField, FormModal, FormRadio, FormSelect, ModalFieldItem, Text, Textbox } from "../../../components";
 import type { Notification } from "../../../utils/types";
@@ -19,10 +18,8 @@ const ManageNotification = ({
     notification,
     type,
 }: ManagePartnerProps) => {
-    const [loading, setLoading] = useState<boolean>(false);
     const handleSubmit = async () => {
         try {
-            setLoading(true);
             await new Promise((resolve) => setTimeout(resolve, 1000));
             toast.success("Notification scheduled successfully", {
                 icon: (
@@ -31,8 +28,6 @@ const ManageNotification = ({
                     </div>
                 )
             })
-
-            setLoading(false);
         } catch (error) {
             console.log("error: ", error);
             toast.error("Failed to submit partner details", {
@@ -58,7 +53,7 @@ const ManageNotification = ({
             onSubmit={handleSubmit}
             validationSchema={emailAndNotificationValidation}
         >
-            {({ submitForm, values }) => (
+            {({ submitForm, values, isSubmitting }) => (
                 <FormModal
                     title={type === "add" ? "Created Notification" : "Edit Notification"}
                     TriggerButton={
@@ -84,9 +79,9 @@ const ManageNotification = ({
                             className="rounded-full w-full h-12"
                             variant={type === "add" ? "default" : "muted"}
                             onClick={submitForm}
-                            disabled={loading}
+                            disabled={isSubmitting}
                         >
-                            {loading ? (
+                            {isSubmitting ? (
                                 <LuLoaderCircle className="animate-spin text-white" />
                             ) : (
                                 <span>{type === "add" ? "Created & Send" : "Save Changes"}</span>

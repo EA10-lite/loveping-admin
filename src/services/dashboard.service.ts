@@ -1,8 +1,15 @@
 import client from "./client.service";
 
-interface Point {
+export interface NudgeTimePoint {
     label: string;
     count: number;
+}
+
+export interface NudgeTimeSeries {
+    range: string;
+    start: string;
+    end: string;
+    points: NudgeTimePoint[];
 }
 
 export interface DashboardResponse {
@@ -22,10 +29,10 @@ export interface DashboardResponse {
         inactive: number
     },
     nudges_sent_over_time: {
-        range: "year" | "month" | "week" | "30d" | "7d",
-        start: string,
-        end: string,
-        points: Point[];
+        day: NudgeTimeSeries;
+        week: NudgeTimeSeries;
+        month: NudgeTimeSeries;
+        year: NudgeTimeSeries;
     },
     nudge_type_distribution: {
         by_ping_type: {

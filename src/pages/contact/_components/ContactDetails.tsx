@@ -1,22 +1,12 @@
-import { DetailsModal, ModalFieldItem, Text } from "../";
+import { DetailsModal, ModalFieldItem, Text } from "../../../components";
 import React from "react";
-import type { Feedback } from "../../utils/types";
-import { formatDateString } from "../../utils/formatter";
-import DeleteFeedback from "./DeleteFeedback";
+import type { ContactMessage } from "../../../utils/types";
+import { formatDateString } from "../../../utils/formatter";
 
-const FeedbackDetails = ({ feedback }: { feedback: Feedback }) => {
-    const [open, setOpen] = React.useState<boolean>(false);
+const ContactDetails = ({ contact }: { contact: ContactMessage }) => {
     return (
         <DetailsModal
             title="Feedback Details"
-            ActionButton={
-                <DeleteFeedback
-                    onSuccess={() => setOpen(false)}
-                    id={feedback._id || feedback.id as string}
-                />
-            }
-            open={open}
-            onOpenChange={setOpen}
         >
             <div className="p-4 space-y-6">
                 <div className="space-y-4">
@@ -29,15 +19,15 @@ const FeedbackDetails = ({ feedback }: { feedback: Feedback }) => {
                     <div className="space-y-2.5">
                         <ModalFieldItem
                             label="Fullname"
-                            value={feedback.user?.name || feedback.user?.full_name}
+                            value={contact.user?.name || contact.user?.full_name}
                         />
                         <ModalFieldItem
                             label="Email Address"
-                            value={feedback.user?.email || feedback.user?.email_address}
+                            value={contact.user?.email || contact.user?.email_address}
                         />
                         <ModalFieldItem
                             label="User ID"
-                            value={feedback.user._id || feedback?.user.id}
+                            value={contact.user._id || contact?.user.id}
                         />
                     </div>
                 </div>
@@ -51,7 +41,7 @@ const FeedbackDetails = ({ feedback }: { feedback: Feedback }) => {
                     <div className="space-y-2.5">
                         <ModalFieldItem
                             label="Created At:"
-                            value={formatDateString(feedback.createdAt)}
+                            value={formatDateString(contact.createdAt)}
                             className="flex-row"
                         />
                     </div>
@@ -65,7 +55,7 @@ const FeedbackDetails = ({ feedback }: { feedback: Feedback }) => {
 
                     <div className="space-y-2.5">
                         <ModalFieldItem
-                            value={feedback.feedback_type}
+                            value={contact.feedback_type}
                             className="text-white capitalize"
                         />
                     </div>
@@ -77,7 +67,7 @@ const FeedbackDetails = ({ feedback }: { feedback: Feedback }) => {
                         className="text-primary font-medium"
                     />
 
-                    <ModalFieldItem value={feedback.message} />
+                    <ModalFieldItem value={contact.message} />
                 </div>
             </div>
         </DetailsModal>
@@ -85,4 +75,4 @@ const FeedbackDetails = ({ feedback }: { feedback: Feedback }) => {
 }
 
 
-export default FeedbackDetails;
+export default ContactDetails;

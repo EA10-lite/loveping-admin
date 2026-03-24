@@ -3,16 +3,13 @@ import { login as loginService } from "../../../services/auth.service";
 import { toast } from "sonner";
 import { loginValidation } from "../../../utils/validation";
 import { FormField, Submit } from "../../../components";
-import { useState } from "react";
 import { useAdminStore } from "../../../store/adminStore";
 import { Check, X } from "lucide-react";
 
 
 const Login = () => {
     const { login } = useAdminStore();
-    const [loading, setLoading] = useState<boolean>(false);
     const handleSubmit = async (values: { email_address: string; password: string }) => {
-        setLoading(true);
         try {
             const response = await loginService(values);
             login(response);
@@ -31,8 +28,6 @@ const Login = () => {
                     </div>
                 )
             })
-        } finally {
-            setLoading(false);
         }
     }
 
@@ -57,27 +52,27 @@ const Login = () => {
                             onSubmit={handleSubmit}
                             validationSchema={loginValidation}
                         >
-                            {() => (
+                            {({ isSubmitting }) => (
                                 <div className="form-content w-full space-y-2.5">
                                     <FormField
                                         name="email_address"
                                         placeholder=""
                                         label="Email Address"
                                         type="email"
-                                        disabled={loading}
+                                        disabled={isSubmitting}
                                     />
                                     <FormField
                                         name="password"
                                         placeholder=""
                                         label="Password"
                                         type="password"
-                                        disabled={loading}
+                                        disabled={isSubmitting}
                                     />
 
                                     <div className="mt-6">
                                         <Submit
                                             title="Login"
-                                            loading={loading}
+                                            loading={isSubmitting}
                                         />
                                     </div>
                                 </div>

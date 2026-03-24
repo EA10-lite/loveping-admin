@@ -9,7 +9,7 @@ export interface User {
     full_name: string;
     name?: string;
     email?: string;
-    email_address: string;
+    email_address?: string;
 }
 
 export interface PingsCount {
@@ -44,8 +44,8 @@ export interface FullUser extends User {
     user_type?: "ping_user" | "ping_admin" | "Admin";
     notes?: Note[];
     nudges?: Nudge[];
-    feedbacks?: Feedback[];
-    activites?: Activity[];
+    feedback?: Feedback[];
+    activity_events?: Activity[];
     pings_count?: PingsCount;
 }
 
@@ -53,6 +53,7 @@ export interface FullUser extends User {
 export interface UserDetails extends FullUser {
     user: {
         _id: string;
+        id?: string;
         full_name: string;
         email_address: string;
         user_type: "ping_user" | "ping_admin";
@@ -100,7 +101,7 @@ export type AddNotification = {
 export interface Activity {
     _id: string;
     createdAt: Date;
-    type: "nudge" | "notification" | "feedback" | "gift";
+    type: "nudge" | "notification" | "feedback" | "gift" | "account" | "string";
     message: string;
 }
 
@@ -242,10 +243,19 @@ export interface Nudge {
 
 export interface Feedback {
     _id: string;
+    id?: string;
     user: User;
     message: string;
     feedback_type: 'positive' | 'negative';
     rating?: number;
     type?: string;
     createdAt: Date;
+}
+
+
+export interface ContactMessage {
+    _id: string;
+    user: User;
+    createdAt: Date;
+    updatedAt: Date;
 }

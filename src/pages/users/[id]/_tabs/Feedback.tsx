@@ -1,18 +1,21 @@
-import { ReusableTable, StarRating, TableAction, Truncate } from "../../../../components";
+import { ReusableTable, TableAction, Truncate } from "../../../../components";
 import { type ColumnDef } from "@tanstack/react-table";
 import { type Feedback as FeedbackType } from "../../../../utils/types";
 import { formatDateString } from "../../../../utils/formatter";
 import { FeedbackDetails } from "../../../../components/shared";
+import { Badge } from "../../../../components/ui/badge";
 
 const columns: ColumnDef<FeedbackType>[] = [
     {
-        accessorKey: "rating",
-        header: "Rating/Type",
+        accessorKey: "feedback_type",
+        header: "Feedback Details",
         cell: ({ row }) => (
-            <div className="flex items-center gap-2">
-                <StarRating rating={row.getValue("rating")} />
-                <span className="text-white capitalize">{row.original.type}</span>
-            </div>
+            <Badge
+                className={`hover:bg-secondary-foreground/80 font-normal capitalize`}
+                variant={row.getValue("feedback_type") === "positive" ? "default" : "destructive"}
+            >
+                {row.getValue("feedback_type")}
+            </Badge>
         )
     },
     {
