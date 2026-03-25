@@ -1,4 +1,4 @@
-import { QueryErrorState, ReusableTable, Text } from "../../components";
+import { QueryErrorState, ReusableTable, TableAction, Text } from "../../components";
 import { Button } from "../../components/ui/button";
 import { PiExport } from "react-icons/pi";
 import { type ColumnDef, type PaginationState } from "@tanstack/react-table";
@@ -8,21 +8,32 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Badge } from "../../components/ui/badge";
 import { getContactMessages } from "../../services/contact.service";
+import ContactDetails from "./_components/ContactDetails";
+import ReplyCustomer from "./_components/ReplyCustomer";
+import { exportToCSV } from "../../utils/exportToCSV";
 
 const columns: ColumnDef<ContactMessage>[] = [
     {
-        accessorKey: "user",
-        header: "User",
+        accessorKey: "name",
+        header: "Name",
         cell: ({ row }) => {
-            const user = row.original.user;
             return (
-                <span className="text-sm text-white">{user?.name}</span>
+                <span className="text-sm text-white">{row.getValue("name")}</span>
+            )
+        }
+    },
+    {
+        accessorKey: "email_address",
+        header: "Email",
+        cell: ({ row }) => {
+            return (
+                <span className="text-sm text-white">{row.getValue("email_address")}</span>
             )
         }
     },
     {
         accessorKey: "message",
-        header: "Feedback Preview",
+        header: "Message",
         cell: ({ row }) => (
             <span className="text-white line-clamp-1 max-w-[300px]">
                 {row.getValue("message")}
@@ -30,16 +41,19 @@ const columns: ColumnDef<ContactMessage>[] = [
         )
     },
     {
-        accessorKey: "feedback_type",
-        header: "Feedback Details",
-        cell: ({ row }) => (
-            <Badge
-                className={`hover:bg-secondary-foreground/80 font-normal capitalize`}
-                variant={row.getValue("feedback_type") === "positive" ? "default" : "destructive"}
-            >
-                {row.getValue("feedback_type")}
-            </Badge>
-        )
+        accessorKey: "replies",
+        header: "Replied",
+        cell: ({ row }) => {
+            const hasReplied = row.original.replied_at;
+            return (
+                <Badge
+                    className={`hover:bg-secondary-foreground/80 font-normal capitalize`}
+                    variant={hasReplied ? "default" : "pending"}
+                >
+                    {hasReplied ? "True" : "False"}
+                </Badge>
+            )
+        }
     },
     {
         accessorKey: "createdAt",
@@ -53,8 +67,12 @@ const columns: ColumnDef<ContactMessage>[] = [
     {
 
         header: "Action",
-        cell: () => (
+        cell: ({ row }) => (
             <div className="flex justify-end">
+                <TableAction
+                    View={<ContactDetails contact={row.original} />}
+                    Edit={<ReplyCustomer _id={row.original._id} />}
+                />
             </div>
         )
     }
@@ -76,6 +94,16 @@ const Contact = () => {
 
     const handleExport = () => {
         if (!feedbacksData?.data) return;
+
+        const dataToExport = feedbacksData.data.map((contact: ContactMessage) => ({
+            "Name": contact.name,
+            "Email": contact.email_address,
+            "Message": contact.message,
+            "Replied": contact.replied_at ? "True" : "False",
+            "Submitted At": formatDateString(contact.createdAt)
+        }));
+
+        exportToCSV(dataToExport, "contacts");
     };
 
     return (
@@ -116,14 +144,7 @@ const Contact = () => {
                         manualPagination={true}
                         isLoading={isLoading}
                         columns={columns}
-                        searchKeys={["message", "category"]}
-                        filters={[
-                            {
-                                columnKey: "category",
-                                title: "Type/Category",
-                                options: ["Positive", "Negative"].map(c => ({ label: c, value: c }))
-                            },
-                        ]}
+                        searchKeys={["message"]}
                     />
                 )}
             </div>
