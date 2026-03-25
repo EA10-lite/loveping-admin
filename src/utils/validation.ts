@@ -39,3 +39,9 @@ export const emailAndNotificationValidation = Yup.object().shape({
     created_after: Yup.string().optional(),
     scheduled_at: Yup.string().optional(),
 })
+
+
+export const replyCustomerValidation = Yup.object().shape({
+    subject: Yup.string().required(),
+    message: Yup.string().required(),
+})

@@ -253,10 +253,29 @@ export interface Feedback {
 }
 
 
-export interface ContactMessage {
+export interface Reply {
     _id: string;
+    subject: string;
     user: User;
+    message: string;
+    sent_at: Date;
+    sent_by: {
+        _id: string;
+        full_name: string;
+        email_address: string;
+        user_type: "ping_user" | "ping_admin" | "Admin";
+    };
     createdAt: Date;
     updatedAt: Date;
+}
+export interface ContactMessage {
+    _id: string;
+    name: string;
+    email_address: string;
     message: string;
+    user: User | null;
+    replies: Reply[];
+    replied_at: Date | null;
+    createdAt: Date;
+    updatedAt: Date;
 }
