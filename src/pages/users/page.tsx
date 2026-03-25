@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getUsers } from "../../services/users.service";
 import { Badge } from "../../components/ui/badge";
+import { exportToCSV } from "../../utils/exportToCSV";
 
 const columns: ColumnDef<FullUser>[] = [
     {
@@ -72,7 +73,7 @@ const columns: ColumnDef<FullUser>[] = [
                             <span className="text-primary">View</span>
                         </Link>
                     )}
-                    Edit={row.original?.user_type !== "Admin" ? <EditUser user={row.original} /> : null}
+                    Edit={<EditUser user={row.original} />}
                     Delete={<ResetPassword
                         name={row.original.full_name}
                         email={row.original.email_address || row.original.email || ""}
@@ -96,6 +97,19 @@ const Users = () => {
             limit: pagination.pageSize
         })
     });
+
+    const handleExport = () => {
+        if (!usersData?.data) return;
+
+        const dataToExport = usersData.data.map((user: FullUser) => ({
+            "Name": user.full_name,
+            "Email": user.email_address,
+            "Linked Partner": user.partner?.partner_name,
+            "Created At": formatDateString(user.createdAt),
+        }));
+
+        exportToCSV(dataToExport, "users");
+    };
     return (
         <div className="notes">
             <div className="page-header">
@@ -109,6 +123,8 @@ const Users = () => {
                     <Button
                         variant="default"
                         className="rounded-sm px-4"
+                        disabled={usersData?.data?.length === 0}
+                        onClick={handleExport}
                     >
                         <PiExport />
                         <span className="text-sm font-medium">Export Users</span>

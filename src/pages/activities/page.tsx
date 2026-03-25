@@ -5,10 +5,11 @@ import { Skeleton } from "../../components/ui/skeleton";
 import type { Activity } from "../../utils/types";
 import type { ColumnDef, PaginationState } from "@tanstack/react-table";
 import { Bell, Bot, CircleUserRound, Gift, Sparkles, Star } from "lucide-react";
-import { formatTime } from "../../utils/formatter";
+import { formatDateString, formatTime } from "../../utils/formatter";
 import { useQuery } from "@tanstack/react-query";
 import { getActivities } from "../../services/activites.service";
 import { useState } from "react";
+import { exportToCSV } from "../../utils/exportToCSV";
 
 
 const Activites = () => {
@@ -82,6 +83,18 @@ const Activites = () => {
         },
     ]
 
+    const handleExport = () => {
+        if (!activitiesData?.data) return;
+
+        const dataToExport = activitiesData.data.map((activity: Activity) => ({
+            "Type": activity.type,
+            "Message": activity.message,
+            "Created At": formatDateString(activity.createdAt)
+        }));
+
+        exportToCSV(dataToExport, "activities");
+    };
+
     return (
         <div className="activities">
             <div className="page-header">
@@ -95,6 +108,8 @@ const Activites = () => {
                     <Button
                         variant="default"
                         className="rounded-sm px-4"
+                        disabled={isLoading || isError || !activitiesData?.data.length}
+                        onClick={handleExport}
                     >
                         <PiExport />
                         <span className="text-sm font-medium">Export</span>

@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { LuLoaderCircle } from "react-icons/lu";
 import { editUserValidation } from "../../../utils/validation";
 import { Check } from "lucide-react";
+import { updateUser } from "../../../services/users.service";
 
 
 interface ManagePartnerProps {
@@ -15,9 +16,13 @@ interface ManagePartnerProps {
 const EditUser = ({
     user,
 }: ManagePartnerProps) => {
-    const handleSubmit = async () => {
+    const handleSubmit = async (values: { full_name: string, email_address: string }) => {
         try {
-            await new Promise((resolve) => setTimeout(resolve, 1000));
+            console.log("values: ", values);
+            await updateUser(user._id, {
+                full_name: values.full_name,
+                email_address: values.email_address,
+            });
             toast.success("User details updated successfully", {
                 icon: (
                     <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10  border-[0.5px] border-primary/10">
@@ -34,7 +39,7 @@ const EditUser = ({
         <Formik
             initialValues={{
                 full_name: user?.full_name,
-                email_address: user.email_address,
+                email_address: user.email_address || user.email || "",
             }}
             onSubmit={handleSubmit}
             validationSchema={editUserValidation}

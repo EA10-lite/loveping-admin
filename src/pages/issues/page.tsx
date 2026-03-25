@@ -102,6 +102,21 @@ const Issues = () => {
             limit: pagination.pageSize
         })
     });
+
+    const handleExport = () => {
+        if (!issuesData?.data) return;
+
+        const dataToExport = issuesData.data.map((issue: IssuesType) => ({
+            "Issue ID": issue._id,
+            "Type": issue.issue_type,
+            "User": issue.user.email_address,
+            "Status": issue.status,
+            "Issue Summary": issue.message,
+            "Repoted on": formatDateString(issue.createdAt)
+        }));
+
+        exportToCSV(dataToExport, "issues");
+    };
     return (
         <div className="notes">
             <div className="page-header">
@@ -116,7 +131,7 @@ const Issues = () => {
                         variant="default"
                         className="rounded-sm px-4"
                         disabled={isLoading || isError || !issuesData?.data.length}
-                        onClick={() => exportToCSV(issuesData?.data || [], "issues")}
+                        onClick={handleExport}
                     >
                         <PiExport />
                         <span className="text-sm font-medium">Export</span>

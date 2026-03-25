@@ -8,11 +8,8 @@ export const loginValidation = Yup.object().shape({
 
 
 export const editUserValidation = Yup.object().shape({
-    name: Yup.string().required(),
-    email: Yup.string().email().required(),
-    phone: Yup.string().required(),
-    partnerName: Yup.string().required(),
-    relationshipType: Yup.string().required(),
+    full_name: Yup.string().required(),
+    email_address: Yup.string().email().required(),
 })
 
 export const addPartnerValidation = Yup.object().shape({
