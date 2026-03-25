@@ -73,16 +73,15 @@ export interface UserDetails extends FullUser {
 
 export interface Notification {
     _id: string;
-    title: string;
+    subject: string;
     audience: "all" | "new" | "registered";
-    status: "published" | "draft" | "scheduled",
-    description: string;
+    body: string;
     url?: string;
-    scheduleType: "now" | "later" | "draft";
-    scheduledDate?: Date | null;
-    scheduledTime?: Date | null;
-    dateSent: Date;
+    createdAt: Date;
+    updatedAt: Date;
 }
+
+
 
 export type AddNotification = {
     title: string;

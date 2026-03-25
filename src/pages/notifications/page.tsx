@@ -1,13 +1,15 @@
-import { ReusableTable, TableAction, Text } from "../../components";
+import { QueryErrorState, ReusableTable, TableAction, Text } from "../../components";
 import { Button } from "../../components/ui/button";
-import { type ColumnDef } from "@tanstack/react-table";
+import { type ColumnDef, type PaginationState } from "@tanstack/react-table";
 import { type Notification } from "../../utils/types";
 import { formatDateString } from "../../utils/formatter";
 import { Badge } from "../../components/ui/badge";
-import { notifications } from "../../data/notification";
 import ManageNotification from "./_components/ManageNotifications";
 import NotificationDetails from "./_components/NotificationDetails";
 import DeleteNotification from "./_components/DeleteNotifications";
+import { useQuery } from "@tanstack/react-query";
+import { getNotifications } from "../../services/notification.service";
+import { useState } from "react";
 
 const columns: ColumnDef<Notification>[] = [
     {
@@ -89,7 +91,6 @@ const columns: ColumnDef<Notification>[] = [
             <div className="flex justify-end">
                 <TableAction
                     View={<NotificationDetails notification={row.original} />}
-                    Edit={<ManageNotification type="edit" notification={row.original} />}
                     Delete={<DeleteNotification />}
                 />
             </div>
@@ -98,6 +99,18 @@ const columns: ColumnDef<Notification>[] = [
 ]
 
 const Notifications = () => {
+    const [pagination, setPagination] = useState<PaginationState>({
+        pageIndex: 0,
+        pageSize: 10,
+    });
+
+    const { data: notificationsData, isLoading, isError, error, refetch } = useQuery({
+        queryKey: ['notifications', pagination.pageIndex, pagination.pageSize],
+        queryFn: () => getNotifications({
+            page: pagination.pageIndex + 1,
+            limit: pagination.pageSize
+        })
+    });
     return (
         <div className="notifcations">
             <div className="page-header">
@@ -118,31 +131,24 @@ const Notifications = () => {
             </div>
 
             <div className="page-body mt-6">
-                <ReusableTable
-                    data={notifications}
-                    columns={columns}
-                    searchKeys={["title", "status", "url"]}
-                    filters={[
-                        {
-                            columnKey: "status",
-                            title: "Status",
-                            options: [
-                                "Published",
-                                "Scheduled",
-                                "Draft"
-                            ].map(c => ({ label: c, value: c }))
-                        },
-                        {
-                            columnKey: "audience",
-                            title: "Audience",
-                            options: [
-                                { label: "All users", value: "all" },
-                                { label: "Registered users", value: "registered" },
-                                { label: "New users", value: "new" },
-                            ].map(c => ({ label: c.label, value: c.value }))
-                        }
-                    ]}
-                />
+                {isError ? (
+                    <QueryErrorState
+                        error={error}
+                        onRetry={() => refetch()}
+                        title="Couldn't load notifications"
+                    />
+                ) : (
+                    <ReusableTable
+                        data={notificationsData?.data || []}
+                        pagination={pagination}
+                        onPaginationChange={setPagination}
+                        pageCount={notificationsData?.totalPages || 1}
+                        manualPagination={true}
+                        isLoading={isLoading}
+                        columns={columns}
+                        searchKeys={["subject", "message", "url"]}
+                    />
+                )}
             </div>
         </div>
     )
