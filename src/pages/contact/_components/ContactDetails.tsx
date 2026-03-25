@@ -47,20 +47,6 @@ const ContactDetails = ({ contact }: { contact: ContactMessage }) => {
                 </div>
                 <div className="space-y-4">
                     <Text
-                        title="Email Address"
-                        type="h4"
-                        className="text-primary font-medium"
-                    />
-
-                    <div className="space-y-2.5">
-                        <ModalFieldItem
-                            value={contact.email_address}
-                            className="text-white"
-                        />
-                    </div>
-                </div>
-                <div className="space-y-4">
-                    <Text
                         title="Message"
                         type="h4"
                         className="text-primary font-medium"
