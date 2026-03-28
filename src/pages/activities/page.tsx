@@ -141,7 +141,40 @@ const Activites = () => {
                             {
                                 columnKey: "type",
                                 title: "Type",
-                                options: ["ping", "auth", "profile", "feedback", "gift", "nudge", "notification", "generated"].map(c => ({ label: c, value: c }))
+                                options: [
+                                    {
+                                        label: "Login",
+                                        value: "auth.login"
+                                    },
+                                    {
+                                        label: "Signup",
+                                        value: "auth.signup"
+                                    },
+                                    {
+                                        label: "Gift",
+                                        value: "gift"
+                                    },
+                                    {
+                                        label: "Nudge",
+                                        value: "ping.create"
+                                    },
+                                    {
+                                        label: "Feedback",
+                                        value: "feedback"
+                                    },
+                                    {
+                                        label: "Notification",
+                                        value: "notification"
+                                    },
+                                    {
+                                        label: "Account",
+                                        value: "profile.update"
+                                    },
+                                    {
+                                        label: "Generated",
+                                        value: "generated"
+                                    }
+                                ].map(c => ({ label: c.label, value: c.value }))
                             },
                         ]}
                     />
