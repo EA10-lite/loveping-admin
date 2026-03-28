@@ -1,5 +1,12 @@
 import { Check, Plus, X } from "lucide-react";
-import { DateAndTimePicker, FormField, FormModal, FormRadio, FormSelect, ModalFieldItem, Text, Textbox } from "../../../components";
+import {
+    FormField,
+    FormModal,
+    FormRadio,
+    FormSelect,
+    ModalFieldItem,
+    Textbox
+} from "../../../components";
 import type { Notification } from "../../../utils/types";
 import { Button } from "../../../components/ui/button";
 import { Formik } from "formik";
@@ -11,7 +18,7 @@ import { emailAndNotificationValidation } from "../../../utils/validation";
 
 interface ManagePartnerProps {
     notification?: Notification
-    type: "add" | "edit" | "edit-alt";
+    type: "add"
 }
 
 const ManageNotification = ({
@@ -42,13 +49,13 @@ const ManageNotification = ({
     return (
         <Formik
             initialValues={{
-                subject: notification?.title ? notification.title : "",
-                body: notification?.description ? notification.description : "",
+                subject: notification?.subject || "",
+                body: notification?.body || "",
                 url: notification?.url ? notification.url : "",
                 audience: notification?.audience ? notification.audience : "",
-                scheduledType: notification?.scheduleType ? notification?.scheduleType : "",
-                scheduledDate: notification?.scheduledDate ? notification.scheduledDate : null,
-                scheduledTime: notification?.scheduledTime ? notification.scheduledTime : null,
+                // scheduledType: notification?.scheduleType ? notification?.scheduleType : "",
+                // scheduledDate: notification?.scheduledDate ? notification.scheduledDate : null,
+                // scheduledTime: notification?.scheduledTime ? notification.scheduledTime : null,
             }}
             onSubmit={handleSubmit}
             validationSchema={emailAndNotificationValidation}
@@ -130,7 +137,7 @@ const ManageNotification = ({
                                 ]}
                             />
 
-                            {values["scheduledType"] === "later" && (
+                            {/* {values["scheduledType"] === "later" && (
                                 <div className="space-y-4">
                                     <Text
                                         title="Schedule time to post"
@@ -142,7 +149,7 @@ const ManageNotification = ({
                                         timeName="scheduledTime"
                                     />
                                 </div>
-                            )}
+                            )} */}
                         </div>
                     </div>
 

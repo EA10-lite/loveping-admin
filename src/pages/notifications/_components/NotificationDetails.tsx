@@ -3,7 +3,7 @@ import { DetailsModal, ModalFieldItem } from "../../../components";
 import { Button } from "../../../components/ui/button";
 import { SheetClose } from "../../../components/ui/sheet";
 import type { Notification } from "../../../utils/types";
-import { formatDateString } from "../../../utils/formatter";
+// import { formatDateString } from "../../../utils/formatter";
 
 const NotificationDetails = ({ notification }: { notification: Notification }) => {
     const [open, setOpen] = useState(false);
@@ -30,20 +30,24 @@ const NotificationDetails = ({ notification }: { notification: Notification }) =
                     <div className="space-y-2.5">
                         <ModalFieldItem
                             label="Subject"
-                            value={notification.title}
+                            value={notification.subject}
                         />
                         <ModalFieldItem
                             label="Audience"
                             value={notification.audience}
                         />
                         <ModalFieldItem
+                            label="Message"
+                            value={notification.body}
+                        />
+                        {/* <ModalFieldItem
                             label="Sent on"
                             value={notification?.scheduledDate ? formatDateString(new Date(notification?.scheduledDate)) : ""}
                         />
                         <ModalFieldItem
                             label="Body"
                             value={notification.description}
-                        />
+                        /> */}
                     </div>
                 </div>
             </div>
