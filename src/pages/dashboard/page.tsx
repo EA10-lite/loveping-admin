@@ -144,7 +144,7 @@ const Dashboard = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <ActivityFeed data={dashboardData?.activity_feed || []} />
-                    <RecentNotifications />
+                    <RecentNotifications data={dashboardData?.notifications || []} />
                 </div>
             </div>
         </div>

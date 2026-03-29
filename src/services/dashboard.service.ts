@@ -1,4 +1,5 @@
 import client from "./client.service";
+import { type Notification } from "../utils/types";
 
 export interface NudgeTimePoint {
     label: string;
@@ -47,6 +48,7 @@ export interface DashboardResponse {
         }[],
     },
     activity_feed: []
+    notifications: Notification[]
 }
 
 

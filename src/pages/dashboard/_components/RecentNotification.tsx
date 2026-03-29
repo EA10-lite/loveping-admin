@@ -7,36 +7,38 @@ import {
   } from "../../../components/ui/card"
 import { ChevronRight } from "lucide-react";
 import { Text } from "../../../components";
+import { type Notification } from "../../../utils/types";
 
-const RecentNotifications = () => {
+const RecentNotifications = ({ data }: { data: Notification[] }) => {
     return (
         <Card className="border-[0.5px] border-primary/8 bg-secondary-foreground p-0 rounded-sm gap-0">
             <CardHeader className="items-center p-4 mb-0 flex items-center justify-between border-b-[0.5px] border-primary/8">
                 <CardTitle className="text-white">Recent Notifications</CardTitle>
 
-                <Link to="/notifications" className="text-primary text-sm flex items-center gap-1 hover:underline transition-all ease-in duration-300ms">
-                    <span>view all</span>
-                    <ChevronRight  className="size-4" />
-                </Link>
+                {data.length > 0 && (
+                    <Link to="/notifications" className="text-primary text-sm flex items-center gap-1 hover:underline transition-all ease-in duration-300ms">
+                        <span>view all</span>
+                        <ChevronRight  className="size-4" />
+                    </Link>
+                )}
             </CardHeader>
 
             <CardContent className="p-0">
-                <NotificationField
-                    label="New AI Tone Pack Released: Deep Affection"
-                    value="We've added a new tone option to help users send deeper, more emotionally expressive nudges."
-                />
-                <NotificationField
-                    label="System Update: Improved Nudge Personalization"
-                    value="The AI engine has been updated to better analyse relationship context for personalised suggestions."
-                />
-                <NotificationField
-                    label="New AI Tone Pack Released: Deep Affection"
-                    value="We've added a new tone option to help users send deeper, more emotionally expressive nudges."
-                />
-                <NotificationField
-                    label="System Update: Improved Nudge Personalization"
-                    value="The AI engine has been updated to better analyse relationship context for personalised suggestions."
-                />
+                {data.length > 0 ? data.map((notification) => (
+                    <NotificationField
+                        key={notification._id}
+                        label={notification.subject}
+                        value={notification.body}
+                    />
+                )) : (
+                    <div className="flex items-center justify-center h-full py-4">
+                        <Text
+                            title="No activity yet"
+                            type="h4"
+                            className="font-semibold"
+                        />
+                    </div>
+                )}
             </CardContent>
         </Card>
     )
