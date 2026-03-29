@@ -50,7 +50,7 @@ const ActivityFeed = ({ data }: { data: ActivityData[] }) => {
                 </Link>
             </CardHeader>
 
-            <CardContent className="p-0 pb-4 mt-0">
+            <CardContent className="p-0 pb-4 mt-0 flex-1">
                 {data.length > 0 ? (
                     <div className="space-y-2.5">
                         {data?.slice(0, 5).map((item, index) => (

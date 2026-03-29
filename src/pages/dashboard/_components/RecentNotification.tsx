@@ -23,7 +23,7 @@ const RecentNotifications = ({ data }: { data: Notification[] }) => {
                 )}
             </CardHeader>
 
-            <CardContent className="p-0">
+            <CardContent className="p-0 flex-1">
                 {data.length > 0 ? data.map((notification) => (
                     <NotificationField
                         key={notification._id}
