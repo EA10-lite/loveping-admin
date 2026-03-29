@@ -33,7 +33,7 @@ const RecentNotifications = ({ data }: { data: Notification[] }) => {
                 )) : (
                     <div className="flex items-center justify-center h-full py-4">
                         <Text
-                            title="No activity yet"
+                            title="No recent notifications"
                             type="h4"
                             className="font-semibold"
                         />
