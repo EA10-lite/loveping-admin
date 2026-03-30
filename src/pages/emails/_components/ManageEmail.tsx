@@ -1,6 +1,16 @@
 import { useState } from "react";
 import { Check, Plus, X } from "lucide-react";
-import { DateAndTimePicker, FormField, FormModal, FormRadio, FormSelect, ImagePicker, ModalFieldItem, Text, Textbox } from "../../../components";
+import {
+    AdvancedTextboxField,
+    DateAndTimePicker,
+    FormField,
+    FormModal,
+    FormRadio,
+    FormSelect,
+    ImagePicker,
+    ModalFieldItem,
+    Text,
+} from "../../../components";
 import type { Emails } from "../../../utils/types";
 import { Button } from "../../../components/ui/button";
 import { Formik } from "formik";
@@ -166,10 +176,11 @@ const ManageEmail = ({
                                 ]}
                             />
 
-                            <Textbox
+                            <AdvancedTextboxField
                                 name="body"
                                 label="Body"
                                 isMandatory={true}
+                                isOptional={false}
                             />
 
                             <ImagePicker
@@ -211,8 +222,8 @@ const ManageEmail = ({
 
                             <ModalFieldItem
                                 label={values["subject"]}
-                                value={values["body"]}
-                                className="gap-1"
+                                content={<div className="text-white" dangerouslySetInnerHTML={{ __html: values["body"] }} />}
+                                className="space-y-2.5"
                             />
                         </div>
                     )}
