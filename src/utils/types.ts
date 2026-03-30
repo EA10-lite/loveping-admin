@@ -120,7 +120,7 @@ export interface Emails {
     scheduled_at?: string;
     status: "send_now" | "sent" | "schedule_for_later" | "draft";
     createdByUser?: User;
-    sentAt?: Date;
+    sent_at?: Date;
 }
 
 export type AddEmails = {

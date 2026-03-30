@@ -166,9 +166,9 @@ const EmailsPage = () => {
                                 columnKey: "audience",
                                 title: "Audience",
                                 options: [
-                                    { label: "All users", value: "all" },
-                                    { label: "New users", value: "new_users" },
-                                ].map(c => ({ label: c.label, value: c.value }))
+                                    "All",
+                                    "New"
+                                ].map(c => ({ label: c, value: c }))
                             }
                         ]}
                     />
