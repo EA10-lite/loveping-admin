@@ -67,8 +67,8 @@ const ContactDetails = ({ contact }: { contact: ContactMessage }) => {
                                 <>
                                     <ModalFieldItem
                                         label={formatDateString(reply.sent_at)}
-                                        value={reply.message}
-                                        className=""
+                                        content={<div className="text-white" dangerouslySetInnerHTML={{ __html: reply.message }} />}
+                                        className="space-y-2.5"
                                     />
                                     <ModalFieldItem
                                         label={"Replied By:"}

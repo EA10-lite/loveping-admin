@@ -44,7 +44,8 @@ const NotificationDetails = ({ notification }: { notification: Notification }) =
                         />
                         <ModalFieldItem
                             label="Message"
-                            value={notification.body}
+                            content={<div className="text-white" dangerouslySetInnerHTML={{ __html: notification.body }} />}
+                            className="space-y-2.5"
                         />
                         <ModalFieldItem
                             label="Sent on"

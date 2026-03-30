@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Check, X } from "lucide-react";
 import {
+    AdvancedTextboxField,
     FormField,
     FormModal,
-    Textbox
 } from "../../../components";
 import { Button } from "../../../components/ui/button";
 import { Formik } from "formik";
@@ -90,10 +90,11 @@ const ReplyCustomer = ({
                                 isMandatory={true}
                             />
 
-                            <Textbox
+                            <AdvancedTextboxField
                                 name="message"
                                 label="Message"
                                 isMandatory={true}
+                                isOptional={false}
                             />
                         </div>
                     </div>

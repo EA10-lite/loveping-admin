@@ -1,10 +1,10 @@
 import { Check, Plus, X } from "lucide-react";
 import {
+    AdvancedTextboxField,
     FormField,
     FormModal,
     FormSelect,
     ModalFieldItem,
-    Textbox
 } from "../../../components";
 import type { Notification } from "../../../utils/types";
 import { Button } from "../../../components/ui/button";
@@ -125,10 +125,11 @@ const ManageNotification = ({
                                 ]}
                             />
 
-                            <Textbox
+                            <AdvancedTextboxField
                                 name="body"
                                 label="Body"
                                 isMandatory={true}
+                                isOptional={false}
                             />
 
                             <FormField
@@ -172,8 +173,8 @@ const ManageNotification = ({
 
                             <ModalFieldItem
                                 label={values["subject"]}
-                                value={values["body"]}
-                                className="gap-1"
+                                content={<div className="text-white" dangerouslySetInnerHTML={{ __html: values["body"] }} />}
+                                className="space-y-2.5"
                             />
                         </div>
                     )}

@@ -43,7 +43,8 @@ const EmailDetails = ({ email }: { email: Emails }) => {
                         />
                         <ModalFieldItem
                             label="Body"
-                            value={email.body}
+                            content={<div className="text-white" dangerouslySetInnerHTML={{ __html: email.body }} />}
+                            className="space-y-2.5"
                         />
                     </div>
                 </div>
