@@ -47,13 +47,13 @@ const ManageEmail = ({
         const scheduled_at =
             values.status === "schedule_for_later" && values.scheduled_date && values.scheduled_time
                 ? new Date(
-                      values.scheduled_date.getFullYear(),
-                      values.scheduled_date.getMonth(),
-                      values.scheduled_date.getDate(),
-                      h,
-                      m,
-                      s || 0
-                  ).toISOString()
+                    values.scheduled_date.getFullYear(),
+                    values.scheduled_date.getMonth(),
+                    values.scheduled_date.getDate(),
+                    h,
+                    m,
+                    s || 0
+                ).toISOString()
                 : values.scheduled_at;
         const payload: CreateEmailPayload = {
             subject: values.subject,
@@ -153,7 +153,15 @@ const ManageEmail = ({
                             {isSubmitting ? (
                                 <LuLoaderCircle className="animate-spin text-white" />
                             ) : (
-                                <span>{type === "add" ? "Created & Send" : "Save Changes"}</span>
+                                <span>{
+                                    type === "add" ?
+                                        (
+                                            values["status"] === "send_now" ?
+                                                "Created & Send" : values["status"] === "schedule_for_later" ?
+                                                    "Created & Schedule" : "Create"
+                                        ) : "Save Changes"
+                                }
+                                </span>
                             )}
                         </Button>
                     )}
