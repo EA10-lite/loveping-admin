@@ -40,6 +40,13 @@ export const emailAndNotificationValidation = Yup.object().shape({
     scheduled_at: Yup.string().optional(),
 })
 
+export const notificationValidation = Yup.object().shape({
+    subject: Yup.string().required(),
+    body: Yup.string().required(),
+    audience: Yup.string().required(),
+    url: Yup.string().optional(),
+})
+
 
 export const replyCustomerValidation = Yup.object().shape({
     subject: Yup.string().required(),

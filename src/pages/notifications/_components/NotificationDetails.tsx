@@ -3,13 +3,13 @@ import { DetailsModal, ModalFieldItem } from "../../../components";
 import { Button } from "../../../components/ui/button";
 import { SheetClose } from "../../../components/ui/sheet";
 import type { Notification } from "../../../utils/types";
-// import { formatDateString } from "../../../utils/formatter";
+import { formatDateString } from "../../../utils/formatter";
 
 const NotificationDetails = ({ notification }: { notification: Notification }) => {
     const [open, setOpen] = useState(false);
     return (
         <DetailsModal
-            title="Partner Details"
+            title="Notification Details"
             open={open}
             onOpenChange={setOpen}
             ActionButton={(
@@ -35,19 +35,21 @@ const NotificationDetails = ({ notification }: { notification: Notification }) =
                         <ModalFieldItem
                             label="Audience"
                             value={notification.audience}
+                            className="capitalize"
+                        />
+                        <ModalFieldItem
+                            label="URL"
+                            value={notification.url || "N/A"}
+                            className={notification.url ? "underline" : ""}
                         />
                         <ModalFieldItem
                             label="Message"
                             value={notification.body}
                         />
-                        {/* <ModalFieldItem
-                            label="Sent on"
-                            value={notification?.scheduledDate ? formatDateString(new Date(notification?.scheduledDate)) : ""}
-                        />
                         <ModalFieldItem
-                            label="Body"
-                            value={notification.description}
-                        /> */}
+                            label="Sent on"
+                            value={notification?.updatedAt ? formatDateString(new Date(notification?.updatedAt)) : ""}
+                        />
                     </div>
                 </div>
             </div>

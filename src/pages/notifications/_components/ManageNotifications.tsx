@@ -2,7 +2,6 @@ import { Check, Plus, X } from "lucide-react";
 import {
     FormField,
     FormModal,
-    FormRadio,
     FormSelect,
     ModalFieldItem,
     Textbox
@@ -13,7 +12,10 @@ import { Formik } from "formik";
 import { toast } from "sonner";
 import { LuLoaderCircle } from "react-icons/lu";
 import { FaFileAlt } from "react-icons/fa";
-import { emailAndNotificationValidation } from "../../../utils/validation";
+import { notificationValidation } from "../../../utils/validation";
+import { createNotification, type CreateNotificationPayload } from "../../../services/notification.service";
+import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 
 
 interface ManagePartnerProps {
@@ -25,19 +27,25 @@ const ManageNotification = ({
     notification,
     type,
 }: ManagePartnerProps) => {
-    const handleSubmit = async () => {
+    const queryClient = useQueryClient();
+    const [open, setOpen] = useState(false);
+
+    const handleSubmit = async (values: CreateNotificationPayload) => {
         try {
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            toast.success("Notification scheduled successfully", {
+            await createNotification(values);
+            toast.success("Notification created successfully", {
                 icon: (
                     <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10  border-[0.5px] border-primary/10">
                         <Check className="size-4 text-primary" />
                     </div>
                 )
             })
+
+            queryClient.invalidateQueries({ queryKey: ["notifications"] });
+            setOpen(false);
         } catch (error) {
             console.log("error: ", error);
-            toast.error("Failed to submit partner details", {
+            toast.error("Failed to create notification", {
                 icon: (
                     <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10  border-[0.5px] border-primary/10">
                         <X className="size-4 text-primary" />
@@ -58,10 +66,12 @@ const ManageNotification = ({
                 // scheduledTime: notification?.scheduledTime ? notification.scheduledTime : null,
             }}
             onSubmit={handleSubmit}
-            validationSchema={emailAndNotificationValidation}
+            validationSchema={notificationValidation}
         >
             {({ submitForm, values, isSubmitting }) => (
                 <FormModal
+                    open={open}
+                    onOpenChange={setOpen}
                     title={type === "add" ? "Created Notification" : "Edit Notification"}
                     TriggerButton={
                         type === "add" ? (
@@ -128,7 +138,7 @@ const ManageNotification = ({
                                 isOptional={true}
                             />
 
-                            <FormRadio
+                            {/* <FormRadio
                                 name="scheduledType"
                                 options={[
                                     { label: "Send Now", value: "now" },
@@ -137,7 +147,7 @@ const ManageNotification = ({
                                 ]}
                             />
 
-                            {/* {values["scheduledType"] === "later" && (
+                            {values["scheduledType"] === "later" && (
                                 <div className="space-y-4">
                                     <Text
                                         title="Schedule time to post"

@@ -35,6 +35,7 @@ const EmailDetails = ({ email }: { email: Emails }) => {
                         <ModalFieldItem
                             label="Audience"
                             value={email.recipient_type}
+                            className="capitalize"
                         />
                         <ModalFieldItem
                             label={email?.status === "sent" ? "Sent on" : "Scheduled on"}

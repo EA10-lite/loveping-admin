@@ -13,10 +13,10 @@ import { useState } from "react";
 
 const columns: ColumnDef<Notification>[] = [
     {
-        accessorKey: "title",
+        accessorKey: "subject",
         header: "Subject",
         cell: ({ row }) => (
-            <span className="text-sm text-white">{row.getValue("title")}</span>
+            <span className="text-sm text-white">{row.getValue("subject")}</span>
         )
     },
     {
@@ -49,15 +49,16 @@ const columns: ColumnDef<Notification>[] = [
             const status = row.getValue("status") as string;
 
             let badgeVariant = "secondary";
-            if (status.toLowerCase() === "published") badgeVariant = "default";
-            if (status.toLowerCase() === "scheduled") badgeVariant = "pending";
-            if (status.toLowerCase() === "draft") badgeVariant = "ghost";
+            if (status?.toLowerCase() === "published") badgeVariant = "default";
+            if (status?.toLowerCase() === "scheduled") badgeVariant = "pending";
+            if (status?.toLowerCase() === "draft") badgeVariant = "ghost";
+            if(!status) badgeVariant = "default";
             return (
                 <Badge
                     className={`hover:bg-secondary-foreground/80 font-normal capitalize`}
-                    variant={badgeVariant as "default" | "primary" | "pending" | "ghost"}
+                    variant={badgeVariant as "default" | "primary" | "pending" | "ghost" | "secondary"}
                 >
-                    {status}
+                    {status || "Created"}
                 </Badge>
             )
         }
@@ -76,11 +77,11 @@ const columns: ColumnDef<Notification>[] = [
         )
     },
     {
-        accessorKey: "scheduledDate",
+        accessorKey: "updatedAt",
         header: "Last Updated",
         cell: ({ row }) => (
             <span className="text-white">
-                {formatDateString(new Date(row.getValue("scheduledDate")))}
+                {formatDateString(new Date(row.getValue("updatedAt")))}
             </span>
         )
     },

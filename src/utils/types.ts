@@ -77,10 +77,10 @@ export interface Notification {
     audience: "all" | "new" | "registered";
     body: string;
     url?: string;
+    status?: string;
     createdAt: Date;
     updatedAt: Date;
 }
-
 
 
 export type AddNotification = {
