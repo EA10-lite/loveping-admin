@@ -150,3 +150,7 @@ body {
 }
 
 
+.table-action-dropdown > button:hover {
+  @apply bg-secondary-alt-foreground;
+  background-color: #143C2B;
+}
