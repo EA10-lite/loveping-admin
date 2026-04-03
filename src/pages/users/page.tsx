@@ -67,10 +67,10 @@ const columns: ColumnDef<FullUser>[] = [
                     View={row.original?.user_type === "Admin" ? null : (
                         <Link
                             to={`/users/${row.original.id || row.original._id}`}
-                            className="flex items-center gap-2 bg-transparent hover:bg-[#143C2B] text-primary rounded-xs w-full justify-start p-1.5 px-2"
+                            className="flex items-center gap-2 bg-transparent hover:bg-secondary-alt-foreground hover:[&>svg]:text-primary hover:text-primary text-white rounded-xs w-full justify-start p-1.5 px-2 h-9"
                         >
-                            <Eye className="size-4 text-primary" />
-                            <span className="text-primary">View</span>
+                            <Eye className="text-white" />
+                            <span>View</span>
                         </Link>
                     )}
                     Edit={<EditUser user={row.original} />}

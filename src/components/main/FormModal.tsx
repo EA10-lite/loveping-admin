@@ -36,9 +36,9 @@ const FormModal = ({
       }>
         {TriggerButton ? TriggerButton : (
           <Button
-            className="hover:bg-[#143C2B] text-primary rounded-xs w-full justify-start p-1.5"
+            className="bg-transparent hover:bg-secondary-alt-foreground hover:text-primary hover:[&>svg]:text-primary text-white rounded-xs w-full justify-start p-1.5"
           >
-            <FaEdit className="text-primary" />
+            <FaEdit className="text-white" />
             <span>Edit</span>
           </Button>
         )}

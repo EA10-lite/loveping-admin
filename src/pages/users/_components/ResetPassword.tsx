@@ -36,9 +36,9 @@ const ResetPassword = ({ onSuccess, name, email }: { onSuccess?: () => void, nam
             buttonType="destructive"
             TriggerButton={(
                 <Button
-                    className="hover:bg-[#143C2B] text-primary rounded-xs w-full justify-start p-1.5"
+                    className="bg-transparent hover:bg-secondary-alt-foreground hover:text-primary hover:[&>svg]:text-primary text-white rounded-xs w-full justify-start p-1.5 bg-none"
                 >
-                    <RotateCw className="text-primary" />
+                    <RotateCw className="text-white" />
                     <span>Reset Password</span>
                 </Button>
             )}

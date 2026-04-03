@@ -29,6 +29,8 @@
   --secondary: #02231A;
   --secondary-foreground: #05251C;
   --secondary-muted: #0F2F26;
+  --secondary-alt: #0F3826;
+  --secondary-alt-foreground: #143C2B;
   --grey: #7C7C7C;
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
@@ -78,6 +80,8 @@ body {
   --color-secondary: var(--secondary);
   --color-secondary-muted: var(--secondary-muted);
   --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary-alt: var(--secondary-alt);
+  --color-secondary-alt-foreground: var(--secondary-alt-foreground);
   --color-grey: var(--grey);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);

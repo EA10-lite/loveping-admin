@@ -10,6 +10,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet"
+import { cn } from "../../lib/utils";
 
 type DetailsModalProps = PropsWithChildren<{
   title: string;
@@ -33,12 +34,18 @@ const DetailsModal = ({
 }: DetailsModalProps) => {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetTrigger asChild className="bg-secondary-muted hover:bg-secondary-muted">
+      <SheetTrigger
+        asChild
+        className={cn(
+          "bg-secondary-muted hover:bg-secondary-muted",
+          TriggerButton && "bg-transparent hover:bg-transparent")
+        }
+      >
         {TriggerButton ? TriggerButton : (
           <Button
-            className="hover:bg-[#143C2B] text-primary rounded-xs w-full justify-start p-1.5"
+            className="bg-transparent hover:bg-secondary-alt-foreground hover:text-primary hover:[&>svg]:text-primary text-white rounded-xs w-full justify-start p-1.5 cursor-pointer"
           >
-            <Eye className="text-primary" />
+            <Eye className="text-white"/>
             <span>View</span>
           </Button>
         )}
